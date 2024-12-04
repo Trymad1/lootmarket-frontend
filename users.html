@@ -1,0 +1,19 @@
+<div id="users-content">
+    <h1>Пользователи</h1>
+
+    <!-- Поиск по таблице -->
+    <input type="text" id="search" placeholder="Поиск по имени или email" oninput="filterUsers()" />
+
+    <!-- Таблица пользователей -->
+    <table id="users-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="users-table-body">
+            <!-- Данные будут динамически вставляться сюда -->
+        </tbody>
+    </table>
+</div>

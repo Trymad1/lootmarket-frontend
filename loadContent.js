@@ -1,16 +1,19 @@
+import { init as userPageInit } from "./usersScript.js";
+
 let currentTab = null;
-const filesId = [
-    
+const filesName = [
+    "users",
+    "empty" 
 ]
-const startPage = '';
+const START_PAGE = 'empty';
 
 async function loadTabContent() {
-    const fetchPromises = filesId.map(htmlFile => 
+    const fetchPromises = filesName.map(htmlFile => 
         fetch(`${htmlFile}.html`)
             .then(response => response.text())
             .then(html => {
                 document.getElementById('content').innerHTML += html;
-                document.getElementById(htmlFile).style.display = 'none';
+                document.getElementById(`${htmlFile}-content`).style.display = 'none';
             })
             .catch(error => console.error(`Ошибка загрузки ${htmlFile}.html:`, error))
     );
@@ -19,23 +22,25 @@ async function loadTabContent() {
 }
 
 function showTab(tabId) {
-    if (currentTab && document.getElementById(currentTab)) {
-        document.getElementById(currentTab).style.display = 'none';
-        document.getElementById(tabId).style.display = 'block';
-    }
-
+    document.getElementById(currentTab).style.display = 'none';
+    document.getElementById(tabId).style.display = 'block';
     currentTab = tabId;
 }
 
-function initStartPage(startPageId) {
-    document.getElementById(startPageId).style.display = 'block';
-    currentTab = 'tab1-content';
-    showTab('tab1-content');
+function initStartPage(startPage) {
+    const pageId = `${startPage}-content`
+    document.getElementById(pageId).style.display = 'block';
+    currentTab = pageId;
+    showTab(pageId);
+    document.getElementById('sideBarUserButton').addEventListener('click', () => showTab('users-content'))
+    document.getElementById('sideBarEmptyButton').addEventListener('click', () => showTab('empty-content'))
 }
 
 async function init() {
     await loadTabContent();
-    initStartPage(startPage);
+
+    initStartPage(START_PAGE);
+    userPageInit();
 }
 
 init();
