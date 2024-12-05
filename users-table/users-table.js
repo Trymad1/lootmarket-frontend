@@ -38,8 +38,11 @@ function addListeners() {
         if (!clickedElement.tagName === 'TD') {
             return;
         }
-        const row = clickedElement.parentElement;  
-        const cellData = clickedElement.textContent;  
+        const cells = clickedElement.parentElement.getElementsByTagName('td');  
+        const email = cells[1].textContent.trim();  
+        const currentUser = users.find(user => user.email === email)
+        console.log(currentUser)
+        loadUser(currentUser.id)
         showTab('users-view')
     })
 }
@@ -50,10 +53,10 @@ export function init() {
     searchInput.addEventListener('input', handleSearch);
     addListeners();
 
-    renderTable(users); // Изначальный рендер
+    renderTable(users);
 }
 
 export function open() {
-    console.log('user-table open')
+    users = api.getAll();
 }
 

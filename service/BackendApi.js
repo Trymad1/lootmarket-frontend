@@ -19,7 +19,7 @@ class BackendApi {
     }
 
     getUserById(id) {
-       return users.find(user);
+       return users.find(user => user.id === id);
     }
 
     getAll() {

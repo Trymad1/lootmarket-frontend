@@ -1,27 +1,44 @@
-#user-view-content {
+#users-view-content {
     width: 500px;
     padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 15px;
     display: none;
+    transition: all 0.3s ease-in-out;
+}
+
+#users-view-content h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
 .user-detail-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 12px 0;
+    transition: background-color 0.3s ease;
+}
+
+.user-detail-row:hover {
+    background-color: #fafafa;
 }
 
 .user-detail-label {
     font-weight: bold;
     color: #333;
+    flex-basis: 30%;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
 .user-detail-value {
@@ -29,16 +46,19 @@
     flex: 1;
     text-align: left;
     padding-left: 10px;
+    font-size: 16px;
 }
 
 .edit-icon {
     cursor: pointer;
     color: #888;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 18px;
 }
 
 .edit-icon:hover {
     color: #333;
+    transform: scale(1.1);
 }
 
 .editable-field {
@@ -48,4 +68,17 @@
     font-size: 16px;
     width: 100%;
     outline: none;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Плавные анимации для появления */
+#users-view-content.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#users-view-content.hide {
+    opacity: 0;
+    transform: translateY(-20px);
 }
