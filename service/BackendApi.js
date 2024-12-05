@@ -12,7 +12,7 @@ function generateUsers(count) {
 generateUsers(40);
 
 
-export class BackendApi {
+class BackendApi {
 
     constructor() {
 
@@ -27,3 +27,5 @@ export class BackendApi {
     }
 
 }
+
+export const apiInstance = new BackendApi();

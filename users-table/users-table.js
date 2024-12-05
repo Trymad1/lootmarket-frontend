@@ -1,8 +1,7 @@
 import { showTab } from '../LoadContent.js';
-import { BackendApi } from '../service/BackendApi.js';
 import { loadUser } from '../users-view/users-view.js';
+import { apiInstance as api } from '../service/BackendApi.js';
 
-const api = new BackendApi();
 let users = [];
 
 function renderTable(filteredUsers) {
@@ -47,7 +46,6 @@ function addListeners() {
 
 export function init() {
     users = api.getAll();
-    console.log(users)
     const searchInput = document.getElementById('search');
     searchInput.addEventListener('input', handleSearch);
     addListeners();

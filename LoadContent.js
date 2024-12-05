@@ -14,7 +14,7 @@ export function showTab(fileName) {
     if(currentTab) {
         document.getElementById(currentTab).style.display = 'none';
     }
-    
+
     openFuncMap.get(fileName)();
     document.getElementById(fileId).style.display = 'block';
     currentTab = fileId;
@@ -40,6 +40,7 @@ async function loadTabContent() {
             openFuncMap.set(fileName, module['open'])
             return module['init']; 
         } catch (error) {
+            console.log(error);
             return null; 
         }
     }));
