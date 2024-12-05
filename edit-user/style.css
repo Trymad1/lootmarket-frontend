@@ -1,0 +1,122 @@
+#edit-user-content {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center; /* Центрируем по горизонтали */
+    align-items: center; /* Центрируем по вертикали */
+    margin-top: 6%;
+}
+
+#edit-user-content .modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 600px; /* Ширина окна */
+    max-width: 90%; /* Окно будет сжиматься на маленьких экранах */
+    position: relative;
+}
+
+#edit-user-content .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#edit-user-content .modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+#edit-user-content .close-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+#edit-user-content .close-button:hover {
+    color: #555;
+}
+
+/* Поля ввода и кнопки */
+#edit-user-content .input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+#edit-user-content .section {
+    margin-bottom: 20px;
+}
+
+#edit-user-content .section h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#edit-user-content .payment-systems {
+    margin-bottom: 10px;
+}
+
+#edit-user-content .payment-system {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 5px 0;
+}
+
+#edit-user-content .payment-system button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#edit-user-content .payment-system button:hover {
+    background-color: #d32f2f;
+}
+
+/* Кнопки действия */
+#edit-user-content .action-button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#edit-user-content .action-button.primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+#edit-user-content .action-button.primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+#edit-user-content .action-button:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+}
+
+#edit-user-content .action-button:active {
+    background-color: #e6e6e6;
+    border-color: #999;
+}

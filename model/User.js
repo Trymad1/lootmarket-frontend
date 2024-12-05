@@ -10,6 +10,7 @@ export class User {
         this.servicesCount = this.randomInt(0, 30);
         this.dealsAsAuthor = this.randomInt(0, 4);
         this.dealsAsBuyer = this.randomInt(5, 30);
+        this.blocked = this.randomInt(0, 1) == 0 ? 'Нет' : 'Да';
 
         this.onlineStat = this.generateOnlineStats(this.randomInt(1, 10));
         this.paymentSystems = this.generatePaymentSystems(this.randomInt(1, 4));

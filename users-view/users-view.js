@@ -107,6 +107,7 @@ export function loadUser(id) {
     document.getElementById('user-email').textContent = user.email;
     document.getElementById('user-created-at').textContent = formatDateTime(user.createdAt);
     document.getElementById('user-updated-at').textContent = formatDateTime(user.updatedAt);
+    document.getElementById('user-blocked').textContent = user.blocked
 
     // Обновление статистики
     document.getElementById('user-services-count').textContent = user.servicesCount;
@@ -174,6 +175,10 @@ export function init() {
     const arrow = document.getElementsByClassName('back-arrow')[0].addEventListener('click', () => {
         setProfileOpen(false)
         showTab('users-table')
+    })
+
+    document.getElementById('user-view-edit-button').addEventListener('click', () => {
+        showTab('edit-user')
     })
 }
 

@@ -1,0 +1,38 @@
+<body>
+    <div id="edit-user-content">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Редактировать пользователя</h2>
+                <button class="close-button">&times;</button>
+            </div>
+
+            <!-- Форма редактирования -->
+            <div class="section">
+                <h3>Основная информация</h3>
+                <input type="text" class="input-field" placeholder="Имя пользователя" id="edit-name" />
+                <input type="email" class="input-field" placeholder="Email" id="edit-email" />
+            </div>
+
+            <div class="section">
+                <h3>Роль пользователя</h3>
+                <select class="input-field" id="user-role">
+                    <option value="admin">Админ</option>
+                    <option value="user">Пользователь</option>
+                    <option value="moderator">Модератор</option>
+                </select>
+            </div>
+
+            <!-- Чекбокс "Заблокирован?" -->
+            <div class="section">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="user-blocked" class="checkbox" />
+                    Заблокирован?
+                </label>
+            </div>
+
+            <div class="section">
+                <button class="action-button primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</body>
