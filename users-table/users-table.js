@@ -30,6 +30,11 @@ function handleSearch(event) {
     renderTable(filteredUsers);
 }
 
+export let isUserProfileOpen = false;
+export function setProfileOpen(booleanValue) {
+    isUserProfileOpen = booleanValue;
+}
+
 function addListeners() {
     const table = document.getElementById('user-table').addEventListener('click', (event) => {
 
@@ -41,7 +46,8 @@ function addListeners() {
         const cells = clickedElement.parentElement.getElementsByTagName('td');  
         const email = cells[1].textContent.trim();  
         const currentUser = users.find(user => user.email === email)
-        console.log(currentUser)
+        
+        setProfileOpen(true);
         loadUser(currentUser.id)
         showTab('users-view')
     })
@@ -57,6 +63,6 @@ export function init() {
 }
 
 export function open() {
-    users = api.getAll();
+
 }
 

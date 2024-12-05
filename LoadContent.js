@@ -52,9 +52,16 @@ async function loadTabContent() {
     });
 }
 
+import { isUserProfileOpen } from "./users-table/users-table.js";
 function initStartPage(startPage) {
     showTab(startPage);
-    document.getElementById('sideBarUserButton').addEventListener('click', () => showTab('users-table'))
+    document.getElementById('sideBarUserButton').addEventListener('click', () => {
+        if(isUserProfileOpen) {
+            showTab('users-view')
+        } else {
+            showTab('users-table')
+        }
+    })
     document.getElementById('sideBarEmptyButton').addEventListener('click', () => showTab('empty'))
 }
 

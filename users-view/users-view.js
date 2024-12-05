@@ -1,4 +1,5 @@
 import { apiInstance as api } from '../service/BackendApi.js';
+import { showTab } from '../LoadContent.js';
 
 function populateUserDetails(user) {
     document.getElementById('user-name').textContent = user.name;
@@ -167,10 +168,13 @@ export function loadUser(id) {
 }
 
 
-
+import { isUserProfileOpen, setProfileOpen } from '../users-table/users-table.js';
 // Установка слушателей событий
 export function init() {
-    
+    const arrow = document.getElementsByClassName('back-arrow')[0].addEventListener('click', () => {
+        setProfileOpen(false)
+        showTab('users-table')
+    })
 }
 
 export function open() {
