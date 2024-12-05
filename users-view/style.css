@@ -1,84 +1,103 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
 #users-view-content {
-    width: 500px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.section {
     background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 15px;
-    display: none;
-    transition: all 0.3s ease-in-out;
 }
 
-#users-view-content h1 {
+.section h2 {
     font-size: 24px;
-    color: #333;
-    text-align: center;
-    font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    color: #444;
 }
 
-.user-detail-row {
+.user-info-row {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #f0f0f0;
-    padding: 12px 0;
-    transition: background-color 0.3s ease;
+    align-items: center;
 }
 
-.user-detail-row:hover {
-    background-color: #fafafa;
-}
-
-.user-detail-label {
+.user-info-label {
     font-weight: bold;
-    color: #333;
-    flex-basis: 30%;
-    text-transform: uppercase;
-    font-size: 14px;
-}
-
-.user-detail-value {
+    font-size: 20px;
     color: #555;
     flex: 1;
-    text-align: left;
-    padding-left: 10px;
-    font-size: 16px;
 }
 
-.edit-icon {
-    cursor: pointer;
-    color: #888;
-    transition: color 0.3s ease, transform 0.3s ease;
+.user-info-value {
     font-size: 18px;
+    color: #777;
+    text-align: left;
+    flex: 2;
 }
 
-.edit-icon:hover {
-    color: #333;
-    transform: scale(1.1);
-}
-
-.editable-field {
-    border: 1px solid #ddd;
-    padding: 5px 8px;
-    border-radius: 3px;
-    font-size: 16px;
+/* График */
+#online-stats-chart {
     width: 100%;
-    outline: none;
-    background-color: #f9f9f9;
+    height: 300px;
+}
+
+/* Платежные системы */
+.payment-systems {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.payment-system {
+    background-color: #f3f3f3;
+    padding: 10px 15px;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Плавные анимации для появления */
-#users-view-content.show {
-    opacity: 1;
-    transform: translateY(0);
+.payment-system-icon {
+    width: 24px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 50%;
+    display: inline-block;
 }
 
-#users-view-content.hide {
-    opacity: 0;
-    transform: translateY(-20px);
+.payment-system-label {
+    font-weight: bold;
 }
