@@ -1,0 +1,51 @@
+#user-view-content {
+    width: 500px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    display: none;
+}
+
+.user-detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.user-detail-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.user-detail-value {
+    color: #555;
+    flex: 1;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.edit-icon {
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+    color: #333;
+}
+
+.editable-field {
+    border: 1px solid #ddd;
+    padding: 5px 8px;
+    border-radius: 3px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+}

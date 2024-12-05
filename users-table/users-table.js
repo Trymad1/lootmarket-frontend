@@ -1,7 +1,9 @@
-import { User } from '../model/User.js';
-import { showTab } from '../AppUtil.js';
+import { showTab } from '../LoadContent.js';
+import { BackendApi } from '../service/BackendApi.js';
+import { loadUser } from '../users-view/users-view.js';
 
-const users = Array.from({ length: 40 }, (_, i) => new User(i + 1));
+const api = new BackendApi();
+let users = [];
 
 function renderTable(filteredUsers) {
     const tbody = document.getElementById('user-table-body');
@@ -44,9 +46,16 @@ function addListeners() {
 }
 
 export function init() {
+    users = api.getAll();
+    console.log(users)
     const searchInput = document.getElementById('search');
     searchInput.addEventListener('input', handleSearch);
     addListeners();
 
     renderTable(users); // Изначальный рендер
 }
+
+export function open() {
+    console.log('user-table open')
+}
+

@@ -1,5 +1,3 @@
-import { showTab } from "./AppUtil.js";
-
 const filesName = [
     "users-table",
     "empty",
@@ -7,6 +5,20 @@ const filesName = [
 ]
 const START_PAGE = 'users-table';
 const scriptSuffix = '.js';
+const openFuncMap = new Map();
+
+let currentTab = null;
+
+export function showTab(fileName) {
+    const fileId = `${fileName}-content`
+    if(currentTab) {
+        document.getElementById(currentTab).style.display = 'none';
+    }
+    
+    openFuncMap.get(fileName)();
+    document.getElementById(fileId).style.display = 'block';
+    currentTab = fileId;
+}
 
 async function loadTabContent() {
     const fetchPromises = filesName.map(htmlFile => 
@@ -20,6 +32,23 @@ async function loadTabContent() {
     );
 
     await Promise.all(fetchPromises);
+
+    const initFunctions = await Promise.all(filesName.map(async (fileName) => {
+        const scriptPath = `./${fileName}/${fileName}${scriptSuffix}`;
+        try {
+            const module = await import(scriptPath);
+            openFuncMap.set(fileName, module['open'])
+            return module['init']; 
+        } catch (error) {
+            return null; 
+        }
+    }));
+
+    initFunctions.forEach(initFunction => {
+        if (typeof initFunction === 'function') {
+            initFunction();
+        }
+    });
 }
 
 function initStartPage(startPage) {
@@ -31,22 +60,6 @@ function initStartPage(startPage) {
 async function init() {
     await loadTabContent();
     initStartPage(START_PAGE);
-
-    const initFunctions = await Promise.all(filesName.map(async (fileName) => {
-        const scriptPath = `./${fileName}/${fileName}${scriptSuffix}`;
-        try {
-            const module = await import(scriptPath);
-            return module['init']; // Возвращаем функцию, экспортированную из модуля
-        } catch (error) {
-            return null; // Если модуль не загружен, возвращаем null
-        }
-    }));
-
-    initFunctions.forEach(initFunction => {
-        if (typeof initFunction === 'function') {
-            initFunction();
-        }
-    });
 }
 
 init();
