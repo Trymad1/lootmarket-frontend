@@ -4,6 +4,8 @@
     flex-direction: column;
     gap: 20px;
     justify-content: center;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 h1 {
@@ -112,16 +114,62 @@ h1 {
     font-weight: bold;
 }
 
+/* Контейнер для заголовка и элементов управления */
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    position: relative;
+    top: -10px; /* Поднимает всю строку над заголовком */
+}
+
+/* Стрелка назад */
 .back-arrow {
     position: relative;
-    top: 20px;
-    left: -5px;
     font-size: 48px;
     color: #000;
     cursor: pointer;
     transition: color 0.3s ease;
+    margin-right: 10px; /* Отодвигает стрелку от заголовка */
+    top: -5px; /* Поднимает стрелку относительно строки */
 }
 
 .back-arrow:hover {
     color: #555;
+}
+
+/* Заголовок */
+h1 {
+    flex: 1;
+    text-align: center; /* Центрирует заголовок в строке */
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    line-height: 1.2; /* Контролирует высоту строки */
+}
+
+/* Кнопка "Редактировать" */
+.edit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* Отодвигает кнопку от заголовка */
+    top: -5px; /* Поднимает кнопку относительно строки */
+    position: relative;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button:active {
+    background-color: #004085;
 }
