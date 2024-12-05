@@ -1,62 +1,83 @@
 <div id="users-view-content">
     <h1>User Details</h1>
 
-    <!-- Информация о пользователе -->
-    <div class="section">
-        <h2>General Information</h2>
-        <div class="user-info-row">
-            <span class="user-info-label">ID:</span>
-            <span class="user-info-value" id="user-id">1</span>
-        </div>
-        <div class="user-info-row">
-            <span class="user-info-label">Name:</span>
-            <span class="user-info-value" id="user-name">User1</span>
-        </div>
-        <div class="user-info-row">
-            <span class="user-info-label">Email:</span>
-            <span class="user-info-value" id="user-email">user1@example.com</span>
-        </div>
-        <div class="user-info-row">
-            <span class="user-info-label">Created At:</span>
-            <span class="user-info-value" id="user-created-at">2024-12-05 12:34:56</span>
-        </div>
-        <div class="user-info-row">
-            <span class="user-info-label">Updated At:</span>
-            <span class="user-info-value" id="user-updated-at">2024-12-05 12:34:56</span>
-        </div>
-    </div>
+    <!-- Контейнер для информации о пользователе и графиков -->
+    <div class="user-content">
+        <!-- Информация о пользователе и Платежные системы (левая часть) -->
+        <div class="user-info">
+            <div class="section">
+                <h2>General Information</h2>
+                <div class="user-info-row">
+                    <span class="user-info-label">ID:</span>
+                    <span class="user-info-value" id="user-id">3</span>
+                </div>
+                <div class="user-info-row">
+                    <span class="user-info-label">Name:</span>
+                    <span class="user-info-value" id="user-name">User3</span>
+                </div>
+                <div class="user-info-row">
+                    <span class="user-info-label">Email:</span>
+                    <span class="user-info-value" id="user-email">user3@example.com</span>
+                </div>
+                <div class="user-info-row">
+                    <span class="user-info-label">Created At:</span>
+                    <span class="user-info-value" id="user-created-at">05.12.2024, 20:16:52</span>
+                </div>
+                <div class="user-info-row">
+                    <span class="user-info-label">Updated At:</span>
+                    <span class="user-info-value" id="user-updated-at">05.12.2024, 20:16:52</span>
+                </div>
+            </div>
 
-    <!-- Статистика -->
-    <div class="section">
-        <h2>Statistics</h2>
-        <div class="user-info-row">
-            <span class="user-info-label">Services Count:</span>
-            <span class="user-info-value" id="user-services-count">15 (Services)</span>
-        </div>
-        <div class="user-info-row">
-            <span class="user-info-label">Deals as Author:</span>
-            <span class="user-info-value" id="user-deals-author">3 (Sold)</span>
-        </div>
-        <div class="user-info-row">
-            <span class="user-info-label">Deals as Buyer:</span>
-            <span class="user-info-value" id="user-deals-buyer">25 (Bought)</span>
-        </div>
-    </div>
+            <!-- Статистика -->
+            <div class="section">
+                <h2>Statistics</h2>
+                <div class="user-info-row">
+                    <span class="user-info-label">Services Count:</span>
+                    <span class="user-info-value" id="user-services-count">2</span>
+                </div>
+                <div class="user-info-row">
+                    <span class="user-info-label">Deals as Author:</span>
+                    <span class="user-info-value" id="user-deals-author">2</span>
+                </div>
+                <div class="user-info-row">
+                    <span class="user-info-label">Deals as Buyer:</span>
+                    <span class="user-info-value" id="user-deals-buyer">18</span>
+                </div>
+            </div>
 
-    <!-- График -->
-    <div class="section">
-        <h2>Online Statistics</h2>
-        <canvas id="online-stats-chart"></canvas>
-    </div>
+            <!-- Платежные системы -->
+            <div class="section">
+                <h2>Payment Systems</h2>
+                <div class="payment-systems" id="payment-systems-container">
+                    <div class="payment-system">
+                        <span class="payment-system-icon"></span>
+                        <span class="payment-system-label">Visa</span>
+                    </div>
+                    <div class="payment-system">
+                        <span class="payment-system-icon"></span>
+                        <span class="payment-system-label">Google Pay</span>
+                    </div>
+                    <div class="payment-system">
+                        <span class="payment-system-icon"></span>
+                        <span class="payment-system-label">Apple Pay</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Платежные системы -->
-    <div class="section">
-        <h2>Payment Systems</h2>
-        <div class="payment-systems" id="payment-systems-container">
-            <!-- Пример одной системы -->
-            <div class="payment-system">
-                <span class="payment-system-icon"></span>
-                <span class="payment-system-label">PayPal</span>
+        <!-- Графики (правая часть) -->
+        <div class="charts">
+            <!-- Старый график -->
+            <div class="section">
+                <h2>Online Statistics</h2>
+                <canvas id="online-stats-chart"></canvas>
+            </div>
+
+            <!-- Новый график -->
+            <div class="section">
+                <h2>New Statistics</h2>
+                <canvas id="deals-chart"></canvas>
             </div>
         </div>
     </div>

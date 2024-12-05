@@ -13,6 +13,9 @@ export class User {
 
         this.onlineStat = this.generateOnlineStats(this.randomInt(1, 10));
         this.paymentSystems = this.generatePaymentSystems(this.randomInt(1, 4));
+
+        this.dealsAsAuthorStats = this.generateDealStats('author');
+        this.dealsAsBuyerStats = this.generateDealStats('buyer');
     }
 
     /**
@@ -49,5 +52,23 @@ export class User {
         }
 
         return Array.from(selectedSystems);
+    }
+
+    /**
+     * Генерация статистики сделок за временные промежутки
+     * @param {string} type Тип статистики ('author' или 'buyer')
+     */
+    generateDealStats(type) {
+        const periods = ['2023-01', '2023-02', '2023-03', '2023-04', '2023-05', '2023-06', '2023-07', '2023-08', '2023-09', '2023-10', '2023-11', '2023-12'];
+        const stats = {};
+
+        periods.forEach(period => {
+            stats[period] = this.randomInt(
+                type === 'author' ? 0 : 5, // Минимальное значение зависит от типа сделки
+                type === 'author' ? 4 : 30 // Максимальное значение зависит от типа сделки
+            );
+        });
+
+        return stats;
     }
 }

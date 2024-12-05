@@ -28,9 +28,79 @@ function renderPaymentSystems(paymentSystems) {
     });
 }
 
+// Функция для построения комбинированного графика сделок
+function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
+    const dealsChartElement = document.getElementById(elementId);
+    
+    // Уничтожение старого графика сделок, если он существует
+    if (dealsChartElement.chart) {
+        dealsChartElement.chart.destroy();
+    }
+
+    const ctx = dealsChartElement.getContext('2d');
+
+    // Месяцы как метки на оси X
+    const labels = [...new Set([ 
+        ...Object.keys(dealsAsAuthorStats), 
+        ...Object.keys(dealsAsBuyerStats)
+    ])].sort(); // Собираем все уникальные месяцы и сортируем
+
+    // Создаем массивы данных для сделок как автор и покупатель
+    const authorData = labels.map(month => dealsAsAuthorStats[month] || 0);
+    const buyerData = labels.map(month => dealsAsBuyerStats[month] || 0);
+
+    // Создание нового графика
+    const dealsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels, // Месяцы
+            datasets: [
+                {
+                    label: 'Deals as Author',
+                    data: authorData, // Данные для сделок как автор
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.3,
+                    fill: false,
+                },
+                {
+                    label: 'Deals as Buyer',
+                    data: buyerData, // Данные для сделок как покупатель
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    tension: 0.3,
+                    fill: false,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Deals'
+                    }
+                }
+            }
+        }
+    });
+
+    // Сохраняем график для возможного уничтожения в будущем
+    dealsChartElement.chart = dealsChart;
+}
+
+
 export function loadUser(id) {
     const user = api.getUserById(id);
 
+    // Обновляем информацию о пользователе
     document.getElementById('user-id').textContent = user.id;
     document.getElementById('user-name').textContent = user.name;
     document.getElementById('user-email').textContent = user.email;
@@ -42,9 +112,15 @@ export function loadUser(id) {
     document.getElementById('user-deals-author').textContent = user.dealsAsAuthor;
     document.getElementById('user-deals-buyer').textContent = user.dealsAsBuyer;
 
+    // Уничтожение старого графика онлайн-активности, если он существует
+    const onlineChartElement = document.getElementById('online-stats-chart');
+    if (onlineChartElement.chart) {
+        onlineChartElement.chart.destroy();
+    }
+
     // Построение графика онлайн-активности
-    const ctx = document.getElementById('online-stats-chart').getContext('2d');
-    new Chart(ctx, {
+    const onlineCtx = onlineChartElement.getContext('2d');
+    const onlineChart = new Chart(onlineCtx, {
         type: 'line',
         data: {
             labels: user.onlineStat.map(date => new Date(date).toLocaleDateString()), // Метки по датам
@@ -74,10 +150,23 @@ export function loadUser(id) {
             }
         }
     });
+    // Сохраняем график для возможного уничтожения в будущем
+    onlineChartElement.chart = onlineChart;
+
+    // Уничтожение старого графика сделок, если он существует
+    const dealsChartElement = document.getElementById('deals-chart');
+    if (dealsChartElement.chart) {
+        dealsChartElement.chart.destroy();
+    }
+
+    // Построение комбинированного графика сделок как автор и покупатель
+    buildDealsChart('deals-chart', user.dealsAsAuthorStats, user.dealsAsBuyerStats);
 
     // Обновление платежных систем
     renderPaymentSystems(user.paymentSystems);
 }
+
+
 
 // Установка слушателей событий
 export function init() {
