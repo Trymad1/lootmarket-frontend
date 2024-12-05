@@ -1,4 +1,4 @@
-import { User } from '../User.js';
+import { User } from '../model/User.js';
 import { showTab } from '../AppUtil.js';
 
 const users = Array.from({ length: 40 }, (_, i) => new User(i + 1));
