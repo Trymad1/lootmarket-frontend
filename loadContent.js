@@ -5,7 +5,7 @@ const filesName = [
     "users",
     "empty" 
 ]
-const START_PAGE = 'empty';
+const START_PAGE = 'users';
 
 async function loadTabContent() {
     const fetchPromises = filesName.map(htmlFile => 
@@ -21,7 +21,7 @@ async function loadTabContent() {
     await Promise.all(fetchPromises);
 }
 
-function showTab(tabId) {
+export function showTab(tabId) {
     document.getElementById(currentTab).style.display = 'none';
     document.getElementById(tabId).style.display = 'block';
     currentTab = tabId;

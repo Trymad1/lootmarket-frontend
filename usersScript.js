@@ -1,58 +1,52 @@
-// Массив с пользователями
-const users = [];
-const userCount = 40;
+import { User } from './User.js';
+import { showTab } from './loadContent.js';
 
-// Создаем пользователей с фиктивными данными
-for (let i = 1; i <= userCount; i++) {
-    users.push({
-        id: i,
-        name: `User ${i}`,
-        email: `user${i}@example.com`,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-    });
-}
+const users = Array.from({ length: 40 }, (_, i) => new User(i + 1));
 
-// Функция для отображения пользователей в таблице
-function displayUsers(usersToDisplay) {
-    const tableBody = document.getElementById('users-table-body');
-    tableBody.innerHTML = ''; // Очищаем таблицу перед добавлением новых строк
+function renderTable(filteredUsers) {
+    const tbody = document.getElementById('user-table-body');
+    tbody.innerHTML = ''; // Очистка перед рендерингом
 
-    usersToDisplay.forEach(user => {
+    filteredUsers.forEach(user => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${user.name}</td>
             <td>${user.email}</td>
         `;
-        tableBody.appendChild(row);
+        tbody.appendChild(row);
     });
 }
 
-// Функция для фильтрации пользователей
-function filterUsers() {
-    const searchQuery = document.getElementById('search').value.trim().toLowerCase();
+function handleSearch(event) {
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredUsers = users.filter(user => {
+        if (searchTerm.includes('@')) {
+            return user.email.toLowerCase().includes(searchTerm);
+        }
+        return user.name.toLowerCase().includes(searchTerm);
+    });
 
-    let filteredUsers = users;
-
-    // Фильтрация по имени или email
-    if (searchQuery.includes('@')) {
-        // Если введен символ '@', фильтруем по email
-        filteredUsers = users.filter(user =>
-            user.email.toLowerCase().includes(searchQuery)
-        );
-    } else {
-        // Фильтруем по имени
-        filteredUsers = users.filter(user =>
-            user.name.toLowerCase().includes(searchQuery)
-        );
-    }
-
-    // Отображаем отфильтрованных пользователей
-    displayUsers(filteredUsers);
+    renderTable(filteredUsers);
 }
 
-// Инициализация таблицы с пользователями
+function addListeners() {
+    const table = document.getElementById('user-table').addEventListener('click', (event) => {
+
+        const clickedElement = event.target;
+
+        if (!clickedElement.tagName === 'TD') {
+            return;
+        }
+        const row = clickedElement.parentElement;  
+        const cellData = clickedElement.textContent;  
+        showTab('empty-content')
+    })
+}
+
 export function init() {
-    // Отображаем всех пользователей при загрузке страницы
-    displayUsers(users);
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', handleSearch);
+    addListeners();
+
+    renderTable(users); // Изначальный рендер
 }
