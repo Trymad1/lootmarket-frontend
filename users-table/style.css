@@ -1,0 +1,91 @@
+/* Внутренний контейнер для таблицы и поиска */
+#users-table-content {
+    width: 50%;
+    /* Половина ширины контента */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Центрирование элементов внутри */
+}
+
+/* Заголовки */
+h1 {
+    font-size: 22px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Поисковое поле */
+#search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    border-radius: 5px;
+    outline: none;
+}
+
+#search::placeholder {
+    color: #aaa;
+}
+
+/* Контейнер для таблицы */
+/* Контейнер для таблицы */
+.users-table-container {
+    width: 103%; /* Использует всю ширину родительского элемента */
+    height: 700px; /* Фиксированная высота для контейнера */
+    overflow-y: auto; /* Включение вертикальной прокрутки */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    flex-direction:column
+}
+
+/* Поиск */
+.search-container {
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    position: sticky; /* Прилипание поиска */
+    top: 0; /* Прилегание к верхней части контейнера */
+    z-index: 1; /* Чтобы поиск был поверх таблицы */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Таблица */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 15px; /* Увеличен padding для увеличения размера строк */
+    text-align: left;
+    color: #333;
+    line-height: 1.0; /* Увеличенная высота строки */
+    font-size: 16px; /* Немного увеличен размер шрифта */
+}
+
+table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #555;
+}
+
+table tr:hover {
+    background-color: #e9e9e9;
+}
+
+#users-view-content {
+    width: 700px; /* Использует всю ширину родительского элемента */
+    height: 700px; 
+}

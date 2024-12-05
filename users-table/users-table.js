@@ -1,5 +1,5 @@
-import { User } from './User.js';
-import { showTab } from './loadContent.js';
+import { User } from '../User.js';
+import { showTab } from '../AppUtil.js';
 
 const users = Array.from({ length: 40 }, (_, i) => new User(i + 1));
 
@@ -39,7 +39,7 @@ function addListeners() {
         }
         const row = clickedElement.parentElement;  
         const cellData = clickedElement.textContent;  
-        showTab('empty-content')
+        showTab('users-view')
     })
 }
 
