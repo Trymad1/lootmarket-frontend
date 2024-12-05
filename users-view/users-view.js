@@ -56,7 +56,7 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
             labels: labels, // Месяцы
             datasets: [
                 {
-                    label: 'Deals as Author',
+                    label: 'Услуг продано',
                     data: authorData, // Данные для сделок как автор
                     borderColor: 'rgba(75, 192, 192, 1)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -64,7 +64,7 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
                     fill: false,
                 },
                 {
-                    label: 'Deals as Buyer',
+                    label: 'Услуг куплено',
                     data: buyerData, // Данные для сделок как покупатель
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -79,13 +79,13 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
                 x: {
                     title: {
                         display: true,
-                        text: 'Month'
+                        text: 'Месяц'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Deals'
+                        text: 'Сделки'
                     }
                 }
             }
@@ -125,7 +125,7 @@ export function loadUser(id) {
         data: {
             labels: user.onlineStat.map(date => new Date(date).toLocaleDateString()), // Метки по датам
             datasets: [{
-                label: 'Online Activity',
+                label: 'График активности',
                 data: user.onlineStat.map(date => new Date(date).getHours()), // Часы активности
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -138,13 +138,13 @@ export function loadUser(id) {
                 x: {
                     title: {
                         display: true,
-                        text: 'Date'
+                        text: 'Дата'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Hour'
+                        text: 'Посещения'
                     }
                 }
             }
