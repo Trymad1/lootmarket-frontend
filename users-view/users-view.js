@@ -3,9 +3,9 @@ import { showTab } from '../LoadContent.js';
 
 function populateUserDetails(user) {
     document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-email').textContent = user.email;
-    document.getElementById('user-createdAt').textContent = user.createdAt;
-    document.getElementById('user-updatedAt').textContent = user.updatedAt;
+    document.getElementById('user-email').textContent = user.mail;
+    document.getElementById('user-createdAt').textContent = user.registrationDate;
+    document.getElementById('user-updatedAt').textContent = user.lastUpdate;
 }
 
 function formatDateTime(dateTime) {
@@ -23,16 +23,15 @@ function renderPaymentSystems(paymentSystems) {
         div.className = 'payment-system';
         div.innerHTML = `
             <span class="payment-system-icon"></span>
-            <span class="payment-system-label">${system}</span>
+            <span class="payment-system-label">${system.name}</span>
         `;
         container.appendChild(div);
     });
 }
 
-// Функция для построения комбинированного графика сделок
 function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
     const dealsChartElement = document.getElementById(elementId);
-    
+
     // Уничтожение старого графика сделок, если он существует
     if (dealsChartElement.chart) {
         dealsChartElement.chart.destroy();
@@ -40,18 +39,31 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
 
     const ctx = dealsChartElement.getContext('2d');
 
-    // Месяцы как метки на оси X
-    const labels = [...new Set([ 
-        ...Object.keys(dealsAsAuthorStats), 
-        ...Object.keys(dealsAsBuyerStats)
-    ])].sort(); // Собираем все уникальные месяцы и сортируем
+    // Функция для группировки данных по месяцам
+    const groupByMonth = (dates) => {
+        return dates.reduce((acc, date) => {
+            const month = date.slice(0, 7); // Извлекаем "YYYY-MM" из LocalDateTime
+            acc[month] = (acc[month] || 0) + 1;
+            return acc;
+        }, {});
+    };
 
-    // Создаем массивы данных для сделок как автор и покупатель
-    const authorData = labels.map(month => dealsAsAuthorStats[month] || 0);
-    const buyerData = labels.map(month => dealsAsBuyerStats[month] || 0);
+    // Группируем данные по месяцам
+    const groupedAuthorData = groupByMonth(dealsAsAuthorStats);
+    const groupedBuyerData = groupByMonth(dealsAsBuyerStats);
+
+    // Собираем все уникальные месяцы из двух наборов данных и сортируем их
+    const labels = [...new Set([
+        ...Object.keys(groupedAuthorData),
+        ...Object.keys(groupedBuyerData),
+    ])].sort();
+
+    // Создаем массивы данных для графика
+    const authorData = labels.map(month => groupedAuthorData[month] || 0);
+    const buyerData = labels.map(month => groupedBuyerData[month] || 0);
 
     // Создание нового графика
-    const dealsChart = new Chart(ctx, {
+    dealsChartElement.chart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels, // Месяцы
@@ -76,6 +88,11 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
         },
         options: {
             responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                },
+            },
             scales: {
                 x: {
                     title: {
@@ -87,32 +104,34 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
                     title: {
                         display: true,
                         text: 'Сделки'
-                    }
+                    },
+                    beginAtZero: true
                 }
             }
         }
     });
-
-    // Сохраняем график для возможного уничтожения в будущем
-    dealsChartElement.chart = dealsChart;
 }
 
 
-export function loadUser(id) {
-    const user = api.getUserById(id);
+
+export async function loadUser(user) {
+    const userStats = await api.userService.getUserStats(user.id);
+    console.log(userStats);
 
     // Обновляем информацию о пользователе
     document.getElementById('user-id').textContent = user.id;
     document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-email').textContent = user.email;
-    document.getElementById('user-created-at').textContent = formatDateTime(user.createdAt);
-    document.getElementById('user-updated-at').textContent = formatDateTime(user.updatedAt);
-    document.getElementById('user-blocked').textContent = user.blocked
+    document.getElementById('user-email').textContent = user.mail;
+    document.getElementById('user-created-at').textContent = formatDateTime(user.registrationDate);
+    document.getElementById('user-updated-at').textContent = formatDateTime(user.lastUpdate);
+    
+    let isBanned = user.banned === true ? "Да" : "Нет";
+    document.getElementById('user-blocked').textContent = isBanned
 
     // Обновление статистики
-    document.getElementById('user-services-count').textContent = user.servicesCount;
-    document.getElementById('user-deals-author').textContent = user.dealsAsAuthor;
-    document.getElementById('user-deals-buyer').textContent = user.dealsAsBuyer;
+    document.getElementById('user-services-count').textContent = userStats.servicesPosted;
+    document.getElementById('user-deals-author').textContent = userStats.servicesSold;
+    document.getElementById('user-deals-buyer').textContent = userStats.servicesPurchased;
 
     // Уничтожение старого графика онлайн-активности, если он существует
     const onlineChartElement = document.getElementById('online-stats-chart');
@@ -125,10 +144,10 @@ export function loadUser(id) {
     const onlineChart = new Chart(onlineCtx, {
         type: 'line',
         data: {
-            labels: user.onlineStat.map(date => new Date(date).toLocaleDateString()), // Метки по датам
+            labels: userStats.activityDates.map(date => new Date(date).toLocaleDateString()), // Метки по датам
             datasets: [{
                 label: 'График активности',
-                data: user.onlineStat.map(date => new Date(date).getHours()), // Часы активности
+                data: userStats.activityDates.map(date => new Date(date).getHours()), // Часы активности
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 tension: 0.3,
@@ -162,10 +181,10 @@ export function loadUser(id) {
     }
 
     // Построение комбинированного графика сделок как автор и покупатель
-    buildDealsChart('deals-chart', user.dealsAsAuthorStats, user.dealsAsBuyerStats);
+    buildDealsChart('deals-chart', userStats.serviceSaleDates, userStats.servicePurchaseDates);
 
     // Обновление платежных систем
-    renderPaymentSystems(user.paymentSystems);
+    renderPaymentSystems(userStats.paymentSystems);
 }
 
 

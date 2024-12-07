@@ -1,6 +1,7 @@
 import { showTab } from '../LoadContent.js';
 import { loadUser } from '../users-view/users-view.js';
 import { apiInstance as api } from '../service/BackendApi.js';
+import { restClient } from '../web/RestClient.js';
 
 let users = [];
 
@@ -12,7 +13,7 @@ function renderTable(filteredUsers) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${user.name}</td>
-            <td>${user.email}</td>
+            <td>${user.mail}</td>
         `;
         tbody.appendChild(row);
     });
@@ -45,16 +46,16 @@ function addListeners() {
         }
         const cells = clickedElement.parentElement.getElementsByTagName('td');  
         const email = cells[1].textContent.trim();  
-        const currentUser = users.find(user => user.email === email)
+        const currentUser = users.find(user => user.mail === email)
         
         setProfileOpen(true);
-        loadUser(currentUser.id)
+        loadUser(currentUser)
         showTab('users-view')
     })
 }
 
-export function init() {
-    users = api.getAll();
+export async function init() {
+    users = await api.userService.getUsers();
     const searchInput = document.getElementById('search');
     searchInput.addEventListener('input', handleSearch);
     addListeners();
