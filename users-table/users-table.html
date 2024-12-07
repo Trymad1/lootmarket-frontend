@@ -1,6 +1,18 @@
 <div id="users-table-content">
     <h1>Пользователи</h1>
-    <input type="text" id="search" placeholder="Поиск по имени или email" />
+    <div>
+        <input type="text" id="search" placeholder="Поиск по имени или email" />
+        <label>
+            <input type="checkbox" id="filter-banned" />
+            Показать только заблокированных
+        </label>
+        <select id="filter-role">
+            <option value="">Все роли</option>
+            <option value="ROLE_ADMIN">Админ</option>
+            <option value="ROLE_USER">Пользователь</option>
+            <option value="ROLE_MODERATOR">Модератор</option>
+        </select>
+    </div>
     <div class="users-table-container">
         <table id="user-table">
             <thead>

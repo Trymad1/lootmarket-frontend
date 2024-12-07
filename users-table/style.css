@@ -89,3 +89,51 @@ table tr:hover {
     width: 700px; /* Использует всю ширину родительского элемента */
     height: 700px; 
 }
+
+/* Стили для фильтров */
+.filter-container {
+    display: flex;
+    gap: 15px; /* Отступ между фильтрами */
+    margin-bottom: 20px; /* Отступ снизу */
+    align-items: center; /* Вертикальное выравнивание */
+}
+
+/* Чекбокс */
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Отступ между чекбоксом и текстом */
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.filter-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Выпадающий список */
+.filter-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-select:hover {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.filter-select:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 6px rgba(0, 86, 179, 0.7);
+}

@@ -19,16 +19,35 @@ function renderTable(filteredUsers) {
     });
 }
 
-function handleSearch(event) {
-    const searchTerm = event.target.value.toLowerCase();
+// Добавлено: Функция обработки фильтров
+function handleFilters() {
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    const showOnlyBanned = document.getElementById('filter-banned').checked; // Фильтр заблокированных
+    const selectedRole = document.getElementById('filter-role').value; // Фильтр по роли
+
     const filteredUsers = users.filter(user => {
-        if (searchTerm.includes('@')) {
-            return user.email.toLowerCase().includes(searchTerm);
-        }
-        return user.name.toLowerCase().includes(searchTerm);
+        const matchesSearch =
+            (searchTerm.includes('@') && user.mail.toLowerCase().includes(searchTerm)) ||
+            user.name.toLowerCase().includes(searchTerm);
+
+        const matchesBanned = !showOnlyBanned || user.banned; // Фильтр заблокированных
+        const matchesRole = !selectedRole || user.roles[0] === selectedRole; // Фильтр по роли
+
+        return matchesSearch && matchesBanned && matchesRole;
     });
 
     renderTable(filteredUsers);
+}
+
+// Добавлено: Функция привязки событий фильтров
+function addFilterListeners() {
+    const searchInput = document.getElementById('search');
+    const bannedCheckbox = document.getElementById('filter-banned');
+    const roleSelect = document.getElementById('filter-role');
+
+    searchInput.addEventListener('input', handleFilters);
+    bannedCheckbox.addEventListener('change', handleFilters);
+    roleSelect.addEventListener('change', handleFilters);
 }
 
 export let isUserProfileOpen = false;
@@ -38,30 +57,28 @@ export function setProfileOpen(booleanValue) {
 
 function addListeners() {
     const table = document.getElementById('user-table').addEventListener('click', (event) => {
-
         const clickedElement = event.target;
 
-        if (!clickedElement.tagName === 'TD') {
+        if (clickedElement.tagName !== 'TD') {
             return;
         }
         const cells = clickedElement.parentElement.getElementsByTagName('td');  
         const email = cells[1].textContent.trim();  
-        const currentUser = users.find(user => user.mail === email)
+        const currentUser = users.find(user => user.mail === email);
         
         setProfileOpen(true);
-        loadUser(currentUser)
-        showTab('users-view')
-    })
+        loadUser(currentUser);
+        showTab('users-view');
+    });
 }
 
 export async function init() {
     users = await api.userService.getUsers();
-    const searchInput = document.getElementById('search');
-    searchInput.addEventListener('input', handleSearch);
+    addFilterListeners(); // Добавлено
     addListeners();
-
     renderTable(users);
 }
+
 function findUserRowByMail(mail) {
     const tbody = document.getElementById('user-table-body');
     const rows = tbody.getElementsByTagName('tr');
@@ -90,7 +107,4 @@ export function updateUserRowByMail(mail, user) {
     }
 }
 
-export function open() {
-
-}
-
+export function open() {}
