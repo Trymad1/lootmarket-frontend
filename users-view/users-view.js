@@ -66,7 +66,7 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
     dealsChartElement.chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels, // Месяцы
+            labels: labels.map(label => new Date(label + '-01').toLocaleDateString('ru-RU', { year: 'numeric', month: 'short' })), // Формат "MMM YYYY"
             datasets: [
                 {
                     label: 'Услуг продано',
@@ -113,6 +113,14 @@ function buildDealsChart(elementId, dealsAsAuthorStats, dealsAsBuyerStats) {
 }
 
 
+const groupByMonth = (dates) => {
+    return dates.reduce((acc, date) => {
+        const month = date.slice(0, 7); // Пример: "2024-12"
+        acc[month] = (acc[month] || 0) + 1;
+        return acc;
+    }, {});
+};
+
 
 export async function loadUser(user) {
     const userStats = await api.userService.getUserStats(user.id);
@@ -141,13 +149,31 @@ export async function loadUser(user) {
 
     // Построение графика онлайн-активности
     const onlineCtx = onlineChartElement.getContext('2d');
+
+    // Функция для группировки по месяцам
+    const groupByMonth = (dates) => {
+        return dates.reduce((acc, date) => {
+            const month = date.slice(0, 7); // Извлекаем "YYYY-MM" из LocalDateTime
+            acc[month] = (acc[month] || 0) + 1;
+            return acc;
+        }, {});
+    };
+
+    // Группируем данные активности по месяцам
+    const groupedActivity = groupByMonth(userStats.activityDates);
+
+    // Создаем массивы меток и значений
+    const labels = Object.keys(groupedActivity).sort(); // Упорядочиваем месяцы
+    const data = labels.map(month => groupedActivity[month]); // Данные активности за каждый месяц
+
+    // Создаем новый график
     const onlineChart = new Chart(onlineCtx, {
         type: 'line',
         data: {
-            labels: userStats.activityDates.map(date => new Date(date).toLocaleDateString()), // Метки по датам
+            labels: labels.map(label => new Date(label + '-01').toLocaleDateString('ru-RU', { year: 'numeric', month: 'short' })), // Формат "MMM YYYY"
             datasets: [{
-                label: 'График активности',
-                data: userStats.activityDates.map(date => new Date(date).getHours()), // Часы активности
+                label: 'Активность по месяцам',
+                data: data, // Суммарная активность за месяц
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 tension: 0.3,
@@ -159,21 +185,22 @@ export async function loadUser(user) {
                 x: {
                     title: {
                         display: true,
-                        text: 'Дата'
+                        text: 'Месяц'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Посещения'
-                    }
+                        text: 'Количество посещений'
+                    },
+                    beginAtZero: true
                 }
             }
         }
     });
+
     // Сохраняем график для возможного уничтожения в будущем
     onlineChartElement.chart = onlineChart;
-
     // Уничтожение старого графика сделок, если он существует
     const dealsChartElement = document.getElementById('deals-chart');
     if (dealsChartElement.chart) {
