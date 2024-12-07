@@ -42,6 +42,10 @@ class UserService {
         return await restClient.get(`/users/${id}/stats`)
     }
 
+    async changeUser(id, body) {
+        return await restClient.put(`/users/${id}`, body);
+    }
+
 
 
 }

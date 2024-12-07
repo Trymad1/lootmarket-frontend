@@ -62,6 +62,33 @@ export async function init() {
 
     renderTable(users);
 }
+function findUserRowByMail(mail) {
+    const tbody = document.getElementById('user-table-body');
+    const rows = tbody.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const emailCell = rows[i].getElementsByTagName('td')[1]; // Столбец Email
+        if (emailCell && emailCell.textContent.trim() === mail) {
+            return rows[i]; // Возвращаем найденную строку
+        }
+    }
+
+    return null; // Если пользователь не найден
+}
+
+export function updateUserRowByMail(mail, user) {
+    const row = findUserRowByMail(mail);
+    console.log(mail);
+    if (row) {
+        const cells = row.getElementsByTagName('td');
+        if (cells.length > 1) {
+            cells[0].textContent = user.name; 
+            cells[1].textContent = user.mail; 
+        }
+    } else {
+        console.log('Пользователь с таким Email не найден.');
+    }
+}
 
 export function open() {
 

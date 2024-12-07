@@ -16,7 +16,17 @@ class RestClient {
         })
 
         return response.data
+    }
 
+    async put(endpoint, body) {
+        const response = await axios.put(`${this.domen}${endpoint}`, body , {
+            headers: this.token ? { 
+                'Authorization': `Bearer ${this.token}` ,
+                'Content-Type': 'application/json'
+            } : {},
+        })
+
+        return response.data
     }
 
     setAuth(token) {

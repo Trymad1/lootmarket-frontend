@@ -3,14 +3,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Редактировать пользователя</h2>
-                <button class="close-button">&times;</button>
+                <button class="close-button", id="close-button-edit">&times;</button>
             </div>
 
             <!-- Форма редактирования -->
             <div class="section">
                 <h3>Основная информация</h3>
-                <input type="text" class="input-field" placeholder="Имя пользователя" id="edit-name" />
-                <input type="email" class="input-field" placeholder="Email" id="edit-email" />
+                <input type="text" class="input-field" placeholder="Имя пользователя" id="edit-user-name" />
+                <input type="email" class="input-field" placeholder="Email" id="edit-user-mail" />
             </div>
 
             <div class="section">
@@ -25,13 +25,13 @@
             <!-- Чекбокс "Заблокирован?" -->
             <div class="section">
                 <label class="checkbox-label">
-                    <input type="checkbox" id="user-blocked" class="checkbox" />
+                    <input type="checkbox" id="user-edit-blocked" class="checkbox" />
                     Заблокирован?
                 </label>
             </div>
 
             <div class="section">
-                <button class="action-button primary">Сохранить</button>
+                <button class="action-button primary", id="accept-change-user">Сохранить</button>
             </div>
         </div>
     </div>

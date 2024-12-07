@@ -66,13 +66,13 @@ h1 {
 .user-info-label {
     font-weight: bold;
     font-size: 20px;
-    color: #555;
+    color: #353535;
     flex: 1;
 }
 
 .user-info-value {
     font-size: 18px;
-    color: #777;
+    color: #3f3f3f;
     text-align: left;
     flex: 2;
 }
