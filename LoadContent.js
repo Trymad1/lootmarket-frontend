@@ -1,8 +1,8 @@
 const filesName = [
     "users-table",
-    "empty",
     "users-view",
-    "edit-user"
+    "edit-user",
+    "user-ads"
 ]
 const START_PAGE = 'users-table';
 const scriptSuffix = '.js';
@@ -63,7 +63,7 @@ function initStartPage(startPage) {
             showTab('users-table')
         }
     })
-    document.getElementById('sideBarEmptyButton').addEventListener('click', () => showTab('empty'))
+    document.getElementById('sideBarAdsButton').addEventListener('click', () => showTab('user-ads'))
 }
 
 async function init() {
