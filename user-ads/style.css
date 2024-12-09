@@ -35,9 +35,44 @@
 .ad-header {
     font-weight: bold;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .ad-details {
     font-size: 0.9rem;
     color: #555;
+}
+
+#category-name-card {
+    font-size: 1.2rem;
+    margin-bottom: -5px;
+}
+
+#category-title-card {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+
+}
+
+#ad-id-card {
+    margin: 0px;
+    padding: 0px;
+    opacity: 40%;
+}
+
+#user-ads-content input {
+    padding: 10px;
+    height: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    border-radius: 5px;
+    outline: none;
+}
+
+#filter-id-card {
+    width: 60px;
 }

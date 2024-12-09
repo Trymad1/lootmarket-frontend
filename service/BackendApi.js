@@ -15,6 +15,7 @@ class BackendApi {
 
     constructor() {
         this.userService = new UserService();
+        this.adService = new UserAdService();
     }
 
     getUserById(id) {
@@ -46,7 +47,13 @@ class UserService {
         return await restClient.put(`/users/${id}`, body);
     }
 
+}
 
+class UserAdService {
+
+    async getAllAds() {
+        return await restClient.get("/services");
+    }
 
 }
 export const apiInstance = new BackendApi();
