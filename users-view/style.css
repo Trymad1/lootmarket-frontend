@@ -1,3 +1,9 @@
+#ads-page-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 #users-view-content {
     width: 95%;
     display: flex;
