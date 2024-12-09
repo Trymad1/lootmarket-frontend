@@ -4,7 +4,7 @@ const filesName = [
     "edit-user",
     "user-ads"
 ]
-const START_PAGE = 'users-table';
+const START_PAGE = 'user-ads';
 const scriptSuffix = '.js';
 const openFuncMap = new Map();
 
