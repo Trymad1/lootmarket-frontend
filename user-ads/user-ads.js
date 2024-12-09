@@ -16,11 +16,13 @@
 //     };
 // });
 
+import { showTab } from "../LoadContent.js";
 import { apiInstance as api } from "../service/BackendApi.js";
 
 const ads = await api.adService.getAllAds();
 const adsContainer = document.getElementById('ads-container');
 
+import { loadServiceData } from "../user-ads-details/user-ads-details.js";
 // Функция для отображения объявлений
 function displayAds(filter = {}) {
     adsContainer.innerHTML = '';
@@ -42,6 +44,7 @@ function displayAds(filter = {}) {
     }).forEach(ad => {
         const adCard = document.createElement('div');
         adCard.className = 'ad-card';
+        adCard.id = `${ad.id}`
         adCard.innerHTML = `
             <div class="ad-header">
                 <div>
@@ -51,12 +54,17 @@ function displayAds(filter = {}) {
                 </div>
                 <p>${ad.authorName}</p>
             </div>
-            <div class="ad-details">
-                <p><b>Количество:</b> ${ad.quantity == null ? "Неограниченно" : ad.quantity}</p>
+            <div class="ad-details">Количество: ${ad.quantity == null ? "Неограниченно" : ad.quantity}</p>
                 <p><b>Цена:</b> ${ad.price} руб.</p>
             </div>
         `;
         adsContainer.appendChild(adCard);
+        adCard.addEventListener('click', () => {
+            const id = adCard.id
+            const currentAd = ads.find(arrAd => arrAd.id == id);
+            loadServiceData(currentAd);
+            showTab('user-ads-details');
+        })
     });
 }
 

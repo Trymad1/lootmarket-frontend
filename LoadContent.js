@@ -2,7 +2,8 @@ const filesName = [
     "users-table",
     "users-view",
     "edit-user",
-    "user-ads"
+    "user-ads",
+    "user-ads-details"
 ]
 const START_PAGE = 'user-ads';
 const scriptSuffix = '.js';
