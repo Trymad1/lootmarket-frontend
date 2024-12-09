@@ -4,7 +4,7 @@ const ads = Array.from({ length: 30 }, (_, i) => ({
     categoryId: `category-${Math.ceil(Math.random() * 5)}`,
     authorName: `Автор ${Math.ceil(Math.random() * 10)}`,
     categoryName: `Категория ${Math.ceil(Math.random() * 5)}`,
-    shortDescription: `Краткое описание услуги ${i + 1}`,
+    shortDescription: `Краткое описание укое описаникое описаникое описаникое описаникое описаникое описанислуги ${i + 1}`,
     detailedDescription: `Подробное описание услуги ${i + 1}. Это описание может быть длинным.`,
     quantity: Math.ceil(Math.random() * 100),
     price: (Math.random() * 500).toFixed(2),
@@ -56,6 +56,9 @@ function applyFilters() {
 
 
 export function init() {
+    document.getElementById("search-button-ads").addEventListener('click', () => {
+        applyFilters();
+    })
     renderAds(ads);
 }
 
