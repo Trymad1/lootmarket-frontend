@@ -22,7 +22,7 @@ export function showTab(fileName) {
     currentTab = fileId;
 }
 
-async function loadTabContent() {
+export async function loadTabContent() {
     const fetchPromises = filesName.map(htmlFile => 
         fetch(`${htmlFile}/${htmlFile}.html`)
             .then(response => response.text())
@@ -52,10 +52,20 @@ async function loadTabContent() {
             initFunction();
         }
     });
+
+    const content = document.getElementById("content");
+    content.style.display = "flex";
 }
 
 import { isUserProfileOpen } from "./users-table/users-table.js";
 
+export function clear() {
+    const content = document.getElementById("content");
+    content.style.display = "none";
+    while (content.firstChild) {
+        div.removeChild(div.firstChild); // Удаляем первый дочерний элемент
+    }
+}
 async function init() {
     document.getElementById('sideBarUserButton').addEventListener('click', () => {
         if(isUserProfileOpen) {

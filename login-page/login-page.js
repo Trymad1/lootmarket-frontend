@@ -1,6 +1,5 @@
-import { apiInstance as api } from "../service/BackendApi.js";
 import { securityService } from "../service/SecurityService.js";
-
+import { loadTabContent } from "../LoadContent.js";
 
 const loginForm = document.getElementById('login-form');
 
@@ -23,7 +22,9 @@ async function loginUser() {
 
         if(response === true) {
             errorContainer.style.display = 'none';
-            alert('Login successful!'); // Пример действия
+            document.getElementById("login-page-content").style.display = "none";
+            document.getElementById("sidebar").style.display = "flex";
+            loadTabContent();
         } else {
             errorContainer.style.display = "flex";
         }
