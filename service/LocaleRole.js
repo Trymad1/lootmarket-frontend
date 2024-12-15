@@ -4,8 +4,10 @@ export function getRole(role) {
         userRole = "Админ";
     } else if(role == "ROLE_USER") {
         userRole = "Пользователь";
-    } else {
+    } else if(role == "ROLE_MODERATOR"){
         userRole = "Модератор";
+    } else {
+        userRole = "none";
     }
 
     return userRole;

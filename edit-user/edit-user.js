@@ -42,13 +42,7 @@ export async function init() {
         currentUser.name = nameField.value;
         currentUser.mail = mailField.value;
 
-        if(userRoleField.selectedIndex == 0) {
-            currentUser.roles[0] = "ROLE_ADMIN";
-        } else if(userRoleField.selectedIndex == 1) {
-            currentUser.roles[0] = "ROLE_USER";
-        } else {
-            currentUser.roles[0] = "ROLE_MODERATOR";
-        }
+        currentUser.roles[0] = userRoleField.value;
 
         currentUser.banned = isBlockedCheckBox.checked;
 
