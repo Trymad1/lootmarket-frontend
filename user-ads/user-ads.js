@@ -19,7 +19,7 @@
 import { showTab } from "../LoadContent.js";
 import { apiInstance as api } from "../service/BackendApi.js";
 
-let ads;
+let ads = [];
 
 
 import { loadServiceData } from "../user-ads-details/user-ads-details.js";
@@ -47,13 +47,16 @@ function displayAds(filter = {}) {
         adCard.className = 'ad-card';
         adCard.id = `${ad.id}`
         adCard.innerHTML = `
-            <div class="ad-header">
-                <div>
+        <div class="ad-header">
+            <div>
                 <p id="ad-id-card">№${ad.id}</p>
                 <p id="category-name-card">${ad.categoryName}</p>
                 <p id="category-title-card">Описание: ${ad.title}</p>
-                </div>
+            </div>
+            <div id="name-and-close">
+                <button class="delete-add-button">×</button>
                 <p>${ad.authorName}</p>
+            </div>
             </div>
             <div class="ad-details">Количество: ${ad.quantity == null ? "Неограниченно" : ad.quantity}</p>
                 <p><b>Цена:</b> ${ad.price} руб.</p>
@@ -65,6 +68,24 @@ function displayAds(filter = {}) {
             const currentAd = ads.find(arrAd => arrAd.id == id);
             loadServiceData(currentAd);
             showTab('user-ads-details');
+        })
+
+        adCard.querySelector(".delete-add-button").addEventListener('click', (event) => {
+            ads = ads.filter(value => value.id != adCard.id);
+
+            const userInput = document.getElementById('filter-user');
+            const categoryInput = document.getElementById('filter-category');
+            const descriptionInput = document.getElementById('filter-description');
+            const idInput = document.getElementById('filter-id-card')
+            
+            const user = userInput.value;
+            const category = categoryInput.value;
+            const description = descriptionInput.value;
+            const id = idInput.value;
+
+            displayAds({ user, category, description, id });
+            api.adService.deleteById(adCard.id);
+            event.stopPropagation();
         })
     });
 }

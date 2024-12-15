@@ -76,3 +76,26 @@
 #filter-id-card {
     width: 60px;
 }
+
+
+.delete-add-button {
+    display: flex;
+    background: transparent;
+    align-items: right;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.delete-add-button:hover {
+    color: #e74c3c; 
+}
+
+#name-and-close {
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    flex-direction: column;
+}

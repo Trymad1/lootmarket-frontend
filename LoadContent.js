@@ -7,7 +7,7 @@ const filesName = [
     "user-ads",
     "user-ads-details",
 ]
-const START_PAGE = 'login-page';
+const START_PAGE = 'user-ads';
 const scriptSuffix = '.js';
 const openFuncMap = new Map();
 
@@ -56,6 +56,7 @@ export async function loadTabContent() {
     });
 
     const content = document.getElementById("content");
+    showTab(START_PAGE)
     content.style.display = "flex";
 }
 

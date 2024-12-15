@@ -7,7 +7,7 @@ class RestClient {
 
     async get(endpoint) {
         const response = await axios.get(`${this.domen}${endpoint}`, {
-            headers: this.token ? { 'Authorization': `Bearer ${this.token}` } : {} // Добавляем токен в заголовки, если он есть
+            headers: this.token ? { 'Authorization': `Bearer ${this.token}` } : {} 
         })
 
         return response.data
@@ -22,6 +22,14 @@ class RestClient {
         })
 
         return response.data
+    }
+
+    async delete(endpoint) {
+        const response = await axios.delete(`${this.domen}${endpoint}`, {
+            headers: this.token ? { 'Authorization': `Bearer ${this.token}` } : {}
+        })
+
+        return true;
     }
 
     setAuth(token) {

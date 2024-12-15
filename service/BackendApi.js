@@ -53,6 +53,10 @@ class UserAdService {
         return await restClient.get("/services");
     }
 
+    async deleteById(id) {
+        return await restClient.delete(`/services/${id}`);
+    }
 }
+
 export const apiInstance = new BackendApi();
 
