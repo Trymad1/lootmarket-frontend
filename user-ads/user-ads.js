@@ -19,12 +19,13 @@
 import { showTab } from "../LoadContent.js";
 import { apiInstance as api } from "../service/BackendApi.js";
 
-const ads = await api.adService.getAllAds();
-const adsContainer = document.getElementById('ads-container');
+let ads;
+
 
 import { loadServiceData } from "../user-ads-details/user-ads-details.js";
 // Функция для отображения объявлений
 function displayAds(filter = {}) {
+    const adsContainer = document.getElementById('ads-container');
     adsContainer.innerHTML = '';
     ads.filter(ad => {
         const matchesUser = filter.user
@@ -68,7 +69,8 @@ function displayAds(filter = {}) {
     });
 }
 
-export function init() {
+export async function init() {
+    ads = await api.adService.getAllAds();
     displayAds();
 
     const userInput = document.getElementById('filter-user');

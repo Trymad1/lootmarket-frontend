@@ -1,4 +1,5 @@
 import { apiInstance as api } from "./BackendApi.js";
+import { clear } from "../LoadContent.js";
 
 class SecurityService {
 
@@ -19,6 +20,11 @@ class SecurityService {
          return response;
     
 
+    }
+
+    async logout() {
+        await clear();
+        document.getElementById('login-page-content').style.display = "flex";
     }
 
     parseJwt(token) {
