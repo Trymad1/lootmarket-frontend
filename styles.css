@@ -28,6 +28,7 @@ body {
     border-right: 1px solid #ddd;
     /* Тонкая разделяющая линия */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: none;
 }
 
 /* Кнопки в боковой панели */
@@ -69,4 +70,6 @@ body {
     justify-content: center; 
     align-items: top; 
 }
+
+
 

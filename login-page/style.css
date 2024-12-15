@@ -1,0 +1,81 @@
+/* Уникальные стили для login */
+#login-page-content {
+    width: 320px;
+    height: 300px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px #0000001a;
+    position: absolute;
+    top: 50%; /* Центрирование по вертикали */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translate(-50%, -50%); /* Сдвиг для точного центрирования */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.login-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+#login-form {
+    width: 320px;
+    height: 320px;
+
+}
+
+.input-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.login-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#login-button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
+}
+
+.error-message ul {
+    padding-left: 20px;
+}
+
+.error-message li {
+    list-style-type: disc;
+}

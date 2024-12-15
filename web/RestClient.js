@@ -5,11 +5,6 @@ class RestClient {
         this.token;
     }
 
-    async init(login, password) {
-        const token = await this.fetchToken(login, password);
-        this.setAuth(token);
-    }
-
     async get(endpoint) {
         const response = await axios.get(`${this.domen}${endpoint}`, {
             headers: this.token ? { 'Authorization': `Bearer ${this.token}` } : {} // Добавляем токен в заголовки, если он есть
@@ -46,5 +41,4 @@ class RestClient {
 
 
 const restClient = new RestClient();
-await restClient.init('Oleg@gmail.com', 'password');
 export { restClient };

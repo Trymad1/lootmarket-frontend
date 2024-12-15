@@ -3,9 +3,9 @@ const filesName = [
     "users-view",
     "edit-user",
     "user-ads",
-    "user-ads-details"
+    "user-ads-details",
 ]
-const START_PAGE = 'user-ads';
+const START_PAGE = 'login-page';
 const scriptSuffix = '.js';
 const openFuncMap = new Map();
 
@@ -55,8 +55,8 @@ async function loadTabContent() {
 }
 
 import { isUserProfileOpen } from "./users-table/users-table.js";
-function initStartPage(startPage) {
-    showTab(startPage);
+
+async function init() {
     document.getElementById('sideBarUserButton').addEventListener('click', () => {
         if(isUserProfileOpen) {
             showTab('users-view')
@@ -65,11 +65,6 @@ function initStartPage(startPage) {
         }
     })
     document.getElementById('sideBarAdsButton').addEventListener('click', () => showTab('user-ads'))
-}
-
-async function init() {
-    await loadTabContent();
-    initStartPage(START_PAGE);
 }
 
 init();

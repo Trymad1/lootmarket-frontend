@@ -1,16 +1,7 @@
-import { User } from '../model/User.js'
 import { restClient } from '../web/RestClient.js';
 
 
 const users = [];
-
-function generateUsers(count) {
-    for (let i = 1; i <= count; i++) {
-        users.push(new User(i)); // Создаем нового пользователя с уникальным ID
-    }
-}
-
-generateUsers(40);
 class BackendApi {
 
     constructor() {
@@ -18,12 +9,19 @@ class BackendApi {
         this.adService = new UserAdService();
     }
 
-    getUserById(id) {
-       return users.find(user => user.id === id);
+    async login(login, password) {
+        try {
+            const token = await restClient.fetchToken(login, password);
+            restClient.setAuth(token);
+
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 
-    getAll() {
-        return users.slice();
+    getCurrentToken() {
+        return restClient.token;
     }
 
 }

@@ -1,13 +1,6 @@
 import { apiInstance as api } from '../service/BackendApi.js';
 import { showTab } from '../LoadContent.js';
 
-function populateUserDetails(user) {
-    document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-email').textContent = user.mail;
-    document.getElementById('user-createdAt').textContent = user.registrationDate;
-    document.getElementById('user-updatedAt').textContent = user.lastUpdate;
-}
-
 function formatDateTime(dateTime) {
     const date = new Date(dateTime);
     return date.toLocaleString(); 

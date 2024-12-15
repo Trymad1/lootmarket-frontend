@@ -11,19 +11,39 @@
     <link rel="stylesheet" href="edit-user/style.css">
     <link rel="stylesheet" href="user-ads/style.css">
     <link rel="stylesheet" href="user-ads-details/style.css">
+    <link rel="stylesheet" href="login-page/style.css">
 </head>
 
 <body>
 
-    <div id="sidebar">
+    <div id="login-page-content">
+        <h2 class="login-header">Login</h2>
+        <form id="login-form">
+            <div class="input-group">
+                <input type="email" id="login-email" class="login-input" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="login-password" class="login-input" placeholder="Password" required>
+            </div>
+            <button type="submit" id="login-button" class="login-btn">Войти</button>
+            <div id="login-error" class="error-message" style="display: none;">
+                <ul>
+                    <li>Неверная почта или пароль</li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    
+    <div id="sidebar" style="display: none;">
         <button id="sideBarUserButton">Пользователи</button>
         <button id="sideBarAdsButton">Объявления</button>
     </div>
 
-    <div id="content"> </div> 
+    <div id="content" style="display: none;"> </div> 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type='module' src="login-page/login-page.js" defer> </script>
     <script type='module' src="LoadContent.js" defer> </script>
 
 </body>
