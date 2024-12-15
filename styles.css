@@ -70,5 +70,39 @@ body {
     align-items: top; 
 }
 
+#user-info {
+    width: 100%;
+    background-color: #e6e6e6; /* Серый фон */
+    border: 1px solid #ddd; /* Граница */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px; /* Отступ от остальных кнопок */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
+#user-info p {
+    margin: 5px 0; /* Уменьшаем отступы между текстом */
+    font-size: 17px;
+    color: #333;
+}
 
+/* Кнопка "Выйти" в user-info */
+#user-logout-btn {
+    width: 80%;
+    padding: 8px;
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #dc3545; /* Красный цвет */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#user-logout-btn:hover {
+    background-color: #c82333; /* Темно-красный цвет при наведении */
+}

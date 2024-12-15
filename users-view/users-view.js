@@ -1,5 +1,6 @@
 import { apiInstance as api } from '../service/BackendApi.js';
 import { showTab } from '../LoadContent.js';
+import { getRole } from '../service/LocaleRole.js';
 
 function formatDateTime(dateTime) {
     const date = new Date(dateTime);
@@ -114,14 +115,7 @@ export async function loadUser(user) {
     
     document.getElementById('user-blocked').textContent = user.banned == true ? "Да" : "Нет";
 
-    let userRole;
-    if(user.roles[0] == "ROLE_ADMIN") {
-        userRole = "Админ";
-    } else if(user.roles[0] == "ROLE_USER") {
-        userRole = "Пользователь";
-    } else {
-        userRole = "Модератор";
-    }
+    let userRole = getRole(user.roles[0]);
     
     document.getElementById('user-role-view').textContent = userRole;
 

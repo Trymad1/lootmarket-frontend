@@ -14,10 +14,10 @@ class SecurityService {
         const response = await api.login(login, password);
         if(response === false) return false;
         const payload = this.parseJwt(api.getCurrentToken())
-        console.log(payload.sub);
-        console.log(payload.roles);
+        document.getElementById("user-name-panel").innerHTML = payload.name;
+        document.getElementById("user-email-panel").innerHTML = payload.sub;
 
-         return response;
+        return response;
     
 
     }

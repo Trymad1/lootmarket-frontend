@@ -5,15 +5,15 @@ const loginForm = document.getElementById('login-form');
 
  loginForm.addEventListener('submit', function (event) {
     event.preventDefault();
-    loginUser();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+    loginUser(email, password);
 });
 
-async function loginUser() {
+loginUser("Oleg@gmail.com", "password"); // while testing app TODO remove
+
+async function loginUser(email, password) {
         
-        const email = document.getElementById('login-email').value.trim();
-        const password = document.getElementById('login-password').value.trim();
-    
-       
         const errorContainer = document.getElementById('login-error');
         const errorList = errorContainer.querySelector('ul');
     
