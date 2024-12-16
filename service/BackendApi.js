@@ -7,6 +7,7 @@ class BackendApi {
     constructor() {
         this.userService = new UserService();
         this.adService = new UserAdService();
+        this.reviewService = new ReviewService();
     }
 
     async login(login, password) {
@@ -56,6 +57,18 @@ class UserAdService {
     async deleteById(id) {
         return await restClient.delete(`/services/${id}`);
     }
+}
+
+class ReviewService {
+
+    async getAllByServiceId(id) {
+        return await restClient.get(`/reviews/${id}`)
+    }
+
+    async deleteById(id) {
+        return await restClient.delete(`/reviews/${id}`)
+    }
+
 }
 
 export const apiInstance = new BackendApi();

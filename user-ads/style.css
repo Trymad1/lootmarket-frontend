@@ -87,6 +87,7 @@
     font-weight: bold;
     color: #333;
     cursor: pointer;
+    margin-top: -8px;
 }
 
 .delete-add-button:hover {
@@ -98,4 +99,9 @@
     justify-content: start;
     align-items: end;
     flex-direction: column;
+}
+
+#review-header {
+    display: flex;
+    justify-content: space-between;
 }

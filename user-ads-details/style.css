@@ -3,6 +3,7 @@
     height: 100vh;
 }
 
+
 #details-content {
     display: flex;
     width: 100%;
@@ -15,7 +16,7 @@
     flex-direction: column;
     gap: 15px;
     margin-top: 20px;
-    height: 100vh;
+    height: 75vh;
     overflow-y: auto;
 }
 .review-card {
@@ -45,7 +46,7 @@
 /* deals */
 .deals-container {
     display: flex;
-    height: 100vh;
+    height: 75vh;
     flex-direction: column;
     gap: 15px;
     margin-top: 20px;

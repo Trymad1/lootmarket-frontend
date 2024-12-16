@@ -1,25 +1,6 @@
-const reviews = [
-    { author: "Oleg", rating: 4, comment: "Отличный продукт!", date: "2024-12-01" },
-    { author: "Anna", rating: 5, comment: "Очень понравилось, рекомендую!", date: "2024-12-05" },
-    { author: "Ivan", rating: 3, comment: "Неплохо, но есть недочеты.", date: "2024-11-30" },
-    { author: "Svetlana", rating: 5, comment: "Беру уже второй раз. Очень нравится качество!", date: "2024-12-08" },
-    { author: "Alexey", rating: 2, comment: "Не оправдало ожиданий. Качество оставляет желать лучшего.", date: "2024-12-06" },
-    { author: "Dmitry", rating: 4, comment: "Цена и качество соответствуют. Хороший вариант.", date: "2024-12-07" },
-    { author: "Ekaterina", rating: 5, comment: "Это лучший продукт, который я когда-либо покупала!", date: "2024-12-02" },
-    { author: "Vladimir", rating: 1, comment: "Совершенно не понравилось. Деньги на ветер.", date: "2024-12-03" },
-    { author: "Maria", rating: 4, comment: "Удобно использовать, доставка была быстрой.", date: "2024-12-04" },
-    { author: "Nikolay", rating: 3, comment: "Просто нормально. Ожидал большего за эти деньги.", date: "2024-12-01" },
-    { author: "Irina", rating: 5, comment: "Прекрасный тоывафывавыдлаофвылдафвыролафвыролафвдыоладфыволафволдыжадолжфвыодлжавар! Куплю еще.", date: "2024-11-29" },
-    { author: "Olga", rating: 4, comment: "Качество вполне устраивает, но хотелось бы немного дешевле.", date: "2024-11-28" },
-    { author: "Maxim", rating: 3, comment: "Обычный товар, ничего особенного.", date: "2024-11-27" },
-    { author: "Tatiana", rating: 5, comment: "Рада, что выбрала этот продукт. Всем рекомендую!", date: "2024-11-26" },
-    { author: "Sergey", rating: 4, comment: "Хороший вариант для подарка.", date: "2024-11-25" },
-    { author: "Yulia", rating: 4, comment: "Покупала для родителей, они довольны.", date: "2024-11-24" },
-    { author: "Roman", rating: 2, comment: "Не оправдал ожиданий. Проблемы с качеством.", date: "2024-11-23" },
-    { author: "Valentina", rating: 5, comment: "Моя мечта сбылась! Рекомендую каждому.", date: "2024-11-22" },
-    { author: "Artem", rating: 3, comment: "Средний товар, доставка задержалась.", date: "2024-11-21" },
-    { author: "Elena", rating: 4, comment: "Прекрасный выбор! Никаких нареканий.", date: "2024-11-20" }
-];
+import { apiInstance as api } from "../service/BackendApi.js";
+
+let reviews = [];
 
 const deals = [
     {
@@ -141,9 +122,14 @@ const statusTranslations = {
     IN_PROGRESS: "В процессе"
 };
 
+function formatDateTime(dateTime) {
+    const date = new Date(dateTime);
+    return date.toLocaleString(); 
+}
+
 function renderDeals(deals) {
     // Основной контейнер для сделок
-    const dealsContainer = document.querySelector(".deals-container");  
+    const dealsContainer = document.querySelector(".deals-container");
 
     // Генерируем карточки для каждой сделки
     deals.forEach(deal => {
@@ -159,18 +145,17 @@ function renderDeals(deals) {
                 Статус сделки: 
                 <select class="status-dropdown">
                     ${Object.keys(statusTranslations)
-                        .map(status => `
+                .map(status => `
                             <option value="${status}" ${status === deal.status ? "selected" : ""}>
                                 ${statusTranslations[status]}
                             </option>
                         `)
-                        .join("")}
+                .join("")}
                 </select>
             </div>
             <div>Имя платежной системы: ${deal.paymentSystemName}</div>
             <div>Дата начала сделки: ${deal.startDate}</div>
-            <div>Дата закрытия сделки: ${
-                deal.closeDate ? deal.closeDate : "<span class='unfinished'>Незавершена</span>"
+            <div>Дата закрытия сделки: ${deal.closeDate ? deal.closeDate : "<span class='unfinished'>Незавершена</span>"
             }</div>
         `;
 
@@ -179,38 +164,64 @@ function renderDeals(deals) {
     });
 }
 
-function renderReviews(reviews) {
+function renderReviews() {
     // Сортируем отзывы по дате, от новых к старым
     reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const reviewsContainer = document.getElementsByClassName("reviews-container")[0];
+    while(reviewsContainer.firstChild) {
+        reviewsContainer.removeChild(reviewsContainer.firstChild);
+    }
 
     reviews.forEach(review => {
         const reviewCard = document.createElement("div");
         reviewCard.classList.add("review-card");
+        reviewCard.id = review.id;
 
         // Наполняем карточку содержимым
         reviewCard.innerHTML = `
-            <strong>Автор: ${review.author}</strong>  <span>Оценка: ${review.rating}</span>
+            <div id="review-header">
+                <div>
+                    <strong>Автор: ${review.author}</strong>  <span>Оценка: ${review.grade}</span> 
+                </div>
+                <button class="delete-add-button">×</button>
+            </div>
             <div style="margin: 10px 0;">${review.comment}</div>
-            <small>Дата: ${review.date}</small>
+            <small>Дата: ${formatDateTime(review.date)}</small>
         `;
 
-        // Добавляем карточку в контейнер
+        
+        reviewCard.querySelector(".delete-add-button").addEventListener('click', () => {
+            console.log(reviews)
+            reviews = reviews.filter(value => value.id != reviewCard.id);
+            console.log(reviews)
+            renderReviews(reviews);
+            api.reviewService.deleteById(reviewCard.id);
+
+        })
+
         reviewsContainer.appendChild(reviewCard);
     });
 
 }
 
+let currentService;
+
 export function init() {
-    renderReviews(reviews);
+    // renderReviews(reviews);
     renderDeals(deals);
 }
 
-export function open() {
-
+export async function open() {
+    renderReviews();
+    renderDeals(deals);
 }
 
-export function loadServiceData(dealId) {
-   
+export function setCurrentService(service) {
+    currentService = service;
+}
+
+export async function loadServiceData(dealId) {
+    reviews = await api.reviewService.getAllByServiceId(currentService.id);
+    console.log(reviews);
 }

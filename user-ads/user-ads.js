@@ -22,7 +22,7 @@ import { apiInstance as api } from "../service/BackendApi.js";
 let ads = [];
 
 
-import { loadServiceData } from "../user-ads-details/user-ads-details.js";
+import { loadServiceData, setCurrentService } from "../user-ads-details/user-ads-details.js";
 // Функция для отображения объявлений
 function displayAds(filter = {}) {
     const adsContainer = document.getElementById('ads-container');
@@ -66,6 +66,7 @@ function displayAds(filter = {}) {
         adCard.addEventListener('click', () => {
             const id = adCard.id
             const currentAd = ads.find(arrAd => arrAd.id == id);
+            setCurrentService(currentAd);
             loadServiceData(currentAd);
             showTab('user-ads-details');
         })
@@ -77,7 +78,7 @@ function displayAds(filter = {}) {
             const categoryInput = document.getElementById('filter-category');
             const descriptionInput = document.getElementById('filter-description');
             const idInput = document.getElementById('filter-id-card')
-            
+
             const user = userInput.value;
             const category = categoryInput.value;
             const description = descriptionInput.value;
