@@ -8,12 +8,12 @@
                 <div class="block-header">
                     <h2 id="reviews-ads-title">Отзывы</h2>
                     <div class="filters">
-                        <input type="text" id="author-name" placeholder="Поиск по автору" class="filter-input">
+                        <input type="text" id="author-name-review" placeholder="Поиск по автору" class="filter-input">
                             <div class="filter-same-block">
                                 <div class="filter-block">
                                     <label for="rating-from">Оценка от:</label>
                                     <select id="rating-from" class="filter-select">
-                                    <option value="1">1</option>
+                                    <option value="1" selected>1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
@@ -27,7 +27,7 @@
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="5" selected>5</option>
                                 </select>
                             </div>
                         </div>
@@ -94,20 +94,20 @@
                                 <label for="deal-status">Поиск по статусу сделки:</label>
                                 <select id="deal-status" class="filter-select">
                                     <option value="">Все статусы</option>
-                                    <option value="completed">Завершено</option>
-                                    <option value="cancelled">Отменено</option>
-                                    <option value="in-progress">В процессе</option>
+                                    <option value="COMPLETE">Завершено</option>
+                                    <option value="CANCELLED">Отменено</option>
+                                    <option value="IN_PROGRESS">В процессе</option>
                                 </select>
                             </div>
     
                             <div class="filter-block">
                                 <label for="payment-system">Поиск по платежной системе:</label>
                                 <select id="payment-system" class="filter-select">
-                                    <option value="">Все платежные системы</option>
-                                    <option value="visa">Visa</option>
-                                    <option value="mastercard">Mastercard</option>
-                                    <option value="paypal">PayPal</option>
-                                    <option value="bitcoin">Bitcoin</option>
+                                    <option value="any">Любая</option>
+                                    <option value="Visa">Visa</option>
+                                    <option value="Mastercard">Mastercard</option>
+                                    <option value="Paypal">PayPal</option>
+                                    <option value="Bitcoin">Bitcoin</option>
                                 </select>
                             </div>
                         </div>

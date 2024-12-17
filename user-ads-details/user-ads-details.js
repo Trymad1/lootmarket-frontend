@@ -49,20 +49,22 @@ function renderDeals() {
         `;
 
         // Добавляем карточку в контейнер
+        updateStats();
         dealsContainer.appendChild(dealCard);
     });
 }
 
 function renderReviews() {
     // Сортируем отзывы по дате, от новых к старым
-    reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const filteredReviews = filterReviews();
+    filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const reviewsContainer = document.getElementsByClassName("reviews-container")[0];
     while(reviewsContainer.firstChild) {
         reviewsContainer.removeChild(reviewsContainer.firstChild);
     }
 
-    reviews.forEach(review => {
+    filteredReviews.forEach(review => {
         const reviewCard = document.createElement("div");
         reviewCard.classList.add("review-card");
         reviewCard.id = review.id;
@@ -88,10 +90,27 @@ function renderReviews() {
             api.reviewService.deleteById(reviewCard.id);
 
         })
-
+        updateStats();
         reviewsContainer.appendChild(reviewCard);
     });
+}
 
+let minGradeFilter;
+let maxGradeFilter;
+let dateFromFilter;
+let dateToFilter;
+let userNameReviewFilter;
+
+function filterReviews() {
+    const filteredReviews = reviews.filter(review => {
+        return review.grade >= minGradeFilter.value && 
+        review.grade <= maxGradeFilter.value &&
+        (dateFromFilter.value ? review.date >= dateFromFilter.value : true) &&
+        (dateToFilter.value ? review.date <= dateToFilter.value : true) &&
+        (userNameReviewFilter.value ? review.author.toLowerCase().includes(userNameReviewFilter.value.toLowerCase()) : true)
+    });
+    console.log(filteredReviews)
+    return filteredReviews;
 }
 
 let currentService;
@@ -102,6 +121,7 @@ let totalCancelledDealsLabel;
 let totalInProgressDealsLabel;
 let avgRatingLabel;
 let totalReviewsLabel;
+
 export function init() {
     totalDealsLabel = document.getElementById("total-deals");
     totalCompleteDealsLabel = document.getElementById("completed-deals");
@@ -109,6 +129,33 @@ export function init() {
     totalInProgressDealsLabel = document.getElementById("in-progress-deals");
     avgRatingLabel = document.getElementById("average-rating");
     totalReviewsLabel = document.getElementById("total-reviews");
+
+    minGradeFilter = document.getElementById("rating-from");
+    maxGradeFilter = document.getElementById("rating-to");
+    dateFromFilter = document.getElementById("date-from");
+    dateToFilter = document.getElementById("date-to");
+    userNameReviewFilter = document.getElementById("author-name-review");
+
+    minGradeFilter.addEventListener('change', () => {
+        renderReviews();
+    })
+
+    maxGradeFilter.addEventListener('change', () => {
+        renderReviews();
+    })
+
+    dateToFilter.addEventListener('change', () => {
+        renderReviews();
+    })
+
+    dateFromFilter.addEventListener('change', () => {
+        renderReviews();
+    })
+
+    userNameReviewFilter.addEventListener('input', () => {
+        renderReviews();
+    })
+    
 }
 
 export async function open() {
@@ -141,7 +188,6 @@ function updateStats() {
 export async function loadServiceData(dealId) {
     reviews = await api.reviewService.getAllByServiceId(currentService.id);
     deals = await api.adService.getDealsByServiceId(currentService.id)
-    updateStats();
     renderReviews();
     renderDeals();
 }
