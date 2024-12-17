@@ -43,7 +43,8 @@
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 100%; /* Ширина будет зависеть от доступного пространства */
+    max-width: 100%; 
+    justify-content: space-between;
 }
 
 #reviews-ads-title {
@@ -72,7 +73,8 @@
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 100%; /* Ширина будет зависеть от доступного пространства */
+    max-width: 100%;
+    justify-content: space-between;
 }
 
 #deals-ads-title {
@@ -98,7 +100,8 @@
     padding: 15px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    word-wrap: break-word; /* Перенос слов на новую строку */
+    word-wrap: break-word;
+    margin-bottom: 5px;
 }
 .review-card strong {
     font-size: 16px;
@@ -123,7 +126,7 @@
     padding: 15px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+    margin-bottom: 5px;
     word-wrap: break-word;
 }
 .deal-card strong {
@@ -145,4 +148,70 @@
 .deal-card .unfinished {
     color: red;
     font-weight: bold;
+}
+
+.deals-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+
+/* Фильтры для отзывов */
+.filters {
+    display: flex;
+    flex-direction: column; /* Элементы внутри будут располагаться вертикально */
+    gap: 15px; /* Пробелы между элементами */
+    margin-top: 10px;
+}
+
+.filter-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-input,
+.filter-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+}
+
+/* Статистика под отзывами */
+.reviews-stats {
+    display: flex;
+    flex-direction: column; /* Теперь строки будут расположены вертикально */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.stat-item {
+    display: flex;
+    gap: 10px;
+    font-size: 17px;
+    color: #777;
+}
+
+.stat-text {
+    font-weight: bold;
+}
+
+.stat-value {
+    color: #333;
+}
+
+/* Статистика под сделками */
+.deals-stats {
+    display: flex;
+    flex-direction: column; /* Теперь строки будут расположены вертикально */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.filter-same-block{
+    display: flex;
+    gap: 5px;
 }
