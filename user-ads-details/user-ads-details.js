@@ -1,120 +1,7 @@
 import { apiInstance as api } from "../service/BackendApi.js";
 
 let reviews = [];
-
-const deals = [
-    {
-        dealId: "001",
-        status: "COMPLETE",
-        buyerId: "B001",
-        buyerName: "Ivan Petrov",
-        buyedQuantity: 1,
-        paymentSystemId: "PS001",
-        paymentSystemName: "PayPal",
-        startDate: "2024-12-01",
-        closeDate: "2024-12-05"
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    },
-    {
-        dealId: "003",
-        status: "IN_PROGRESS",
-        buyerId: "B003",
-        buyerName: "Sergey Sidorov",
-        buyedQuantity: 2,
-        paymentSystemId: "PS003",
-        paymentSystemName: "MasterCard",
-        startDate: "2024-12-02",
-        closeDate: null
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    },
-    {
-        dealId: "002",
-        status: "CANCELLED",
-        buyerId: "B002",
-        buyerName: "Anna Ivanova",
-        buyedQuantity: 3,
-        paymentSystemId: "PS002",
-        paymentSystemName: "Visa",
-        startDate: "2024-12-03",
-        closeDate: null
-    }
-
-];
+let deals = [];
 
 const statusTranslations = {
     COMPLETE: "Завершена",
@@ -127,10 +14,12 @@ function formatDateTime(dateTime) {
     return date.toLocaleString(); 
 }
 
-function renderDeals(deals) {
+function renderDeals() {
     // Основной контейнер для сделок
     const dealsContainer = document.querySelector(".deals-container");
-
+    while(dealsContainer.firstChild) {
+        dealsContainer.removeChild(dealsContainer.firstChild);
+    }
     // Генерируем карточки для каждой сделки
     deals.forEach(deal => {
         const dealCard = document.createElement("div");
@@ -139,7 +28,7 @@ function renderDeals(deals) {
         // Наполняем карточку содержимым
         dealCard.innerHTML = `
             <strong>Имя покупателя: ${deal.buyerName}</strong>  
-            <small>ID сделки: ${deal.dealId}</small>
+            <small>ID сделки: ${deal.id}</small>
             <div>Количество: ${deal.buyedQuantity}</div>
             <div>
                 Статус сделки: 
@@ -213,8 +102,6 @@ export function init() {
 }
 
 export async function open() {
-    renderReviews();
-    renderDeals(deals);
 }
 
 export function setCurrentService(service) {
@@ -223,5 +110,7 @@ export function setCurrentService(service) {
 
 export async function loadServiceData(dealId) {
     reviews = await api.reviewService.getAllByServiceId(currentService.id);
-    console.log(reviews);
+    deals = await api.adService.getDealsByServiceId(currentService.id)
+    renderReviews();
+    renderDeals();
 }

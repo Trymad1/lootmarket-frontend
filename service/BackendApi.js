@@ -57,6 +57,10 @@ class UserAdService {
     async deleteById(id) {
         return await restClient.delete(`/services/${id}`);
     }
+
+    async getDealsByServiceId(id) {
+        return await restClient.get(`/deals/${id}`);
+    }
 }
 
 class ReviewService {
@@ -68,8 +72,9 @@ class ReviewService {
     async deleteById(id) {
         return await restClient.delete(`/reviews/${id}`)
     }
-
 }
+
+
 
 export const apiInstance = new BackendApi();
 
