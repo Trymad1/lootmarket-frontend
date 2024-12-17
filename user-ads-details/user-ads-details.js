@@ -29,13 +29,13 @@ function renderDeals() {
         dealCard.innerHTML = `
             <strong>Имя покупателя: ${deal.buyerName}</strong>  
             <small>ID сделки: ${deal.id}</small>
-            <div>Количество: ${deal.buyedQuantity}</div>
+            <div>Количество: ${deal.buyedQuantity ? deal.buyedQuantity : 1}</div>
             <div>
                 Статус сделки: 
                 <select class="status-dropdown">
                     ${Object.keys(statusTranslations)
                 .map(status => `
-                            <option value="${status}" ${status === deal.status ? "selected" : ""}>
+                            <option value="${status}" ${status === deal.dealStatus ? "selected" : ""}>
                                 ${statusTranslations[status]}
                             </option>
                         `)
@@ -43,8 +43,8 @@ function renderDeals() {
                 </select>
             </div>
             <div>Имя платежной системы: ${deal.paymentSystemName}</div>
-            <div>Дата начала сделки: ${deal.startDate}</div>
-            <div>Дата закрытия сделки: ${deal.closeDate ? deal.closeDate : "<span class='unfinished'>Незавершена</span>"
+            <div>Дата начала сделки: ${formatDateTime(deal.dealStart)}</div>
+            <div>Дата закрытия сделки: ${deal.dealEnd ? formatDateTime(deal.dealEnd) : "<span class='unfinished'>Незавершена</span>"
             }</div>
         `;
 
@@ -96,9 +96,19 @@ function renderReviews() {
 
 let currentService;
 
+let totalDealsLabel;
+let totalCompleteDealsLabel;
+let totalCancelledDealsLabel;
+let totalInProgressDealsLabel;
+let avgRatingLabel;
+let totalReviewsLabel;
 export function init() {
-    // renderReviews(reviews);
-    renderDeals(deals);
+    totalDealsLabel = document.getElementById("total-deals");
+    totalCompleteDealsLabel = document.getElementById("completed-deals");
+    totalCancelledDealsLabel = document.getElementById("cancelled-deals");
+    totalInProgressDealsLabel = document.getElementById("in-progress-deals");
+    avgRatingLabel = document.getElementById("average-rating");
+    totalReviewsLabel = document.getElementById("total-reviews");
 }
 
 export async function open() {
@@ -108,9 +118,30 @@ export function setCurrentService(service) {
     currentService = service;
 }
 
+function updateStats() {
+    totalDealsLabel.innerHTML = deals.length;
+    totalReviewsLabel.innerHTML = reviews.length;
+    avgRatingLabel.innerHTML = 
+    (reviews.reduce( (sum, item) => sum + item.grade, 0) / reviews.length).toFixed(2);
+    let totalComplete = 0;
+    let totalCancelled = 0;
+    let totalInProgress = 0;
+    deals.forEach( deal => {
+        const status = deal.dealStatus;
+        if(status == "CANCELLED") totalCancelled++;
+        else if(status == "COMPLETE") totalComplete++;
+        else totalInProgress++;
+    })
+
+    totalCancelledDealsLabel.innerHTML = totalCancelled;
+    totalInProgressDealsLabel.innerHTML = totalInProgress;
+    totalCompleteDealsLabel.innerHTML = totalComplete;
+}
+
 export async function loadServiceData(dealId) {
     reviews = await api.reviewService.getAllByServiceId(currentService.id);
     deals = await api.adService.getDealsByServiceId(currentService.id)
+    updateStats();
     renderReviews();
     renderDeals();
 }
