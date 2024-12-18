@@ -62,38 +62,38 @@
                         <div class = "filter-same-block">
                             <div class="filter-block">
                                 <label for="deal-id">Поиск по ID:</label>
-                                <input type="text" id="deal-id" class="filter-input" placeholder="Введите ID сделки">
+                                <input type="text" id="deal-id-ad-filter" class="filter-input" placeholder="Введите ID сделки">
                             </div>
                             <div class="filter-block">
                                 <label for="buyer">Поиск по покупателю:</label>
-                                <input type="text" id="buyer" class="filter-input" placeholder="Введите имя покупателя">
+                                <input type="text" id="buyer-ad-filter" class="filter-input" placeholder="Введите имя покупателя">
                             </div>
                         </div>
                         <div class = "filter-same-block">
                             <div class="filter-block">
-                                <label for="deal-date-from">Дата начала сделки от:</label>
-                                <input type="date" id="deal-date-from" class="filter-input">
+                                <label for="deal-start-ad-date-from">Дата начала сделки от:</label>
+                                <input type="date" id="deal-start-ad-date-from" class="filter-input">
                             </div>
                             <div class="filter-block">
-                                <label for="deal-date-to">Дата начала сделки до:</label>
-                                <input type="date" id="deal-date-to" class="filter-input">
-                            </div>
-                        </div>
-                        <div class = "filter-same-block">
-                            <div class="filter-block">
-                                <label for="deal-date-from">Дата закрытия сделки от:</label>
-                                <input type="date" id="deal-date-from" class="filter-input">
-                            </div>
-                            <div class="filter-block">
-                                <label for="deal-date-to">Дата закрытия сделки до:</label>
-                                <input type="date" id="deal-date-to" class="filter-input">
+                                <label for="deal-start-ad-date-to">Дата начала сделки до:</label>
+                                <input type="date" id="deal-start-ad-date-to" class="filter-input">
                             </div>
                         </div>
                         <div class = "filter-same-block">
                             <div class="filter-block">
-                                <label for="deal-status">Поиск по статусу сделки:</label>
-                                <select id="deal-status" class="filter-select">
-                                    <option value="">Все статусы</option>
+                                <label for="deal-end-ad-date-from">Дата закрытия сделки от:</label>
+                                <input type="date" id="deal-end-ad-date-from" class="filter-input">
+                            </div>
+                            <div class="filter-block">
+                                <label for="deal-end-ad-date-to">Дата закрытия сделки до:</label>
+                                <input type="date" id="deal-end-ad-date-to" class="filter-input">
+                            </div>
+                        </div>
+                        <div class = "filter-same-block">
+                            <div class="filter-block">
+                                <label for="deal-status-ad-filter">Поиск по статусу сделки:</label>
+                                <select id="deal-status-ad-filter" class="filter-select">
+                                    <option value="any">Все статусы</option>
                                     <option value="COMPLETE">Завершено</option>
                                     <option value="CANCELLED">Отменено</option>
                                     <option value="IN_PROGRESS">В процессе</option>
@@ -102,12 +102,8 @@
     
                             <div class="filter-block">
                                 <label for="payment-system">Поиск по платежной системе:</label>
-                                <select id="payment-system" class="filter-select">
+                                <select id="payment-system-ad-filter" class="filter-select">
                                     <option value="any">Любая</option>
-                                    <option value="Visa">Visa</option>
-                                    <option value="Mastercard">Mastercard</option>
-                                    <option value="Paypal">PayPal</option>
-                                    <option value="Bitcoin">Bitcoin</option>
                                 </select>
                             </div>
                         </div>

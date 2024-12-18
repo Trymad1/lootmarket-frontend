@@ -2,6 +2,8 @@ import { apiInstance as api } from "../service/BackendApi.js";
 
 let reviews = [];
 let deals = [];
+let paymentSystems;
+
 
 const statusTranslations = {
     COMPLETE: "Завершена",
@@ -11,17 +13,18 @@ const statusTranslations = {
 
 function formatDateTime(dateTime) {
     const date = new Date(dateTime);
-    return date.toLocaleString(); 
+    return date.toLocaleString();
 }
 
 function renderDeals() {
     // Основной контейнер для сделок
     const dealsContainer = document.querySelector(".deals-container");
-    while(dealsContainer.firstChild) {
+    while (dealsContainer.firstChild) {
         dealsContainer.removeChild(dealsContainer.firstChild);
     }
-    // Генерируем карточки для каждой сделки
-    deals.forEach(deal => {
+    
+    const filteredDeals = filterDeals();
+    filteredDeals.forEach(deal => {
         const dealCard = document.createElement("div");
         dealCard.classList.add("deal-card");
 
@@ -60,7 +63,7 @@ function renderReviews() {
     filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const reviewsContainer = document.getElementsByClassName("reviews-container")[0];
-    while(reviewsContainer.firstChild) {
+    while (reviewsContainer.firstChild) {
         reviewsContainer.removeChild(reviewsContainer.firstChild);
     }
 
@@ -81,7 +84,7 @@ function renderReviews() {
             <small>Дата: ${formatDateTime(review.date)}</small>
         `;
 
-        
+
         reviewCard.querySelector(".delete-add-button").addEventListener('click', () => {
             console.log(reviews)
             reviews = reviews.filter(value => value.id != reviewCard.id);
@@ -101,16 +104,40 @@ let dateFromFilter;
 let dateToFilter;
 let userNameReviewFilter;
 
+let dealIdFilter;
+let buyerNameFilter;
+let dateFromStartFilter;
+let dateToStartFilter;
+let dateFromEndFilter;
+let dateToEndFilter;
+let dealStatusFilter;
+let paymentSystemFilter;
+
 function filterReviews() {
     const filteredReviews = reviews.filter(review => {
-        return review.grade >= minGradeFilter.value && 
-        review.grade <= maxGradeFilter.value &&
-        (dateFromFilter.value ? review.date >= dateFromFilter.value : true) &&
-        (dateToFilter.value ? review.date <= dateToFilter.value : true) &&
-        (userNameReviewFilter.value ? review.author.toLowerCase().includes(userNameReviewFilter.value.toLowerCase()) : true)
+        return review.grade >= minGradeFilter.value &&
+            review.grade <= maxGradeFilter.value &&
+            (dateFromFilter.value ? review.date >= dateFromFilter.value : true) &&
+            (dateToFilter.value ? review.date <= dateToFilter.value : true) &&
+            (userNameReviewFilter.value ? review.author.toLowerCase().includes(userNameReviewFilter.value.toLowerCase()) : true)
     });
-    console.log(filteredReviews)
+
     return filteredReviews;
+}
+
+function filterDeals() {
+    const filteredDeals = deals.filter(deal => {
+        return dealIdFilter.value ? dealIdFilter.value == deal.id : true &&
+        (buyerNameFilter.value ? deal.buyerName.toLowerCase().includes(buyerNameFilter.value.toLowerCase()) : true) &&
+        (dateFromStartFilter.value ? deal.dealStart >= dateFromStartFilter.value : true) &&
+        (dateToStartFilter.value ? deal.dealStart <= dateToStartFilter.value : true) &&
+        (dateFromEndFilter.value ? deal.dealEnd >= dateFromEndFilter.value : true) &&
+        (dateToEndFilter.value ? deal.dealEnd <= dateToEndFilter.value : true) &&
+        (paymentSystemFilter.value == "any" ? true : deal.paymentSystemName == paymentSystemFilter.value) &&
+        (dealStatusFilter.value == "any" ? true : deal.dealStatus == dealStatusFilter.value);
+    })
+
+    return filteredDeals;
 }
 
 let currentService;
@@ -122,7 +149,21 @@ let totalInProgressDealsLabel;
 let avgRatingLabel;
 let totalReviewsLabel;
 
-export function init() {
+function addPaymentSystems() {
+    const psListElement = document.getElementById("payment-system-ad-filter");
+    paymentSystems.forEach(ps => {
+        const newOption = document.createElement("option");
+        newOption.value = ps.name;
+        newOption.innerHTML = ps.name;
+        psListElement.appendChild(newOption);
+    })
+}
+
+export async function init() {
+
+    paymentSystems = await api.paymentSystemService.getAll();
+    addPaymentSystems();
+
     totalDealsLabel = document.getElementById("total-deals");
     totalCompleteDealsLabel = document.getElementById("completed-deals");
     totalCancelledDealsLabel = document.getElementById("cancelled-deals");
@@ -135,6 +176,15 @@ export function init() {
     dateFromFilter = document.getElementById("date-from");
     dateToFilter = document.getElementById("date-to");
     userNameReviewFilter = document.getElementById("author-name-review");
+
+    dealIdFilter = document.getElementById("deal-id-ad-filter");
+    buyerNameFilter = document.getElementById("buyer-ad-filter");
+    dateFromStartFilter = document.getElementById("deal-start-ad-date-from");
+    dateToStartFilter = document.getElementById("deal-start-ad-date-to")
+    dateFromEndFilter = document.getElementById("deal-end-ad-date-from")
+    dateToEndFilter = document.getElementById("deal-end-ad-date-to");
+    dealStatusFilter = document.getElementById("deal-status-ad-filter");
+    paymentSystemFilter = document.getElementById("payment-system-ad-filter");
 
     minGradeFilter.addEventListener('change', () => {
         renderReviews();
@@ -155,7 +205,39 @@ export function init() {
     userNameReviewFilter.addEventListener('input', () => {
         renderReviews();
     })
-    
+
+    dealIdFilter.addEventListener('input', () => {
+        renderDeals();
+    })
+
+    buyerNameFilter.addEventListener('input', () => {
+        renderDeals();
+    })
+
+    dateFromStartFilter.addEventListener('change', () => {
+        renderDeals();
+    })
+
+    dateToStartFilter.addEventListener('change', () => {
+        renderDeals();
+    })
+
+    dateFromEndFilter.addEventListener('change', () => {
+        renderDeals();
+    })
+
+    dateToEndFilter.addEventListener('change', () => {
+        renderDeals();
+    })
+
+    paymentSystemFilter.addEventListener('change', () => {
+        renderDeals();
+    })
+
+    dealStatusFilter.addEventListener('change', () => {
+        renderDeals();
+    })
+
 }
 
 export async function open() {
@@ -168,15 +250,15 @@ export function setCurrentService(service) {
 function updateStats() {
     totalDealsLabel.innerHTML = deals.length;
     totalReviewsLabel.innerHTML = reviews.length;
-    avgRatingLabel.innerHTML = 
-    (reviews.reduce( (sum, item) => sum + item.grade, 0) / reviews.length).toFixed(2);
+    avgRatingLabel.innerHTML =
+        (reviews.reduce((sum, item) => sum + item.grade, 0) / reviews.length).toFixed(2);
     let totalComplete = 0;
     let totalCancelled = 0;
     let totalInProgress = 0;
-    deals.forEach( deal => {
+    deals.forEach(deal => {
         const status = deal.dealStatus;
-        if(status == "CANCELLED") totalCancelled++;
-        else if(status == "COMPLETE") totalComplete++;
+        if (status == "CANCELLED") totalCancelled++;
+        else if (status == "COMPLETE") totalComplete++;
         else totalInProgress++;
     })
 

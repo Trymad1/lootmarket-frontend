@@ -8,6 +8,7 @@ class BackendApi {
         this.userService = new UserService();
         this.adService = new UserAdService();
         this.reviewService = new ReviewService();
+        this.paymentSystemService = new PaymentSystemService();
     }
 
     async login(login, password) {
@@ -72,6 +73,14 @@ class ReviewService {
     async deleteById(id) {
         return await restClient.delete(`/reviews/${id}`)
     }
+}
+
+class PaymentSystemService {
+
+    async getAll() {
+        return await restClient.get("/paymentSystems");
+    }
+
 }
 
 

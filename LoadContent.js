@@ -75,11 +75,7 @@ export async function clear() {
 }
 async function init() {
     document.getElementById('sideBarUserButton').addEventListener('click', () => {
-        if(isUserProfileOpen) {
-            showTab('users-view')
-        } else {
-            showTab('users-table')
-        }
+        showTab('users-table')
     })
     document.getElementById('sideBarAdsButton').addEventListener('click', () => showTab('user-ads'))
     document.getElementById('sideBarLogoutButton').addEventListener('click', () => {
