@@ -22,13 +22,12 @@ function renderDeals() {
     while (dealsContainer.firstChild) {
         dealsContainer.removeChild(dealsContainer.firstChild);
     }
-    
+
     const filteredDeals = filterDeals();
     filteredDeals.forEach(deal => {
         const dealCard = document.createElement("div");
         dealCard.classList.add("deal-card");
-
-        // Наполняем карточку содержимым
+        dealCard.id = deal.id;
         dealCard.innerHTML = `
             <strong>Имя покупателя: ${deal.buyerName}</strong>  
             <small>ID сделки: ${deal.id}</small>
@@ -47,14 +46,32 @@ function renderDeals() {
             </div>
             <div>Имя платежной системы: ${deal.paymentSystemName}</div>
             <div>Дата начала сделки: ${formatDateTime(deal.dealStart)}</div>
-            <div>Дата закрытия сделки: ${deal.dealEnd ? formatDateTime(deal.dealEnd) : "<span class='unfinished'>Незавершена</span>"
+            <div id="ad-close-deal-date">Дата закрытия сделки: ${deal.dealEnd ? formatDateTime(deal.dealEnd) : "<span class='unfinished'>Незавершена"
             }</div>
         `;
+        const statusChange = dealCard.querySelector(".status-dropdown");
+        if (deal.dealStatus != "IN_PROGRESS") statusChange.disabled = true;
+        statusChange.addEventListener('change', (event) => {
+            const nowIso =  new Date().toISOString().split('.')[0];
+            changeDealStatus(deal, event.target, new Date().toISOString().split('.')[0]);
+            dealCard.querySelector("#ad-close-deal-date").innerHTML = "Дата закрытия сделки: " + formatDateTime(nowIso);
+            statusChange.disabled = true;
+        })
 
-        // Добавляем карточку в контейнер
         updateStats();
         dealsContainer.appendChild(dealCard);
     });
+}
+
+function changeDealStatus(deal, statusElement, time) {
+    const updateDeal = {
+
+        dealStatus: statusElement.value,
+        buyedQuantity: deal.buyedQuantity,
+        dealEnd: time
+    }
+
+    api.adService.updateDeal(updateDeal, deal.id);
 }
 
 function renderReviews() {
@@ -128,13 +145,13 @@ function filterReviews() {
 function filterDeals() {
     const filteredDeals = deals.filter(deal => {
         return dealIdFilter.value ? dealIdFilter.value == deal.id : true &&
-        (buyerNameFilter.value ? deal.buyerName.toLowerCase().includes(buyerNameFilter.value.toLowerCase()) : true) &&
-        (dateFromStartFilter.value ? deal.dealStart >= dateFromStartFilter.value : true) &&
-        (dateToStartFilter.value ? deal.dealStart <= dateToStartFilter.value : true) &&
-        (dateFromEndFilter.value ? deal.dealEnd >= dateFromEndFilter.value : true) &&
-        (dateToEndFilter.value ? deal.dealEnd <= dateToEndFilter.value : true) &&
-        (paymentSystemFilter.value == "any" ? true : deal.paymentSystemName == paymentSystemFilter.value) &&
-        (dealStatusFilter.value == "any" ? true : deal.dealStatus == dealStatusFilter.value);
+            (buyerNameFilter.value ? deal.buyerName.toLowerCase().includes(buyerNameFilter.value.toLowerCase()) : true) &&
+            (dateFromStartFilter.value ? deal.dealStart >= dateFromStartFilter.value : true) &&
+            (dateToStartFilter.value ? deal.dealStart <= dateToStartFilter.value : true) &&
+            (dateFromEndFilter.value ? deal.dealEnd >= dateFromEndFilter.value : true) &&
+            (dateToEndFilter.value ? deal.dealEnd <= dateToEndFilter.value : true) &&
+            (paymentSystemFilter.value == "any" ? true : deal.paymentSystemName == paymentSystemFilter.value) &&
+            (dealStatusFilter.value == "any" ? true : deal.dealStatus == dealStatusFilter.value);
     })
 
     return filteredDeals;

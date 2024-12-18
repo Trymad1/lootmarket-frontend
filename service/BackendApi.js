@@ -62,6 +62,10 @@ class UserAdService {
     async getDealsByServiceId(id) {
         return await restClient.get(`/deals/${id}`);
     }
+
+    async updateDeal(updateDeal = {}, dealId) {
+        return await restClient.put(`/deals/${dealId}`, updateDeal);
+    }
 }
 
 class ReviewService {
