@@ -81,7 +81,7 @@ h1 {
 }
 
 /* Графики */
-.section canvas {
+#users-view-content .section canvas {
     height: 300px;
     width: 100%;
 }

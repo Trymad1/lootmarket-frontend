@@ -59,7 +59,6 @@ h1 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Таблица */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -67,7 +66,7 @@ table {
 
 table th, table td {
     border: 1px solid #ddd;
-    padding: 15px; /* Увеличен padding для увеличения размера строк */
+    padding: 15px; 
     text-align: left;
     color: #333;
     line-height: 1.0; /* Увеличенная высота строки */

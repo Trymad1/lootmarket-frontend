@@ -6,8 +6,9 @@ const filesName = [
     "edit-user",
     "user-ads",
     "user-ads-details",
+    "site-stat"
 ]
-const START_PAGE = 'user-ads';
+const START_PAGE = 'site-stat';
 const scriptSuffix = '.js';
 const openFuncMap = new Map();
 
@@ -80,6 +81,9 @@ async function init() {
     document.getElementById('sideBarAdsButton').addEventListener('click', () => showTab('user-ads'))
     document.getElementById('sideBarLogoutButton').addEventListener('click', () => {
         securityService.logout();
+    })
+    document.getElementById("sideBarStatsButton").addEventListener('click', () => {
+        showTab('site-stat');
     })
 }
 

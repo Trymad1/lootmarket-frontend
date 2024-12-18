@@ -1,0 +1,59 @@
+#site-stat-content {
+    display: flex;
+    width: 95%;
+    height: 100%
+}
+
+#site-stat-content .section {
+    margin-top: 10px;
+}
+
+.stats-row {
+    display: flex;
+    gap: 5px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+#summary-stats {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+#selected-date-input {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.select-date {
+    width: 250px;
+    height: 30px;
+    text-align: center;
+    font-size: 18px;
+}
+
+#span-date {
+    font-size: 24px;
+}
+
+#stats-display {
+    display: flex;
+    flex-direction: column;
+}
+
+#stats-charts {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#stats-charts canvas {
+    max-width: 1400px;
+    max-height: 400px;
+}
