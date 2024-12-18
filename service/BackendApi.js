@@ -66,6 +66,10 @@ class UserAdService {
     async updateDeal(updateDeal = {}, dealId) {
         return await restClient.put(`/deals/${dealId}`, updateDeal);
     }
+    
+    async deleteDealById(dealId) {
+        return await restClient.delete(`/deals/${dealId}`)
+    }
 }
 
 class ReviewService {

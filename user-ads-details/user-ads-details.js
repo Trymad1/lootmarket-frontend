@@ -29,7 +29,10 @@ function renderDeals() {
         dealCard.classList.add("deal-card");
         dealCard.id = deal.id;
         dealCard.innerHTML = `
-            <strong>Имя покупателя: ${deal.buyerName}</strong>  
+            <div id="deal-card-header">
+                <strong>Имя покупателя: ${deal.buyerName}</strong>  
+                <button class="delete-add-button">×</button>
+            </div>
             <small>ID сделки: ${deal.id}</small>
             <div>Количество: ${deal.buyedQuantity ? deal.buyedQuantity : 1}</div>
             <div>
@@ -49,7 +52,9 @@ function renderDeals() {
             <div id="ad-close-deal-date">Дата закрытия сделки: ${deal.dealEnd ? formatDateTime(deal.dealEnd) : "<span class='unfinished'>Незавершена"
             }</div>
         `;
+
         const statusChange = dealCard.querySelector(".status-dropdown");
+        const deleteDeal = dealCard.querySelector(".delete-add-button");
         if (deal.dealStatus != "IN_PROGRESS") statusChange.disabled = true;
         statusChange.addEventListener('change', (event) => {
             const nowIso =  new Date().toISOString().split('.')[0];
@@ -58,6 +63,12 @@ function renderDeals() {
             statusChange.disabled = true;
         })
 
+        deleteDeal.addEventListener('click', () => {
+            deals = deals.filter(value => value.id != dealCard.id);
+            dealCard.remove();
+            api.adService.deleteDealById(deal.id);
+            updateStats();
+        })
         updateStats();
         dealsContainer.appendChild(dealCard);
     });
@@ -103,12 +114,10 @@ function renderReviews() {
 
 
         reviewCard.querySelector(".delete-add-button").addEventListener('click', () => {
-            console.log(reviews)
             reviews = reviews.filter(value => value.id != reviewCard.id);
-            console.log(reviews)
-            renderReviews(reviews);
+            reviewCard.remove();
             api.reviewService.deleteById(reviewCard.id);
-
+            updateStats();
         })
         updateStats();
         reviewsContainer.appendChild(reviewCard);
@@ -202,6 +211,9 @@ export async function init() {
     dateToEndFilter = document.getElementById("deal-end-ad-date-to");
     dealStatusFilter = document.getElementById("deal-status-ad-filter");
     paymentSystemFilter = document.getElementById("payment-system-ad-filter");
+
+    pageTitle = document.getElementById("titlePage-ads-details");
+    console.log(pageTitle);
 
     minGradeFilter.addEventListener('change', () => {
         renderReviews();
@@ -305,9 +317,11 @@ function updateStats() {
     totalCompleteDealsLabel.innerHTML = totalComplete;
 }
 
+let pageTitle;
 export async function loadServiceData(dealId) {
     reviews = await api.reviewService.getAllByServiceId(currentService.id);
     deals = await api.adService.getDealsByServiceId(currentService.id)
+    pageTitle.innerHTML = `ID сервиса: ${currentService.id} | Автор: ${currentService.authorName} | Категория: ${currentService.categoryName}`
     renderReviews();
     renderDeals();
 }

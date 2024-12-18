@@ -215,3 +215,8 @@
     display: flex;
     gap: 5px;
 }
+
+#deal-card-header {
+    display: flex;
+    justify-content: space-between;
+}
