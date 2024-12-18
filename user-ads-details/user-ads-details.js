@@ -238,6 +238,27 @@ export async function init() {
         renderDeals();
     })
 
+    document.getElementById("review-filter-clear").addEventListener('click', () => {
+        minGradeFilter.value = "1";
+        maxGradeFilter.value = "5";
+        dateFromFilter.value = null;
+        dateToFilter.value = null;
+        userNameReviewFilter.value = "";
+        renderReviews();
+    })
+
+    document.getElementById("deals-filter-clear").addEventListener('click', () => {
+        dealIdFilter.value = "";
+        buyerNameFilter.value = "";
+        dealStatusFilter.value = "any";
+        paymentSystemFilter.value = "any";
+        dateFromStartFilter.value = null;
+        dateToStartFilter.value = null;
+        dateFromEndFilter.value = null;
+        dateToEndFilter.value = null;
+        renderDeals();
+    })
+
 }
 
 export async function open() {

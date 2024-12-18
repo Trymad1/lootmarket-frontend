@@ -8,7 +8,10 @@
                 <div class="block-header">
                     <h2 id="reviews-ads-title">Отзывы</h2>
                     <div class="filters">
-                        <input type="text" id="author-name-review" placeholder="Поиск по автору" class="filter-input">
+                        <div class = "filter-same-block">
+                            <input type="text" id="author-name-review" placeholder="Поиск по автору" class="filter-input">
+                            <button id="review-filter-clear">Фильтры по умолчанию</button>
+                        </div>
                             <div class="filter-same-block">
                                 <div class="filter-block">
                                     <label for="rating-from">Оценка от:</label>
@@ -61,13 +64,12 @@
                     <div id="deals-filters" class="filters">
                         <div class = "filter-same-block">
                             <div class="filter-block">
-                                <label for="deal-id">Поиск по ID:</label>
                                 <input type="text" id="deal-id-ad-filter" class="filter-input" placeholder="Введите ID сделки">
                             </div>
                             <div class="filter-block">
-                                <label for="buyer">Поиск по покупателю:</label>
                                 <input type="text" id="buyer-ad-filter" class="filter-input" placeholder="Введите имя покупателя">
                             </div>
+                            <button id="deals-filter-clear">Фильтры по умолчанию</button>
                         </div>
                         <div class = "filter-same-block">
                             <div class="filter-block">
