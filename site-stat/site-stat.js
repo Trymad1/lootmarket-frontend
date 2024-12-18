@@ -1,11 +1,14 @@
+import { apiInstance as api} from "../service/BackendApi.js";
 
 
-// Массивы для фейковых данных
 let attendanceData = [];
 let revenueData = [];
 let userRegistrationData = [];
-let charts = []; // Массив для хранения ссылок на графики
+let charts = []; 
 
+export function toIso(date) {
+    return new Date(date).toISOString().split('.')[0];
+}
 // Генерация случайной даты в формате YYYY-MM-DD
 function generateRandomDate(startDate, endDate) {
     const start = new Date(startDate);
@@ -34,13 +37,26 @@ function getMonthLabels(data) {
     return Array.from(months).sort(); // Сортируем месяцы
 }
 
-// Функция для инициализации данных
+
+let dateFromFilter;
+let dateToFilter;
 export function init() {
+    dateFromFilter = document.getElementById("stats-date-from");
+    dateToFilter = document.getElementById("stats-date-to");
+    
+    dateFromFilter.addEventListener('change', () => {
+        loadStats();
+    })
+
+    dateToFilter.addEventListener('change', () => {
+        loadStats();
+    })
+
     const numRecords = 100;
     const startDate = '2023-01-01';
     const endDate = '2024-12-31';
 
-    // Генерация фейковых данных
+   
     attendanceData = generateFakeData(numRecords, startDate, endDate);
     revenueData = Array.from({ length: numRecords }, () => ({
         date: generateRandomDate(startDate, endDate),
@@ -49,15 +65,22 @@ export function init() {
     userRegistrationData = generateFakeData(numRecords, startDate, endDate);
 }
 
-// Функция для создания графиков
-export function open() {
-    // Удаление старых графиков, если они существуют
+async function loadStats() {
+    const dateFrom = dateFromFilter.value ? toIso(dateFromFilter.value) : null;
+    const dateTo = dateToFilter.value ? toIso(dateToFilter.value) : null;
+
+    const statsByDate = await api.stats.getByDate(dateFrom, dateTo)
+    console.log(statsByDate);
+}
+
+
+export async function open() {
+
     charts.forEach(chart => {
         chart.destroy();
     });
-    charts = []; // Очищаем массив ссылок на графики
+    charts = []; 
 
-    // Получаем уникальные месяцы для графиков
     const attendanceLabels = getMonthLabels(attendanceData);
     const attendanceCounts = attendanceLabels.map(month => {
         return attendanceData.filter(date => date.slice(0, 7) === month).length;
@@ -123,4 +146,5 @@ export function open() {
         }
     });
     charts.push(chart3); // Добавляем график в массив
+
 }

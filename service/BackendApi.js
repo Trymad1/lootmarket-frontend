@@ -1,3 +1,4 @@
+import { toIso } from '../site-stat/site-stat.js';
 import { restClient } from '../web/RestClient.js';
 
 
@@ -9,6 +10,7 @@ class BackendApi {
         this.adService = new UserAdService();
         this.reviewService = new ReviewService();
         this.paymentSystemService = new PaymentSystemService();
+        this.stats = new StatService();
     }
 
     async login(login, password) {
@@ -89,6 +91,19 @@ class PaymentSystemService {
         return await restClient.get("/paymentSystems");
     }
 
+}
+
+class StatService {
+
+
+    async getByDate(fromParam, toParam) {
+        const params = {
+            from: fromParam,
+            to: toParam
+        }
+        console.log(params);
+        return await restClient.get("/stats", params);
+    }
 }
 
 

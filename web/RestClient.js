@@ -5,9 +5,10 @@ class RestClient {
         this.token;
     }
 
-    async get(endpoint) {
+    async get(endpoint, queryParams) {
         const response = await axios.get(`${this.domen}${endpoint}`, {
-            headers: this.token ? { 'Authorization': `Bearer ${this.token}` } : {} 
+            headers: this.token ? { 'Authorization': `Bearer ${this.token}` } : {},
+            params: queryParams ? queryParams : {}
         })
 
         return response.data
