@@ -17,7 +17,6 @@ function formatDateTime(dateTime) {
 }
 
 function renderDeals() {
-    // Основной контейнер для сделок
     const dealsContainer = document.querySelector(".deals-container");
     while (dealsContainer.firstChild) {
         dealsContainer.removeChild(dealsContainer.firstChild);
@@ -290,7 +289,12 @@ export async function init() {
 
 }
 
+import { stateUtil } from "../service/StateService.js";
 export async function open() {
+    if(stateUtil.dealsState.isUpdateRequired) {
+        loadServiceData();
+        stateUtil.dealsState.setUpdateRequired(false);
+    }
 }
 
 export function setCurrentService(service) {
@@ -318,7 +322,7 @@ function updateStats() {
 }
 
 let pageTitle;
-export async function loadServiceData(dealId) {
+export async function loadServiceData() {
     reviews = await api.reviewService.getAllByServiceId(currentService.id);
     deals = await api.adService.getDealsByServiceId(currentService.id)
     pageTitle.innerHTML = `ID сервиса: ${currentService.id} | Автор: ${currentService.authorName} | Категория: ${currentService.categoryName}`

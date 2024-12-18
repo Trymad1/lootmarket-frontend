@@ -25,6 +25,8 @@ async function updateUser(user) {
 
 import { setUpdateRequired } from "../users-view/users-view.js";
 import { updateUserRowByMail } from "../users-table/users-table.js";
+import { stateUtil } from "../service/StateService.js";
+
 export async function init() {
     nameField = document.getElementById('edit-user-name');
     mailField = document.getElementById('edit-user-mail')
@@ -48,6 +50,8 @@ export async function init() {
 
         setUpdateRequired(true);
         updateUser(currentUser);
+        stateUtil.userAdState.setUpdateRequired(true);
+        stateUtil.dealsState.setUpdateRequired(true);
         updateUserRowByMail(oldMail, currentUser)
         showTab('users-view')
     })

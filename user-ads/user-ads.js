@@ -18,6 +18,7 @@
 
 import { showTab } from "../LoadContent.js";
 import { apiInstance as api } from "../service/BackendApi.js";
+import { stateUtil } from "../service/StateService.js";
 
 let ads = [];
 
@@ -137,7 +138,10 @@ export async function init() {
     })
 
 }
-
-export function open() {
-
+export async function open() {
+    if(stateUtil.userAdState.isUpdateRequired) {
+        ads = await api.adService.getAllAds();
+        displayAds();
+        stateUtil.userAdState.setUpdateRequired(false);
+    }
 }
