@@ -1,110 +1,88 @@
 import { apiInstance as api} from "../service/BackendApi.js";
 
 
-let attendanceData = [];
-let revenueData = [];
-let userRegistrationData = [];
+let activitiesTime = [];
+let profitData = [];
+let registrationTimes = [];
 let charts = []; 
 
 export function toIso(date) {
     return new Date(date).toISOString().split('.')[0];
 }
-// Генерация случайной даты в формате YYYY-MM-DD
-function generateRandomDate(startDate, endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    return randomDate.toISOString().split('T')[0]; // Возвращаем в формате YYYY-MM-DD
-}
-
-// Генерация фейковых данных для графиков
-function generateFakeData(numRecords, startDate, endDate) {
-    const data = [];
-    for (let i = 0; i < numRecords; i++) {
-        const randomDate = generateRandomDate(startDate, endDate);
-        data.push(randomDate);
-    }
-    return data;
-}
-
-// Функция для получения уникальных месяцев
-function getMonthLabels(data) {
-    const months = new Set();
-    data.forEach(date => {
-        const month = date.slice(0, 7); // Вырезаем месяц (YYYY-MM)
-        months.add(month);
-    });
-    return Array.from(months).sort(); // Сортируем месяцы
-}
 
 
 let dateFromFilter;
 let dateToFilter;
-export function init() {
+export async function init() {
     dateFromFilter = document.getElementById("stats-date-from");
     dateToFilter = document.getElementById("stats-date-to");
     
     dateFromFilter.addEventListener('change', () => {
-        loadStats();
+        updateStat();
     })
 
     dateToFilter.addEventListener('change', () => {
-        loadStats();
+        updateStat();
     })
 
     const numRecords = 100;
     const startDate = '2023-01-01';
     const endDate = '2024-12-31';
 
-   
-    attendanceData = generateFakeData(numRecords, startDate, endDate);
-    revenueData = Array.from({ length: numRecords }, () => ({
-        date: generateRandomDate(startDate, endDate),
-        revenue: Math.floor(Math.random() * 10000)
-    }));
-    userRegistrationData = generateFakeData(numRecords, startDate, endDate);
+    updateStat();
+
 }
 
+async function updateStat() {
+    await loadStats();
+    await open();
+    renderInfo();
+}
 async function loadStats() {
     const dateFrom = dateFromFilter.value ? toIso(dateFromFilter.value) : null;
     const dateTo = dateToFilter.value ? toIso(dateToFilter.value) : null;
 
     const statsByDate = await api.stats.getByDate(dateFrom, dateTo)
-    console.log(statsByDate);
+    activitiesTime = statsByDate.activities.flat();
+    
 }
 
+function groupDatesByMonth(dates) {
+    const monthCounts = {}; // О    бъект для хранения количества записей для каждого месяца
 
-export async function open() {
+    dates.forEach(date => {
+        const monthYear = date.slice(0, 7); // Получаем строку вида 'YYYY-MM' для группировки
+        if (!monthCounts[monthYear]) {
+            monthCounts[monthYear] = 0;
+        }
+        monthCounts[monthYear] += 1; // Увеличиваем счетчик для месяца
+    });
 
+    // Преобразуем объект в массив для использования в графике
+    const months = Object.keys(monthCounts);
+    const counts = months.map(month => monthCounts[month]);
+
+    return { months, counts };
+}
+
+function renderInfo() {
     charts.forEach(chart => {
         chart.destroy();
     });
     charts = []; 
 
-    const attendanceLabels = getMonthLabels(attendanceData);
-    const attendanceCounts = attendanceLabels.map(month => {
-        return attendanceData.filter(date => date.slice(0, 7) === month).length;
-    });
+    console.log(activitiesTime)
+    const groupActivyDates = groupDatesByMonth(activitiesTime);
 
-    const revenueLabels = getMonthLabels(revenueData.map(item => item.date));
-    const revenueCounts = revenueLabels.map(month => {
-        return revenueData.filter(item => item.date.slice(0, 7) === month).reduce((sum, item) => sum + item.revenue, 0);
-    });
 
-    const userRegistrationLabels = getMonthLabels(userRegistrationData);
-    const userRegistrationCounts = userRegistrationLabels.map(month => {
-        return userRegistrationData.filter(date => date.slice(0, 7) === month).length;
-    });
-
-    // Строим график посещаемости
     const ctx1 = document.getElementById('stat-chart-1').getContext('2d');
     const chart1 = new Chart(ctx1, {
         type: 'line',
         data: {
-            labels: attendanceLabels,
+            labels: groupActivyDates.months,
             datasets: [{
                 label: 'Посещаемость',
-                data: attendanceCounts,
+                data: groupActivyDates.counts,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 fill: true
@@ -113,38 +91,41 @@ export async function open() {
     });
     charts.push(chart1); // Добавляем график в массив
 
-    // Строим график доходов
-    const ctx2 = document.getElementById('stat-chart-2').getContext('2d');
-    const chart2 = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: revenueLabels,
-            datasets: [{
-                label: 'Заработанные деньги',
-                data: revenueCounts,
-                borderColor: 'rgba(153, 102, 255, 1)',
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                fill: true
-            }]
-        }
-    });
-    charts.push(chart2); // Добавляем график в массив
+    // // Строим график доходов
+    // const ctx2 = document.getElementById('stat-chart-2').getContext('2d');
+    // const chart2 = new Chart(ctx2, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: revenueLabels,
+    //         datasets: [{
+    //             label: 'Заработанные деньги',
+    //             data: revenueCounts,
+    //             borderColor: 'rgba(153, 102, 255, 1)',
+    //             backgroundColor: 'rgba(153, 102, 255, 0.2)',
+    //             fill: true
+    //         }]
+    //     }
+    // });
+    // charts.push(chart2); // Добавляем график в массив
 
-    // Строим график регистрации пользователей
-    const ctx3 = document.getElementById('stat-chart-3').getContext('2d');
-    const chart3 = new Chart(ctx3, {
-        type: 'line',
-        data: {
-            labels: userRegistrationLabels,
-            datasets: [{
-                label: 'Зарегистрированные пользователи',
-                data: userRegistrationCounts,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                fill: true
-            }]
-        }
-    });
-    charts.push(chart3); // Добавляем график в массив
+    // // Строим график регистрации пользователей
+    // const ctx3 = document.getElementById('stat-chart-3').getContext('2d');
+    // const chart3 = new Chart(ctx3, {
+    //     type: 'line',
+    //     data: {
+    //         labels: userRegistrationLabels,
+    //         datasets: [{
+    //             label: 'Зарегистрированные пользователи',
+    //             data: userRegistrationCounts,
+    //             borderColor: 'rgba(255, 99, 132, 1)',
+    //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    //             fill: true
+    //         }]
+    //     }
+    // });
+    // charts.push(chart3); // Добавляем график в массив
+
+}
+export async function open() {
 
 }
