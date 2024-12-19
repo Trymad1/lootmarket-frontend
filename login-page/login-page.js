@@ -10,8 +10,6 @@ const loginForm = document.getElementById('login-form');
     loginUser(email, password);
 });
 
-loginUser("Oleg@gmail.com", "password"); // while testing app TODO remove
-
 async function loginUser(email, password) {
         
         const errorContainer = document.getElementById('login-error');
@@ -19,7 +17,7 @@ async function loginUser(email, password) {
     
         
         const response = await securityService.login(email, password);
-
+        console.log(response);
         if(response === true) {
             errorContainer.style.display = 'none';
             document.getElementById("login-page-content").style.display = "none";
