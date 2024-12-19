@@ -29,7 +29,6 @@ import { setUpdateRequired } from "../users-view/users-view.js";
 async function displayAds(filter = {}) {
     const adsContainer = document.getElementById('ads-container');
     adsContainer.innerHTML = '';
-    adsContainer.display = "flex";
     ads.filter(ad => {
         const matchesUser = filter.user
             ? ad.authorName.toLowerCase().includes(filter.user.toLowerCase())
