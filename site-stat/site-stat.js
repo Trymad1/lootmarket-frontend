@@ -17,6 +17,11 @@ export async function init() {
     dateFromFilter = document.getElementById("stats-date-from");
     dateToFilter = document.getElementById("stats-date-to");
     
+
+    allDealsCount = document.getElementById("all-deals-count");
+    allDealsValue = document.getElementById("all-deals-value");
+    allDealsProfit = document.getElementById("all-deals-profit");
+
     dateFromFilter.addEventListener('change', () => {
         updateStat();
     })
@@ -25,26 +30,35 @@ export async function init() {
         updateStat();
     })
 
-    const numRecords = 100;
-    const startDate = '2023-01-01';
-    const endDate = '2024-12-31';
-
     updateStat();
 
 }
 
+
+let allDealsCount;
+let allDealsValue;
+let allDealsProfit;
 async function updateStat() {
-    await loadStats();
-    await open();
+    const statsByDate = await loadStats();
+    activitiesTime = statsByDate.activities.flat();
+    allDealsCount.innerHTML = statsByDate.deals.flat().length
+    console.log(statsByDate.deals)
+
+    let sumProfit = 0;
+    allDealsValue.innerHTML = BigInt(statsByDate.deals.reduce( (sum, item) =>  {
+        sum += item.sum;
+        sumProfit += (item.sum * 0.15);
+        return sum;
+    }, 0)).toLocaleString('ru-RU');
+
+    allDealsProfit.innerHTML = Math.floor(sumProfit).toLocaleString('ru-RU');;
     renderInfo();
 }
 async function loadStats() {
     const dateFrom = dateFromFilter.value ? toIso(dateFromFilter.value) : null;
     const dateTo = dateToFilter.value ? toIso(dateToFilter.value) : null;
 
-    const statsByDate = await api.stats.getByDate(dateFrom, dateTo)
-    activitiesTime = statsByDate.activities.flat();
-    
+    return await api.stats.getByDate(dateFrom, dateTo)
 }
 
 function groupDatesByMonth(dates) {
@@ -58,7 +72,7 @@ function groupDatesByMonth(dates) {
         monthCounts[monthYear] += 1; // Увеличиваем счетчик для месяца
     });
 
-    // Преобразуем объект в массив для использования в графике
+    // Преобразуем объект в массив для использования в графке
     const months = Object.keys(monthCounts);
     const counts = months.map(month => monthCounts[month]);
 
@@ -81,7 +95,7 @@ function renderInfo() {
         data: {
             labels: groupActivyDates.months,
             datasets: [{
-                label: 'Посещаемость',
+                label: 'Посещаемость сайта',
                 data: groupActivyDates.counts,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -89,41 +103,39 @@ function renderInfo() {
             }]
         }
     });
-    charts.push(chart1); // Добавляем график в массив
+    charts.push(chart1); 
 
-    // // Строим график доходов
-    // const ctx2 = document.getElementById('stat-chart-2').getContext('2d');
-    // const chart2 = new Chart(ctx2, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: revenueLabels,
-    //         datasets: [{
-    //             label: 'Заработанные деньги',
-    //             data: revenueCounts,
-    //             borderColor: 'rgba(153, 102, 255, 1)',
-    //             backgroundColor: 'rgba(153, 102, 255, 0.2)',
-    //             fill: true
-    //         }]
-    //     }
-    // });
-    // charts.push(chart2); // Добавляем график в массив
+    const ctx2 = document.getElementById('stat-chart-2').getContext('2d');
+    const chart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Оборот средств',
+                data: [],
+                borderColor: 'rgba(153, 102, 255, 1)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                fill: true
+            }]
+        }
+    });
+    charts.push(chart2);
 
-    // // Строим график регистрации пользователей
-    // const ctx3 = document.getElementById('stat-chart-3').getContext('2d');
-    // const chart3 = new Chart(ctx3, {
-    //     type: 'line',
-    //     data: {
-    //         labels: userRegistrationLabels,
-    //         datasets: [{
-    //             label: 'Зарегистрированные пользователи',
-    //             data: userRegistrationCounts,
-    //             borderColor: 'rgba(255, 99, 132, 1)',
-    //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    //             fill: true
-    //         }]
-    //     }
-    // });
-    // charts.push(chart3); // Добавляем график в массив
+    const ctx3 = document.getElementById('stat-chart-3').getContext('2d');
+    const chart3 = new Chart(ctx3, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Зарегистрированные пользователи',
+                data: [],
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: true
+            }]
+        }
+    });
+    charts.push(chart3); 
 
 }
 export async function open() {
