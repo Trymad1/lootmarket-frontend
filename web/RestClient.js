@@ -1,7 +1,7 @@
 class RestClient {
 
     constructor(apiDomen) {
-        this.domen = "http://localhost:8080/api"
+        this.domen = "http://backend:8080/api"
         this.token;
     }
 
