@@ -14,7 +14,7 @@
 }
 
 #ads-container {
-    display: grid;
+    display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 15px;
 }
@@ -26,6 +26,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     transition: transform 0.2s;
+    display: flex !important;
 }
 
 .ad-card:hover {

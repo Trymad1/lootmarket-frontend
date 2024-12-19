@@ -49,7 +49,6 @@ async function displayAds(filter = {}) {
         const adCard = document.createElement('div');
         adCard.className = 'ad-card';
         adCard.id = `${ad.id}`
-        adsContainer.display = "flex";
         adCard.innerHTML = `
         <div class="ad-header">
             <div>
