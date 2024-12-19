@@ -24,6 +24,7 @@ let ads = [];
 
 
 import { loadServiceData, setCurrentService } from "../user-ads-details/user-ads-details.js";
+import { setUpdateRequired } from "../users-view/users-view.js";
 // Функция для отображения объявлений
 function displayAds(filter = {}) {
     const adsContainer = document.getElementById('ads-container');
@@ -94,7 +95,8 @@ function displayAds(filter = {}) {
 
 export async function init() {
     ads = await api.adService.getAllAds();
-    displayAds();
+    displayAds({});
+    stateUtil.userAdState.setUpdateRequired(false);
 
     const userInput = document.getElementById('filter-user');
     const categoryInput = document.getElementById('filter-category');
@@ -141,7 +143,7 @@ export async function init() {
 export async function open() {
     if(stateUtil.userAdState.isUpdateRequired) {
         ads = await api.adService.getAllAds();
-        displayAds();
+        displayAds({});
         stateUtil.userAdState.setUpdateRequired(false);
     }
 }
