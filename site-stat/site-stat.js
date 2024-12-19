@@ -62,17 +62,16 @@ async function loadStats() {
 }
 
 function groupDatesByMonth(dates) {
-    const monthCounts = {}; // О    бъект для хранения количества записей для каждого месяца
+    const monthCounts = {}; 
 
     dates.forEach(date => {
-        const monthYear = date.slice(0, 7); // Получаем строку вида 'YYYY-MM' для группировки
+        const monthYear = date.slice(0, 7); 
         if (!monthCounts[monthYear]) {
             monthCounts[monthYear] = 0;
         }
-        monthCounts[monthYear] += 1; // Увеличиваем счетчик для месяца
+        monthCounts[monthYear] += 1; 
     });
 
-    // Преобразуем объект в массив для использования в графке
     const months = Object.keys(monthCounts);
     const counts = months.map(month => monthCounts[month]);
 

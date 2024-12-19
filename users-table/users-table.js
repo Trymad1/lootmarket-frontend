@@ -7,7 +7,7 @@ let users = [];
 
 function renderTable(filteredUsers) {
     const tbody = document.getElementById('user-table-body');
-    tbody.innerHTML = ''; // Очистка перед рендерингом
+    tbody.innerHTML = ''; 
 
     filteredUsers.forEach(user => {
         const row = document.createElement('tr');
@@ -19,19 +19,19 @@ function renderTable(filteredUsers) {
     });
 }
 
-// Добавлено: Функция обработки фильтров
+
 function handleFilters() {
     const searchTerm = document.getElementById('search').value.toLowerCase();
-    const showOnlyBanned = document.getElementById('filter-banned').checked; // Фильтр заблокированных
-    const selectedRole = document.getElementById('filter-role').value; // Фильтр по роли
+    const showOnlyBanned = document.getElementById('filter-banned').checked; 
+    const selectedRole = document.getElementById('filter-role').value; 
 
     const filteredUsers = users.filter(user => {
         const matchesSearch =
             (searchTerm.includes('@') && user.mail.toLowerCase().includes(searchTerm)) ||
             user.name.toLowerCase().includes(searchTerm);
 
-        const matchesBanned = !showOnlyBanned || user.banned; // Фильтр заблокированных
-        const matchesRole = !selectedRole || user.roles[0] === selectedRole; // Фильтр по роли
+        const matchesBanned = !showOnlyBanned || user.banned; 
+        const matchesRole = !selectedRole || user.roles[0] === selectedRole; 
 
         return matchesSearch && matchesBanned && matchesRole;
     });
@@ -74,7 +74,7 @@ function addListeners() {
 
 export async function init() {
     users = await api.userService.getUsers();
-    addFilterListeners(); // Добавлено
+    addFilterListeners(); 
     addListeners();
     renderTable(users);
 }
@@ -84,13 +84,13 @@ function findUserRowByMail(mail) {
     const rows = tbody.getElementsByTagName('tr');
 
     for (let i = 0; i < rows.length; i++) {
-        const emailCell = rows[i].getElementsByTagName('td')[1]; // Столбец Email
+        const emailCell = rows[i].getElementsByTagName('td')[1]; 
         if (emailCell && emailCell.textContent.trim() === mail) {
-            return rows[i]; // Возвращаем найденную строку
+            return rows[i]; 
         }
     }
 
-    return null; // Если пользователь не найден
+    return null;
 }
 
 export function updateUserRowByMail(mail, user) {

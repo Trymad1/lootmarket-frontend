@@ -85,7 +85,6 @@ function changeDealStatus(deal, statusElement, time) {
 }
 
 function renderReviews() {
-    // Сортируем отзывы по дате, от новых к старым
     const filteredReviews = filterReviews();
     filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
 

@@ -1,16 +1,16 @@
-/* Основные стили для контейнера */
+
 #user-ads-details-content {
     width: 100%;
-    min-height: 100vh; /* Минимальная высота для всего контента */
+    min-height: 100vh; 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
 }
 
-/* Заголовок страницы */
+
 #header-ads-details-block {
-    width: 80%; /* Устанавливаем ширину блока заголовка */
+    width: 80%; 
     background-color: #f4f4f4;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -25,12 +25,12 @@
     color: #333;
 }
 
-/* Основной контейнер с отзывами и сделками */
+
 #details-content {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Два столбца для отзывов и сделок */
+    grid-template-columns: 1fr 1fr; 
     gap: 20px;
-    width: 80%; /* Контейнер займет 80% ширины экрана */
+    width: 80%;
     margin-top: 30px;
 }
 
@@ -54,17 +54,17 @@
     color: #333;
 }
 
-/* Контейнер с отзывами, будет прокручиваться при необходимости */
+
 .reviews-container {
-    height: 300px; /* Фиксированная высота для контейнера с отзывами */
-    overflow-y: auto; /* Прокрутка по вертикали */
+    height: 300px; 
+    overflow-y: auto; 
     padding: 10px;
     background-color: #fafafa;
     border-radius: 8px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Контейнер для сделок */
+
 #deals-ads-block {
     display: flex;
     flex-direction: column;

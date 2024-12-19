@@ -1,14 +1,14 @@
-/* Внутренний контейнер для таблицы и поиска */
+
 #users-table-content {
     width: 50%;
-    /* Половина ширины контента */
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Центрирование элементов внутри */
+
 }
 
-/* Заголовки */
+
 h1 {
     font-size: 22px;
     color: #333;
@@ -19,7 +19,6 @@ h1 {
     width: 100%;
 }
 
-/* Поисковое поле */
 #search {
     width: 100%;
     padding: 10px;
@@ -36,12 +35,11 @@ h1 {
     color: #aaa;
 }
 
-/* Контейнер для таблицы */
-/* Контейнер для таблицы */
+
 .users-table-container {
-    width: 103%; /* Использует всю ширину родительского элемента */
-    height: 700px; /* Фиксированная высота для контейнера */
-    overflow-y: auto; /* Включение вертикальной прокрутки */
+    width: 103%; 
+    height: 700px; 
+    overflow-y: auto; 
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #fff;
@@ -53,9 +51,9 @@ h1 {
 .search-container {
     padding: 10px 20px;
     background-color: #f9f9f9;
-    position: sticky; /* Прилипание поиска */
-    top: 0; /* Прилегание к верхней части контейнера */
-    z-index: 1; /* Чтобы поиск был поверх таблицы */
+    position: sticky; 
+    top: 0; 
+    z-index: 1; 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -69,8 +67,8 @@ table th, table td {
     padding: 15px; 
     text-align: left;
     color: #333;
-    line-height: 1.0; /* Увеличенная высота строки */
-    font-size: 16px; /* Немного увеличен размер шрифта */
+    line-height: 1.0; 
+    font-size: 16px; 
 }
 
 table th {
@@ -85,23 +83,23 @@ table tr:hover {
 }
 
 #users-view-content {
-    width: 700px; /* Использует всю ширину родительского элемента */
+    width: 700px; 
     height: 700px; 
 }
 
-/* Стили для фильтров */
+
 .filter-container {
     display: flex;
-    gap: 15px; /* Отступ между фильтрами */
-    margin-bottom: 20px; /* Отступ снизу */
-    align-items: center; /* Вертикальное выравнивание */
+    gap: 15px; 
+    margin-bottom: 20px; 
+    align-items: center; 
 }
 
-/* Чекбокс */
+
 .filter-checkbox {
     display: flex;
     align-items: center;
-    gap: 8px; /* Отступ между чекбоксом и текстом */
+    gap: 8px; 
     font-size: 16px;
     color: #333;
     font-weight: bold;
@@ -114,7 +112,7 @@ table tr:hover {
     cursor: pointer;
 }
 
-/* Выпадающий список */
+
 .filter-select {
     padding: 10px;
     font-size: 16px;
