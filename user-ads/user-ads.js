@@ -26,9 +26,10 @@ let ads = [];
 import { loadServiceData, setCurrentService } from "../user-ads-details/user-ads-details.js";
 import { setUpdateRequired } from "../users-view/users-view.js";
 // Функция для отображения объявлений
-function displayAds(filter = {}) {
+async function displayAds(filter = {}) {
     const adsContainer = document.getElementById('ads-container');
     adsContainer.innerHTML = '';
+    adsContainer.display = "flex";
     ads.filter(ad => {
         const matchesUser = filter.user
             ? ad.authorName.toLowerCase().includes(filter.user.toLowerCase())
@@ -48,6 +49,7 @@ function displayAds(filter = {}) {
         const adCard = document.createElement('div');
         adCard.className = 'ad-card';
         adCard.id = `${ad.id}`
+        adsContainer.display = "flex";
         adCard.innerHTML = `
         <div class="ad-header">
             <div>
