@@ -21,6 +21,8 @@ export async function init() {
     allDealsCount = document.getElementById("all-deals-count");
     allDealsValue = document.getElementById("all-deals-value");
     allDealsProfit = document.getElementById("all-deals-profit");
+    allUsersRegistration = document.getElementById("all-users-stat");
+    allServicePlaced = document.getElementById("all-services-placed");
 
     dateFromFilter.addEventListener('change', () => {
         updateStat();
@@ -38,10 +40,14 @@ export async function init() {
 let allDealsCount;
 let allDealsValue;
 let allDealsProfit;
+let allUsersRegistration;
+let allServicePlaced;
 async function updateStat() {
     const statsByDate = await loadStats();
     activitiesTime = statsByDate.activities.flat();
     allDealsCount.innerHTML = statsByDate.deals.flat().length
+    allUsersRegistration.innerHTML = statsByDate.registration.flat().length
+    allServicePlaced.innerHTML = statsByDate.services.flat().length;
     console.log(statsByDate.deals)
 
     let sumProfit = 0;
