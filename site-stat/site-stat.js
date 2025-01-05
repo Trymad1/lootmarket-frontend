@@ -45,6 +45,7 @@ let allServicePlaced;
 async function updateStat() {
     const statsByDate = await loadStats();
     activitiesTime = statsByDate.activities.flat();
+    registrationTimes = statsByDate.registration.flat();
     allDealsCount.innerHTML = statsByDate.deals.flat().length
     allUsersRegistration.innerHTML = statsByDate.registration.flat().length
     allServicePlaced.innerHTML = statsByDate.services.flat().length;
@@ -90,8 +91,8 @@ function renderInfo() {
     });
     charts = []; 
 
-    console.log(activitiesTime)
     const groupActivyDates = groupDatesByMonth(activitiesTime);
+    const registrationUser = groupDatesByMonth(registrationTimes)
 
 
     const ctx1 = document.getElementById('stat-chart-1').getContext('2d');
@@ -130,10 +131,10 @@ function renderInfo() {
     const chart3 = new Chart(ctx3, {
         type: 'line',
         data: {
-            labels: [],
+            labels: registrationUser.months,
             datasets: [{
                 label: 'Зарегистрированные пользователи',
-                data: [],
+                data: registrationUser.counts,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 fill: true
