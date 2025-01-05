@@ -2,7 +2,7 @@ import { apiInstance as api} from "../service/BackendApi.js";
 
 
 let activitiesTime = [];
-let profitData = [];
+let dealsArr = [];
 let registrationTimes = [];
 let charts = []; 
 
@@ -46,6 +46,7 @@ async function updateStat() {
     const statsByDate = await loadStats();
     activitiesTime = statsByDate.activities.flat();
     registrationTimes = statsByDate.registration.flat();
+    dealsArr = statsByDate.deals.flat();
     allDealsCount.innerHTML = statsByDate.deals.flat().length
     allUsersRegistration.innerHTML = statsByDate.registration.flat().length
     allServicePlaced.innerHTML = statsByDate.services.flat().length;
@@ -85,6 +86,25 @@ function groupDatesByMonth(dates) {
     return { months, counts };
 }
 
+function groupDealsByMonth(deals) {
+    const monthSums = {}; 
+
+    deals.forEach(deal => {
+        const monthYear = deal.time.slice(0, 7); 
+        
+        if (!monthSums[monthYear]) {
+            monthSums[monthYear] = 0;
+        }
+        
+        monthSums[monthYear] += deal.sum;
+    });
+
+    const months = Object.keys(monthSums);
+    const sums = months.map(month => monthSums[month]);
+
+    return { months, sums };
+}
+
 function renderInfo() {
     charts.forEach(chart => {
         chart.destroy();
@@ -92,8 +112,8 @@ function renderInfo() {
     charts = []; 
 
     const groupActivyDates = groupDatesByMonth(activitiesTime);
-    const registrationUser = groupDatesByMonth(registrationTimes)
-
+    const registrationUser = groupDatesByMonth(registrationTimes);
+    const dealsByMoths = groupDealsByMonth(dealsArr);
 
     const ctx1 = document.getElementById('stat-chart-1').getContext('2d');
     const chart1 = new Chart(ctx1, {
@@ -115,10 +135,10 @@ function renderInfo() {
     const chart2 = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: [],
+            labels: dealsByMoths.months,
             datasets: [{
                 label: 'Оборот средств',
-                data: [],
+                data: dealsByMoths.sums,
                 borderColor: 'rgba(153, 102, 255, 1)',
                 backgroundColor: 'rgba(153, 102, 255, 0.2)',
                 fill: true
