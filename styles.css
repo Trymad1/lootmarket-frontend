@@ -71,21 +71,26 @@ body {
 }
 
 #user-info {
-    width: 100%;
-    background-color: #e6e6e6; /* Серый фон */
-    border: 1px solid #ddd; /* Граница */
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 15px; /* Отступ от остальных кнопок */
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; /* Светлый фон для выделения */
+    border: 1px solid #ddd;   /* Тонкая граница */
+    padding: 20px;            /* Внутренние отступы */
+    max-width: 300px;         /* Ограничение ширины */
+    margin: 20px auto;        /* Центрирование и внешний отступ */
+}
+
+#user-info h3 {
+    font-size: 24px;
+    color: #333;              /* Тёмный цвет текста */
+    margin-bottom: 1px;      /* Отступ снизу */
 }
 
 #user-info p {
-    margin: 5px 0; /* Уменьшаем отступы между текстом */
-    font-size: 17px;
-    color: #333;
+    font-size: 1rem;          /* Стандартный размер текста */
+    color: #555;              /* Средний серый цвет текста */
+    margin: 8px 0;            /* Вертикальные отступы между элементами */
 }
+
+
 
 /* Кнопка "Выйти" в user-info */
 #user-logout-btn {
@@ -106,3 +111,4 @@ body {
 #user-logout-btn:hover {
     background-color: #c82333; /* Темно-красный цвет при наведении */
 }
+
