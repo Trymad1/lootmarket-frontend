@@ -1,5 +1,6 @@
 import { apiInstance as api } from "./BackendApi.js";
 import { clear } from "../LoadContent.js";
+import { getRole } from "./LocaleRole.js";
 
 class SecurityService {
 
@@ -13,10 +14,12 @@ class SecurityService {
     async login(login, password) {
         const response = await api.login(login, password);
         if(response === false) return false;
-        const payload = this.parseJwt(api.getCurrentToken())
-        document.getElementById("user-name-panel").innerHTML = payload.name;
-        document.getElementById("user-email-panel").innerHTML = payload.sub;
-
+        const payload = this.#parseJwt(api.getCurrentToken())
+        this.currentUser = await api.userService.getUserById(payload.id);
+        document.getElementById("user-name-panel").innerHTML = this.currentUser.name;
+        document.getElementById("user-email-panel").innerHTML = this.currentUser.mail;
+        document.getElementById("user-role-panel").innerHTML = getRole(this.currentUser.roles[0]);
+        console.log(this.currentUser);
         return response;
     
 
@@ -27,7 +30,7 @@ class SecurityService {
         document.getElementById('login-page-content').style.display = "flex";
     }
 
-    parseJwt(token) {
+    #parseJwt(token) {
 
         const parts = token.split('.');
         if (parts.length !== 3) {
@@ -39,6 +42,10 @@ class SecurityService {
         const parsedPayload = JSON.parse(payload);
     
         return parsedPayload;
+    }
+    
+    getCurrentUser() {
+        return this.currentUser;
     }
 
 }
