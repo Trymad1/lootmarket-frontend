@@ -6,7 +6,9 @@ export function getRole(role) {
         userRole = "Пользователь";
     } else if(role == "ROLE_MODERATOR"){
         userRole = "Модератор";
-    } else {
+    } else if(role == "ROLE_FINANCY"){
+        userRole = "Бухгалтер";
+    }else {
         userRole = "none";
     }
 
