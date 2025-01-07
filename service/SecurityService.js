@@ -6,9 +6,10 @@ class SecurityService {
 
 
     currentUser = {};
+    permission
 
     constructor() {
-
+        this.permission = new Permission();
     }
     
     async login(login, password) {
@@ -19,7 +20,7 @@ class SecurityService {
         document.getElementById("user-name-panel").innerHTML = this.currentUser.name;
         document.getElementById("user-email-panel").innerHTML = this.currentUser.mail;
         document.getElementById("user-role-panel").innerHTML = getRole(this.currentUser.roles[0]);
-        console.log(this.currentUser);
+        this.permission.setUser(this.currentUser);
         return response;
     
 
@@ -46,6 +47,53 @@ class SecurityService {
     
     getCurrentUser() {
         return this.currentUser;
+    }
+
+}
+
+class Permission {
+    
+    currentUser;
+
+    constructor(user) {
+        this.currentUser = user;
+    }
+
+    setUser(user) {
+        this.currentUser = user;
+    }
+
+    #role() {
+        return user.roles[0];
+    }
+
+    canChangeUser() {
+        return this.#role() == "ROLE_ADMIN" || this.#role() == "ROLE_MODERATOR";
+    }
+
+    canBanUser(targetUserRole) {
+        let predicate = targetUserRole.id != this.currentUser.id && targetUserRole.roles[0] != "ROLE_ADMIN";
+        if(this.#role() == "ROLE_ADMIN") {
+            predicate = predicate && targetUserRole.roles[0] != "ROLE_MODERATOR"
+        }
+
+        return predicate;
+    }
+
+    canViewAllUsers() {
+        return this.#role() != "ROLE_USER";
+    }
+
+    canViewStats() {
+        return this.#role() != "ROLE_USER";
+    }
+
+    canViewDeals() {
+        return this.#role() != "ROLE_USER";
+    }
+
+    canChangeDeals() {
+        return this.#role() == "ROLE_MODERATOR" || this.#role() == "ROLE_ADMIN";
     }
 
 }
