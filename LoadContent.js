@@ -42,7 +42,7 @@ export async function loadTabContent() {
         const scriptPath = `./${fileName}/${fileName}${scriptSuffix}`;
         try {
             const module = await import(scriptPath);
-            openFuncMap.set(fileName, module['open'])
+            openFuncMap.set(fileName, module['open']);
             return module['init']; 
         } catch (error) {
             console.log(error);
@@ -50,14 +50,14 @@ export async function loadTabContent() {
         }
     }));
 
-    initFunctions.forEach(initFunction => {
+    await Promise.all(initFunctions.map(async (initFunction) => {
         if (typeof initFunction === 'function') {
-            initFunction();
+            await initFunction();
         }
-    });
-
+    }));
+    
     const content = document.getElementById("content");
-    showTab(START_PAGE)
+    showTab(START_PAGE);
     content.style.display = "flex";
 }
 
