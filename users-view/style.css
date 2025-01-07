@@ -18,13 +18,13 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Контейнер для информации о пользователе и графиков */
+
 .user-content {
     display: flex;
-    gap: 20px; /* Отступ между колонками */
+    gap: 20px; 
 }
 
-/* Левый контейнер с информацией о пользователе и платежными системами (60%) */
+
 .user-info {
     width: 60%;
     display: flex;
@@ -32,7 +32,7 @@ h1 {
     gap: 20px;
 }
 
-/* Правая часть (40%) для графиков */
+
 .charts {
     width: 40%;
     display: flex;
@@ -40,7 +40,7 @@ h1 {
     gap: 20px;
 }
 
-/* Секции */
+
 .section {
     background-color: #fff;
     border-radius: 8px;
@@ -59,7 +59,7 @@ h1 {
     color: #444;
 }
 
-/* Информация о пользователе */
+
 .user-info-row {
     display: flex;
     justify-content: space-between;
@@ -80,13 +80,13 @@ h1 {
     flex: 2;
 }
 
-/* Графики */
+
 #users-view-content .section canvas {
     height: 300px;
     width: 100%;
 }
 
-/* Платежные системы */
+
 .payment-systems {
     display: flex;
     gap: 15px;
@@ -117,7 +117,7 @@ h1 {
     font-weight: bold;
 }
 
-/* Контейнер для заголовка и элементов управления */
+
 .header-row {
     display: flex;
     align-items: center;
@@ -125,7 +125,7 @@ h1 {
     margin-bottom: 20px;
     margin-top: 40px;
     position: relative;
-    top: -10px; /* Поднимает всю строку над заголовком */
+    top: -10px; 
 }
 
 /* Стрелка назад */
@@ -135,8 +135,8 @@ h1 {
     color: #000;
     cursor: pointer;
     transition: color 0.3s ease;
-    margin-right: 10px; /* Отодвигает стрелку от заголовка */
-    top: -5px; /* Поднимает стрелку относительно строки */
+    margin-right: 10px; 
+    top: -5px; 
 }
 
 .back-arrow:hover {
@@ -146,12 +146,12 @@ h1 {
 /* Заголовок */
 h1 {
     flex: 1;
-    text-align: center; /* Центрирует заголовок в строке */
+    text-align: center;
     font-size: 28px;
     font-weight: bold;
     color: #333;
     margin: 0;
-    line-height: 1.2; /* Контролирует высоту строки */
+    line-height: 1.2; 
 }
 
 /* Кнопка "Редактировать" */
@@ -164,8 +164,8 @@ h1 {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-left: 10px; /* Отодвигает кнопку от заголовка */
-    top: -5px; /* Поднимает кнопку относительно строки */
+    margin-left: 10px;
+    top: -5px; 
     position: relative;
 }
 
