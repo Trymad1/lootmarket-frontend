@@ -40,6 +40,7 @@ export async function init() {
     })
 
     document.getElementById('accept-change-user').addEventListener("click", () => {
+        if(!validateForm()) return;
         const oldMail = currentUser.mail;
         currentUser.name = nameField.value;
         currentUser.mail = mailField.value;
@@ -56,6 +57,40 @@ export async function init() {
         showTab('users-view')
     })
     
+}
+
+function validateForm() {
+
+    const userNameInput = document.getElementById('edit-user-name');
+    const userNameErrorLabel = document.getElementById('edit-user-name-error');
+    const userMailInput = document.getElementById('edit-user-mail');
+    const userMailErrorLabel = document.getElementById('edit-user-mail-error');
+    
+
+    userNameErrorLabel.innerHTML = '';
+    userMailErrorLabel.innerHTML = '';
+
+    let isValid = true;
+
+    const userName = userNameInput.value.trim().replace(/\s+/g, ' '); 
+    const nameRegex = /^[A-Za-zА-Яа-яЁё\s]+$/; 
+
+    if (!nameRegex.test(userName)) {
+        userNameErrorLabel.innerHTML = 'Имя может содержать только буквы и пробелы.';
+        isValid = false;
+    } else {
+        userNameInput.value = userName; 
+    }
+
+
+    const userEmail = userMailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+    if (!emailRegex.test(userEmail)) {
+        userMailErrorLabel.innerHTML = 'Некорректный email.';
+        isValid = false;
+    }
+
+    return isValid; 
 }
 
 export function open() {

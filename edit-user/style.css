@@ -120,3 +120,7 @@
     background-color: #e6e6e6;
     border-color: #999;
 }
+
+.error-label {
+    color: red;
+}
