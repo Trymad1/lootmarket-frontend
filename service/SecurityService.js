@@ -6,7 +6,7 @@ class SecurityService {
 
 
     currentUser = {};
-    permission
+    permission;
 
     constructor() {
         this.permission = new Permission();
@@ -67,11 +67,11 @@ class Permission {
         return user.roles[0];
     }
 
-    canChangeUser() {
+    changeUser() {
         return this.#role() == "ROLE_ADMIN" || this.#role() == "ROLE_MODERATOR";
     }
 
-    canBanUser(targetUserRole) {
+    banUser(targetUserRole) {
         let predicate = targetUserRole.id != this.currentUser.id && targetUserRole.roles[0] != "ROLE_ADMIN";
         if(this.#role() == "ROLE_ADMIN") {
             predicate = predicate && targetUserRole.roles[0] != "ROLE_MODERATOR"
@@ -80,20 +80,24 @@ class Permission {
         return predicate;
     }
 
-    canViewAllUsers() {
+    viewAllUsers() {
         return this.#role() != "ROLE_USER";
     }
 
-    canViewStats() {
+    viewStats() {
         return this.#role() != "ROLE_USER";
     }
 
-    canViewDeals() {
+    viewDeals() {
         return this.#role() != "ROLE_USER";
     }
 
-    canChangeDeals() {
+    changeDeals() {
         return this.#role() == "ROLE_MODERATOR" || this.#role() == "ROLE_ADMIN";
+    }
+
+    loginAccess() {
+        return !this.currentUser.banned;
     }
 
 }

@@ -18,13 +18,19 @@ async function loginUser(email, password) {
     
         
         const response = await securityService.login(email, password);
-        console.log(response);
         if(response === true) {
+            if(!securityService.permission.loginAccess()) {
+                errorContainer.innerHTML = "Данный пользователь заблокирован";
+                errorContainer.style.display = "flex";
+                return;
+            }
+
             errorContainer.style.display = 'none';
             document.getElementById("login-page-content").style.display = "none";
             document.getElementById("sidebar").style.display = "flex";
             loadTabContent();
         } else {
+            errorContainer.innerHTML = "Неверная почта или пароль";
             errorContainer.style.display = "flex";
         }
 } 
