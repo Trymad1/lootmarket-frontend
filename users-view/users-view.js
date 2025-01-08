@@ -189,17 +189,27 @@ export async function loadUser(user) {
 
 import { isUserProfileOpen, setProfileOpen } from '../users-table/users-table.js';
 import { setUserData } from '../edit-user/edit-user.js';
+import { securityService } from '../service/SecurityService.js';
 
 export function init() {
-    const arrow = document.getElementsByClassName('back-arrow')[0].addEventListener('click', () => {
-        setProfileOpen(false)
-        showTab('users-table')
-    })
+    const backArrow = document.getElementsByClassName('back-arrow')[0];
+    if(securityService.permission.role() == "ROLE_USER") {
+        backArrow.style.display = "none";
+    } else {
+        backArrow.addEventListener('click', () => {
+            setProfileOpen(false)
+            showTab('users-table')
+        })
+    }
 
-    document.getElementById('user-view-edit-button').addEventListener('click', () => {
-        setUserData(currentUser)
-        showTab('edit-user')
-    })
+    if(securityService.permission.changeUser()) {
+        document.getElementById('user-view-edit-button').addEventListener('click', () => {
+            setUserData(currentUser)
+            showTab('edit-user')
+        })
+    } else {
+        document.getElementById('user-view-edit-button').style.display = "none";
+    }
 }
 
 let updateRequired;

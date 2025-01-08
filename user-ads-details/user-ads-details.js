@@ -1,4 +1,5 @@
 import { apiInstance as api } from "../service/BackendApi.js";
+import { securityService } from "../service/SecurityService.js";
 
 let reviews = [];
 let deals = [];
@@ -30,13 +31,13 @@ function renderDeals() {
         dealCard.innerHTML = `
             <div id="deal-card-header">
                 <strong>Имя покупателя: ${deal.buyerName}</strong>  
-                <button class="delete-add-button">×</button>
+                ${securityService.permission.changeDeals() ? '<button class="delete-add-button">×</button>' : ""}
             </div>
             <small>ID сделки: ${deal.id}</small>
             <div>Количество: ${deal.buyedQuantity ? deal.buyedQuantity : 1}</div>
             <div>
                 Статус сделки: 
-                <select class="status-dropdown">
+                <select class="status-dropdown" ${securityService.permission.changeDeals() ? "" : 'disabled'}>
                     ${Object.keys(statusTranslations)
                 .map(status => `
                             <option value="${status}" ${status === deal.dealStatus ? "selected" : ""}>
@@ -62,12 +63,14 @@ function renderDeals() {
             statusChange.disabled = true;
         })
 
-        deleteDeal.addEventListener('click', () => {
-            deals = deals.filter(value => value.id != dealCard.id);
-            dealCard.remove();
-            api.adService.deleteDealById(deal.id);
-            updateStats();
-        })
+        if(securityService.permission.changeDeals()) {
+            deleteDeal.addEventListener('click', () => {
+                deals = deals.filter(value => value.id != dealCard.id);
+                dealCard.remove();
+                api.adService.deleteDealById(deal.id);
+                updateStats();
+            })
+        }
         updateStats();
         dealsContainer.appendChild(dealCard);
     });
@@ -104,19 +107,21 @@ function renderReviews() {
                 <div>
                     <strong>Автор: ${review.author}</strong>  <span>Оценка: ${review.grade}</span> 
                 </div>
-                <button class="delete-add-button">×</button>
+            ${securityService.permission.changeDeals() ? '<button class="delete-add-button">×</button>' : ""}
             </div>
             <div style="margin: 10px 0;">${review.comment}</div>
             <small>Дата: ${formatDateTime(review.date)}</small>
         `;
 
 
-        reviewCard.querySelector(".delete-add-button").addEventListener('click', () => {
-            reviews = reviews.filter(value => value.id != reviewCard.id);
-            reviewCard.remove();
-            api.reviewService.deleteById(reviewCard.id);
-            updateStats();
-        })
+        if(securityService.permission.changeDeals()) {
+            reviewCard.querySelector(".delete-add-button").addEventListener('click', () => {
+                reviews = reviews.filter(value => value.id != reviewCard.id);
+                reviewCard.remove();
+                api.reviewService.deleteById(reviewCard.id);
+                updateStats();
+            })
+        }
         updateStats();
         reviewsContainer.appendChild(reviewCard);
     });

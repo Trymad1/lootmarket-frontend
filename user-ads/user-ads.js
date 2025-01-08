@@ -2,6 +2,7 @@
 
 import { showTab } from "../LoadContent.js";
 import { apiInstance as api } from "../service/BackendApi.js";
+import { securityService } from "../service/SecurityService.js";
 import { stateUtil } from "../service/StateService.js";
 
 let ads = [];
@@ -9,7 +10,7 @@ let ads = [];
 
 import { loadServiceData, setCurrentService } from "../user-ads-details/user-ads-details.js";
 import { setUpdateRequired } from "../users-view/users-view.js";
-// Функция для отображения объявлений
+
 async function displayAds(filter = {}) {
     const adsContainer = document.getElementById('ads-container');
     adsContainer.innerHTML = '';
@@ -40,7 +41,7 @@ async function displayAds(filter = {}) {
                 <p id="category-title-card">Описание: ${ad.title}</p>
             </div>
             <div id="name-and-close">
-                <button class="delete-add-button">×</button>
+            ${securityService.permission.changeDeals() ? '<button class="delete-add-button">×</button>' : ""}
                 <p>${ad.authorName}</p>
             </div>
             </div>
@@ -57,6 +58,7 @@ async function displayAds(filter = {}) {
             showTab('user-ads-details');
         })
 
+        if(!securityService.permission.changeDeals()) return;
         adCard.querySelector(".delete-add-button").addEventListener('click', (event) => {
             ads = ads.filter(value => value.id != adCard.id);
 
@@ -129,7 +131,7 @@ async function displayAdsAsTable(filter = {}) {
             <td>${ad.quantity == null ? "Неограниченно" : ad.quantity}</td>
             <td>${ad.price} руб.</td>
             <td>
-                <button class="delete-add-button">×</button>
+                ${securityService.permission.changeDeals() ? '<button class="delete-add-button">×</button>' : ""}
             </td>
         `;
 
@@ -146,23 +148,25 @@ async function displayAdsAsTable(filter = {}) {
             showTab('user-ads-details');
         });
 
-        row.querySelector('.delete-add-button').addEventListener('click', (event) => {
-            ads = ads.filter(value => value.id != row.id);
-
-            const userInput = document.getElementById('filter-user');
-            const categoryInput = document.getElementById('filter-category');
-            const descriptionInput = document.getElementById('filter-description');
-            const idInput = document.getElementById('filter-id-card');
-
-            const user = userInput.value;
-            const category = categoryInput.value;
-            const description = descriptionInput.value;
-            const id = idInput.value;
-
-            displayAdsAsTable({ user, category, description, id });
-            api.adService.deleteById(row.id);
-            event.stopPropagation();
-        });
+        if(securityService.permission.changeDeals()) {
+            row.querySelector('.delete-add-button').addEventListener('click', (event) => {
+                ads = ads.filter(value => value.id != row.id);
+    
+                const userInput = document.getElementById('filter-user');
+                const categoryInput = document.getElementById('filter-category');
+                const descriptionInput = document.getElementById('filter-description');
+                const idInput = document.getElementById('filter-id-card');
+    
+                const user = userInput.value;
+                const category = categoryInput.value;
+                const description = descriptionInput.value;
+                const id = idInput.value;
+    
+                displayAdsAsTable({ user, category, description, id });
+                api.adService.deleteById(row.id);
+                event.stopPropagation();
+            });
+        }
     });
 }
 

@@ -26,6 +26,7 @@ export function showTab(fileName) {
 }
 
 export async function loadTabContent() {
+    sideBarButtonPermission();
     const fetchPromises = filesName.map(htmlFile => 
         fetch(`${htmlFile}/${htmlFile}.html`)
             .then(response => response.text())
@@ -57,11 +58,21 @@ export async function loadTabContent() {
     }));
     
     const content = document.getElementById("content");
-    showTab(START_PAGE);
+    if(securityService.permission.role() == "ROLE_USER") {
+        setProfileOpen(true);
+        loadUser(securityService.getCurrentUser());
+        showTab('users-view');
+    } else if(securityService.permission.role() == "ROLE_MODERATOR") {
+        showTab('user-ads');
+    } else {
+        showTab(START_PAGE);
+    }
+
     content.style.display = "flex";
 }
 
-import { isUserProfileOpen } from "./users-table/users-table.js";
+import { isUserProfileOpen, setProfileOpen } from "./users-table/users-table.js";
+import { loadUser } from "./users-view/users-view.js";
 
 export async function clear() {
     const content = document.getElementById("content");
@@ -85,6 +96,17 @@ async function init() {
     document.getElementById("sideBarStatsButton").addEventListener('click', () => {
         showTab('site-stat');
     })
+}
+
+function sideBarButtonPermission() {
+    const usersButton = document.getElementById('sideBarUserButton');
+    const servicesButton = document.getElementById('sideBarAdsButton');
+    const statsButton = document.getElementById("sideBarStatsButton");
+    [ usersButton, servicesButton, statsButton ].forEach(element => element.style.display = "block");
+    const userRole = securityService.permission.role();
+    if(userRole == "ROLE_MODERATOR") statsButton.style.display = "none";
+    if(userRole != "ROLE_USER") return;
+    [ usersButton, servicesButton, statsButton ].forEach(element => element.style.display = "none")
 }
 
 init();
