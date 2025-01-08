@@ -26,12 +26,13 @@ async function updateUser(user) {
 import { setUpdateRequired } from "../users-view/users-view.js";
 import { updateUserRowByMail } from "../users-table/users-table.js";
 import { stateUtil } from "../service/StateService.js";
+import { securityService } from "../service/SecurityService.js";
 
 export async function init() {
     nameField = document.getElementById('edit-user-name');
     mailField = document.getElementById('edit-user-mail')
     
-    userRoleField = document.getElementById('user-role')
+    userRoleField = document.getElementById('user-role-checkbox')
     
     isBlockedCheckBox = document.getElementById('user-edit-blocked')
 
@@ -94,7 +95,17 @@ function validateForm() {
 }
 
 export function open() {
-    
+    const banFieldDiv = document.getElementById("user-edit-banned-section");
+    const roleFiledDiv = document.getElementById("user-edit-role-section");
+    banFieldDiv.style.display = "flex";
+    roleFiledDiv.style.display = "flex";
+    if(!securityService.permission.banUser(currentUser)) {
+        banFieldDiv.style.display = "none";
+    }
+
+    if(!securityService.permission.changeUserRole(currentUser)) {
+        roleFiledDiv.style.display = "none";
+    }
 }
 
 export function setUserData(user) {
@@ -110,6 +121,8 @@ export function setUserData(user) {
         userRoleField.selectedIndex = 0;
     } else if(user.roles[0] == "ROLE_USER") {
         userRoleField.selectedIndex = 1;
+    } else if(user.roles[0] == "ROLE_FINANCY") {
+        userRoleField.selectedIndex = 3;
     } else {
         userRoleField.selectedIndex = 2;
     }

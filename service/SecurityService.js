@@ -64,17 +64,17 @@ class Permission {
     }
 
     #role() {
-        return user.roles[0];
+        return this.currentUser.roles[0];
     }
 
     changeUser() {
         return this.#role() == "ROLE_ADMIN" || this.#role() == "ROLE_MODERATOR";
     }
 
-    banUser(targetUserRole) {
-        let predicate = targetUserRole.id != this.currentUser.id && targetUserRole.roles[0] != "ROLE_ADMIN";
-        if(this.#role() == "ROLE_ADMIN") {
-            predicate = predicate && targetUserRole.roles[0] != "ROLE_MODERATOR"
+    banUser(targetUser) {
+        let predicate = targetUser.id != this.currentUser.id && targetUser.roles[0] != "ROLE_ADMIN";
+        if(this.#role() == "ROLE_MODERATOR") {
+            predicate = predicate && targetUser.roles[0] != "ROLE_MODERATOR"
         }
 
         return predicate;
@@ -94,10 +94,16 @@ class Permission {
 
     changeDeals() {
         return this.#role() == "ROLE_MODERATOR" || this.#role() == "ROLE_ADMIN";
-    }
+    }   
 
     loginAccess() {
         return !this.currentUser.banned;
+    }
+
+    changeUserRole(targetUser) {
+        return this.#role() == "ROLE_ADMIN" && 
+        this.currentUser.id != targetUser.id && 
+        targetUser.roles[0] != "ROLE_ADMIN";
     }
 
 }
