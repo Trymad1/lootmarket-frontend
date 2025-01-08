@@ -62,6 +62,8 @@ export async function loadTabContent() {
         setProfileOpen(true);
         loadUser(securityService.getCurrentUser());
         showTab('users-view');
+    } else if(securityService.permission.role() == "ROLE_MODERATOR") {
+        showTab('user-ads');
     } else {
         showTab(START_PAGE);
     }
@@ -102,6 +104,7 @@ function sideBarButtonPermission() {
     const statsButton = document.getElementById("sideBarStatsButton");
     [ usersButton, servicesButton, statsButton ].forEach(element => element.style.display = "block");
     const userRole = securityService.permission.role();
+    if(userRole == "ROLE_MODERATOR") statsButton.style.display = "none";
     if(userRole != "ROLE_USER") return;
     [ usersButton, servicesButton, statsButton ].forEach(element => element.style.display = "none")
 }
