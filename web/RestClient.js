@@ -33,6 +33,16 @@ class RestClient {
         return true;
     }
 
+    async getPdf(endpoint, queryParams) {
+        const response = await axios.get(`${this.domen}${endpoint}`, {
+            headers: this.token ? { 'Authorization': `Bearer ${this.token}` } : {},
+            params: queryParams ? queryParams : {},
+            responseType: 'blob'
+        });
+
+        return new Blob([response.data], { type: 'application/pdf' });
+    }
+
     setAuth(token) {
         this.token = token;
     }

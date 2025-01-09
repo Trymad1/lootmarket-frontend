@@ -57,3 +57,10 @@
     max-width: 1400px;
     max-height: 400px;
 }
+
+#deal-report {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}

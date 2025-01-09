@@ -64,8 +64,7 @@ class Permission {
     }
 
     role() {
-        // return this.currentUser.roles[0];
-        return "ROLE_ADMIN";
+        return this.currentUser.roles[0];
     }
 
     changeUser() {
