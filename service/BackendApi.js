@@ -104,6 +104,14 @@ class StatService {
         console.log(params);
         return await restClient.get("/stats", params);
     }
+
+    async getReport(reportEndpoint, param) {
+        const params = {
+            from: param.dateFrom,
+            to: param.dateTo
+        }
+        return await restClient.getPdf(`/report/${reportEndpoint}`, params);
+    }
 }
 
 

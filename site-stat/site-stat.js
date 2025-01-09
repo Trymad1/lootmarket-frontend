@@ -32,9 +32,45 @@ export async function init() {
         updateStat();
     })
 
-    updateStat();
+    document.getElementById("deal-report-open").addEventListener('click', async () => {
+        const dateFrom = dateFromFilter.value ? toIso(dateFromFilter.value) : null;
+        const dateTo = dateToFilter.value ? toIso(dateToFilter.value) : null;
+        const pdf = await api.stats.getReport("deals", {dateFrom, dateTo});
+        const pdfUrl = URL.createObjectURL(pdf);
+        window.open(pdfUrl, '_blank');             
+        URL.revokeObjectURL(pdfUrl);              
+    });
 
+    const downloadLinkDealReport = document.getElementById("deal-report-download-link");
+    document.getElementById("deal-report-download").addEventListener('click', async (event) => {
+        const dateFrom = dateFromFilter.value ? toIso(dateFromFilter.value) : null;
+        const dateTo = dateToFilter.value ? toIso(dateToFilter.value) : null;
+
+        const pdf = await api.stats.getReport("deals", {dateFrom, dateTo});
+
+        const dateFromStr = dateFrom == null ? formatDate(new Date(2020, 0, 1)) : formatDate(new Date(dateFrom));
+        const dateToStr = dateTo == null ? formatDate(new Date(Date.now())) : formatDate(new Date(dateTo));
+        
+        const pdfUrl = URL.createObjectURL(pdf);
+        downloadLinkDealReport.href = pdfUrl;   
+        downloadLinkDealReport.download = `Отчет о сделках ${dateFromStr}—${dateToStr} ${formatDate(new Date(Date.now()))}.pdf`;
+        downloadLinkDealReport.click();
+
+        URL.revokeObjectURL(pdfUrl);     
+    });
+
+    
+
+    updateStat();
 }
+
+function formatDate(date) {
+    const year = date.getFullYear(); 
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0'); 
+  
+    return `${year}.${month}.${day}`;
+  }
 
 
 let allDealsCount;
