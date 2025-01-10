@@ -32,17 +32,27 @@ export async function init() {
         updateStat();
     })
 
-    document.getElementById("deal-report-open").addEventListener('click', async () => {
+    document.getElementById("deal-report-open").addEventListener('click', async (event) => {
+        event.target.innerHTML = "Загрузка";
+        event.target.disabled = true;
+
         const dateFrom = dateFromFilter.value ? toIso(dateFromFilter.value) : null;
         const dateTo = dateToFilter.value ? toIso(dateToFilter.value) : null;
         const pdf = await api.stats.getReport("deals", {dateFrom, dateTo});
         const pdfUrl = URL.createObjectURL(pdf);
-        window.open(pdfUrl, '_blank');             
+        window.open(pdfUrl, '_blank');
+
+        event.target.innerHTML = "Открыть";
+        event.target.disabled = false;    
+
         URL.revokeObjectURL(pdfUrl);              
     });
 
     const downloadLinkDealReport = document.getElementById("deal-report-download-link");
     document.getElementById("deal-report-download").addEventListener('click', async (event) => {
+        event.target.innerHTML = "Загрузка";
+        event.target.disabled = true;
+
         const dateFrom = dateFromFilter.value ? toIso(dateFromFilter.value) : null;
         const dateTo = dateToFilter.value ? toIso(dateToFilter.value) : null;
 
@@ -55,6 +65,9 @@ export async function init() {
         downloadLinkDealReport.href = pdfUrl;   
         downloadLinkDealReport.download = `Отчет о сделках ${dateFromStr}—${dateToStr} ${formatDate(new Date(Date.now()))}.pdf`;
         downloadLinkDealReport.click();
+        
+        event.target.innerHTML = "Скачать";
+        event.target.disabled = false;   
 
         URL.revokeObjectURL(pdfUrl);     
     });
