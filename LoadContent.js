@@ -4,7 +4,7 @@ const filesName = [
     "users-table",
     "users-view",
     "edit-user",
-    "user-ads",
+    "user-services",
     "user-ads-details",
     "site-stat"
 ]
@@ -63,7 +63,7 @@ export async function loadTabContent() {
         loadUser(securityService.getCurrentUser());
         showTab('users-view');
     } else if(securityService.permission.role() == "ROLE_MODERATOR") {
-        showTab('user-ads');
+        showTab('user-services');
     } else {
         showTab(START_PAGE);
     }
@@ -89,7 +89,7 @@ async function init() {
     document.getElementById('sideBarUserButton').addEventListener('click', () => {
         showTab('users-table')
     })
-    document.getElementById('sideBarAdsButton').addEventListener('click', () => showTab('user-ads'))
+    document.getElementById('sideBarAdsButton').addEventListener('click', () => showTab('user-services'))
     document.getElementById('sideBarLogoutButton').addEventListener('click', () => {
         securityService.logout();
     })

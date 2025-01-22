@@ -67,7 +67,7 @@ function renderDeals() {
             deleteDeal.addEventListener('click', () => {
                 deals = deals.filter(value => value.id != dealCard.id);
                 dealCard.remove();
-                api.adService.deleteDealById(deal.id);
+                api.userServicesService.deleteDealById(deal.id);
                 updateStats();
             })
         }
@@ -84,7 +84,7 @@ function changeDealStatus(deal, statusElement, time) {
         dealEnd: time
     }
 
-    api.adService.updateDeal(updateDeal, deal.id);
+    api.userServicesService.updateDeal(updateDeal, deal.id);
 }
 
 function renderReviews() {
@@ -328,7 +328,7 @@ function updateStats() {
 let pageTitle;
 export async function loadServiceData() {
     reviews = await api.reviewService.getAllByServiceId(currentService.id);
-    deals = await api.adService.getDealsByServiceId(currentService.id)
+    deals = await api.userServicesService.getDealsByServiceId(currentService.id)
     pageTitle.innerHTML = `ID сервиса: ${currentService.id} | Автор: ${currentService.authorName} | Категория: ${currentService.categoryName}`
     renderReviews();
     renderDeals();

@@ -7,7 +7,7 @@ class BackendApi {
 
     constructor() {
         this.userService = new UserService();
-        this.adService = new UserAdService();
+        this.userServicesService = new UserServicesService();
         this.reviewService = new ReviewService();
         this.paymentSystemService = new PaymentSystemService();
         this.stats = new StatService();
@@ -51,7 +51,7 @@ class UserService {
 
 }
 
-class UserAdService {
+class UserServicesService {
 
     async getAllAds() {
         return await restClient.get("/services");

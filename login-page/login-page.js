@@ -10,6 +10,7 @@ const loginForm = document.getElementById('login-form');
     loginUser(email, password);
 });
 
+loginUser("Oleg@gmail.com", "password")
 async function loginUser(email, password) {
         
         const errorContainer = document.getElementById('login-error');
