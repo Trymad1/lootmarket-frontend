@@ -119,21 +119,17 @@ async function loadStats() {
 }
 
 function groupDatesByMonth(dates, startDate = '', endDate = '') {
-    // Устанавливаем значения по умолчанию
     const today = new Date();
     const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
     const defaultStartDate = '2020-01-01';
     const defaultEndDate = currentMonth;
 
-    // Если начальная или конечная дата пустые, присваиваем значения по умолчанию
     startDate = startDate || defaultStartDate;
     endDate = endDate || defaultEndDate;
 
-    // Преобразуем строки в объекты Date
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    // Генерируем все месяцы от startDate до endDate
     const months = [];
     let currentMonthDate = new Date(start);
     
@@ -143,11 +139,9 @@ function groupDatesByMonth(dates, startDate = '', endDate = '') {
         currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
     }
 
-    // Инициализируем объект для подсчёта
     const groupedData = {};
-    months.forEach(month => groupedData[month] = 0); // Все месяцы получают начальное значение 0
+    months.forEach(month => groupedData[month] = 0); 
 
-    // Подсчитываем количество дат по месяцам
     dates.forEach(date => {
         const jsDate = new Date(date);
         const yearMonth = `${jsDate.getFullYear()}-${String(jsDate.getMonth() + 1).padStart(2, '0')}`;
@@ -157,7 +151,6 @@ function groupDatesByMonth(dates, startDate = '', endDate = '') {
         }
     });
 
-    // Получаем метки месяцев и их соответствующие значения
     const labels = Object.keys(groupedData).sort(); 
     const counts = labels.map(label => groupedData[label]); 
 
@@ -165,7 +158,6 @@ function groupDatesByMonth(dates, startDate = '', endDate = '') {
 }
 
 function groupDealsByMonth(deals, startDate = '', endDate = '') {
-    // Устанавливаем значения по умолчанию
     const today = new Date();
     const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
     const defaultStartDate = '2020-01-01';
