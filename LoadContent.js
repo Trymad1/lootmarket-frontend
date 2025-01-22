@@ -5,7 +5,7 @@ const filesName = [
     "users-view",
     "edit-user",
     "user-services",
-    "user-ads-details",
+    "user-service-details",
     "site-stat"
 ]
 const START_PAGE = 'site-stat';

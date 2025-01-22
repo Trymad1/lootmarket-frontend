@@ -8,7 +8,7 @@ import { stateUtil } from "../service/StateService.js";
 let userServices = [];
 
 
-import { loadServiceData, setCurrentService } from "../user-ads-details/user-ads-details.js";
+import { loadServiceData, setCurrentService } from "../user-service-details/user-service-details.js";
 import { setUpdateRequired } from "../users-view/users-view.js";
 
 async function displayServices(filter = {}) {
@@ -145,7 +145,7 @@ async function displayServicesAsTable(filter = {}) {
             const currentUserService = userServices.find(arrServices => arrServices.id == id);
             setCurrentService(currentUserService);
             loadServiceData(currentUserService);
-            showTab('user-ads-details');
+            showTab('user-service-details');
         });
 
         if(securityService.permission.changeDeals()) {
