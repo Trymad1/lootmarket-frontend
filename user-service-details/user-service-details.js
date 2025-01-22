@@ -31,7 +31,7 @@ function renderDeals() {
         dealCard.innerHTML = `
             <div id="deal-card-header">
                 <strong>Имя покупателя: ${deal.buyerName}</strong>  
-                ${securityService.permission.changeDeals() ? '<button class="delete-add-button">×</button>' : ""}
+                ${securityService.permission.changeDeals() ? '<button class="delete-userService-button">×</button>' : ""}
             </div>
             <small>ID сделки: ${deal.id}</small>
             <div>Количество: ${deal.buyedQuantity ? deal.buyedQuantity : 1}</div>
@@ -54,7 +54,7 @@ function renderDeals() {
         `;
 
         const statusChange = dealCard.querySelector(".status-dropdown");
-        const deleteDeal = dealCard.querySelector(".delete-add-button");
+        const deleteDeal = dealCard.querySelector(".delete-userService-button");
         if (deal.dealStatus != "IN_PROGRESS") statusChange.disabled = true;
         statusChange.addEventListener('change', (event) => {
             const nowIso =  new Date().toISOString().split('.')[0];
@@ -107,7 +107,7 @@ function renderReviews() {
                 <div>
                     <strong>Автор: ${review.author}</strong>  <span>Оценка: ${review.grade}</span> 
                 </div>
-            ${securityService.permission.changeDeals() ? '<button class="delete-add-button">×</button>' : ""}
+            ${securityService.permission.changeDeals() ? '<button class="delete-userService-button">×</button>' : ""}
             </div>
             <div style="margin: 10px 0;">${review.comment}</div>
             <small>Дата: ${formatDateTime(review.date)}</small>
@@ -115,7 +115,7 @@ function renderReviews() {
 
 
         if(securityService.permission.changeDeals()) {
-            reviewCard.querySelector(".delete-add-button").addEventListener('click', () => {
+            reviewCard.querySelector(".delete-userService-button").addEventListener('click', () => {
                 reviews = reviews.filter(value => value.id != reviewCard.id);
                 reviewCard.remove();
                 api.reviewService.deleteById(reviewCard.id);
@@ -215,7 +215,7 @@ export async function init() {
     dealStatusFilter = document.getElementById("deal-status-ad-filter");
     paymentSystemFilter = document.getElementById("payment-system-ad-filter");
 
-    pageTitle = document.getElementById("titlePage-ads-details");
+    pageTitle = document.getElementById("titlePage-service-details");
     console.log(pageTitle);
 
     minGradeFilter.addEventListener('change', () => {

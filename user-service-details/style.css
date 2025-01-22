@@ -9,7 +9,7 @@
 }
 
 
-#header-ads-details-block {
+#header-service-details-block {
     width: 80%; 
     background-color: #f4f4f4;
     padding: 20px;
@@ -19,7 +19,7 @@
     text-align: center;
 }
 
-#header-ads-details-block h2 {
+#header-service-details-block h2 {
     margin: 0;
     font-size: 24px;
     color: #333;
@@ -35,7 +35,7 @@
 }
 
 /* Контейнер для отзывов */
-#reviews-ads-block {
+#reviews-service-block {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -47,7 +47,7 @@
     justify-content: space-between;
 }
 
-#reviews-ads-title {
+#reviews-service-title {
     margin: 0;
     font-size: 20px;
     font-weight: bold;
@@ -65,7 +65,7 @@
 }
 
 
-#deals-ads-block {
+#deals-service-block {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -77,7 +77,7 @@
     justify-content: space-between;
 }
 
-#deals-ads-title {
+#deals-service-title {
     margin: 0;
     font-size: 20px;
     font-weight: bold;
