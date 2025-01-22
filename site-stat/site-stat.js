@@ -118,41 +118,91 @@ async function loadStats() {
     return await api.stats.getByDate(dateFrom, dateTo)
 }
 
-function groupDatesByMonth(dates) {
-    const monthCounts = {}; 
+function groupDatesByMonth(dates, startDate = '', endDate = '') {
+    // Устанавливаем значения по умолчанию
+    const today = new Date();
+    const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+    const defaultStartDate = '2020-01-01';
+    const defaultEndDate = currentMonth;
 
+    // Если начальная или конечная дата пустые, присваиваем значения по умолчанию
+    startDate = startDate || defaultStartDate;
+    endDate = endDate || defaultEndDate;
+
+    // Преобразуем строки в объекты Date
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Генерируем все месяцы от startDate до endDate
+    const months = [];
+    let currentMonthDate = new Date(start);
+    
+    while (currentMonthDate <= end) {
+        const yearMonth = `${currentMonthDate.getFullYear()}-${String(currentMonthDate.getMonth() + 1).padStart(2, '0')}`;
+        months.push(yearMonth);
+        currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
+    }
+
+    // Инициализируем объект для подсчёта
+    const groupedData = {};
+    months.forEach(month => groupedData[month] = 0); // Все месяцы получают начальное значение 0
+
+    // Подсчитываем количество дат по месяцам
     dates.forEach(date => {
-        const monthYear = date.slice(0, 7); 
-        if (!monthCounts[monthYear]) {
-            monthCounts[monthYear] = 0;
+        const jsDate = new Date(date);
+        const yearMonth = `${jsDate.getFullYear()}-${String(jsDate.getMonth() + 1).padStart(2, '0')}`;
+
+        if (groupedData[yearMonth] !== undefined) {
+            groupedData[yearMonth] += 1;
         }
-        monthCounts[monthYear] += 1; 
     });
 
-    const months = Object.keys(monthCounts);
-    const counts = months.map(month => monthCounts[month]);
+    // Получаем метки месяцев и их соответствующие значения
+    const labels = Object.keys(groupedData).sort(); 
+    const counts = labels.map(label => groupedData[label]); 
 
-    return { months, counts };
+    return { labels, counts };
 }
 
-function groupDealsByMonth(deals) {
-    const monthSums = {}; 
+function groupDealsByMonth(deals, startDate = '', endDate = '') {
+    // Устанавливаем значения по умолчанию
+    const today = new Date();
+    const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+    const defaultStartDate = '2020-01-01';
+    const defaultEndDate = currentMonth;
+
+    startDate = startDate || defaultStartDate;
+    endDate = endDate || defaultEndDate;
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const months = [];
+    let currentMonthDate = new Date(start);
+    
+    while (currentMonthDate <= end) {
+        const monthYear = `${currentMonthDate.getFullYear()}-${String(currentMonthDate.getMonth() + 1).padStart(2, '0')}`;
+        months.push(monthYear);
+        currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
+    }
+
+    const monthSums = {};
+    months.forEach(month => monthSums[month] = 0); 
 
     deals.forEach(deal => {
-        const monthYear = deal.time.slice(0, 7); 
+        const monthYear = deal.time.slice(0, 7);
         
-        if (!monthSums[monthYear]) {
-            monthSums[monthYear] = 0;
+        if (monthSums[monthYear] !== undefined) {
+            monthSums[monthYear] += deal.sum;
         }
-        
-        monthSums[monthYear] += deal.sum;
     });
 
-    const months = Object.keys(monthSums);
-    const sums = months.map(month => monthSums[month]);
+    const resultMonths = Object.keys(monthSums);
+    const resultSums = resultMonths.map(month => monthSums[month]);
 
-    return { months, sums };
+    return { months: resultMonths, sums: resultSums };
 }
+
 
 function renderInfo() {
     charts.forEach(chart => {
@@ -160,15 +210,15 @@ function renderInfo() {
     });
     charts = []; 
 
-    const groupActivyDates = groupDatesByMonth(activitiesTime);
-    const registrationUser = groupDatesByMonth(registrationTimes);
-    const dealsByMoths = groupDealsByMonth(dealsArr);
-
+    const groupActivyDates = groupDatesByMonth(activitiesTime, dateFromFilter.value, dateToFilter.value);
+    const registrationUser = groupDatesByMonth(registrationTimes, dateFromFilter.value, dateToFilter.value);
+    const dealsByMoths = groupDealsByMonth(dealsArr, dateFromFilter.value, dateToFilter.value);
     const ctx1 = document.getElementById('stat-chart-1').getContext('2d');
+    console.log(groupActivyDates)
     const chart1 = new Chart(ctx1, {
         type: 'line',
         data: {
-            labels: groupActivyDates.months,
+            labels: groupActivyDates.labels,
             datasets: [{
                 label: 'Посещаемость сайта',
                 data: groupActivyDates.counts,
@@ -184,7 +234,7 @@ function renderInfo() {
     const chart2 = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: dealsByMoths.months,
+            labels: groupActivyDates.labels,
             datasets: [{
                 label: 'Оборот средств',
                 data: dealsByMoths.sums,
@@ -200,7 +250,7 @@ function renderInfo() {
     const chart3 = new Chart(ctx3, {
         type: 'line',
         data: {
-            labels: registrationUser.months,
+            labels: groupActivyDates.labels,
             datasets: [{
                 label: 'Зарегистрированные пользователи',
                 data: registrationUser.counts,
@@ -211,7 +261,6 @@ function renderInfo() {
         }
     });
     charts.push(chart3); 
-
 }
 export async function open() {
 
