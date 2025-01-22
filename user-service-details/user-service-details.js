@@ -49,7 +49,7 @@ function renderDeals() {
             </div>
             <div>Имя платежной системы: ${deal.paymentSystemName}</div>
             <div>Дата начала сделки: ${formatDateTime(deal.dealStart)}</div>
-            <div id="ad-close-deal-date">Дата закрытия сделки: ${deal.dealEnd ? formatDateTime(deal.dealEnd) : "<span class='unfinished'>Незавершена"
+            <div id="service-close-deal-date">Дата закрытия сделки: ${deal.dealEnd ? formatDateTime(deal.dealEnd) : "<span class='unfinished'>Незавершена"
             }</div>
         `;
 
@@ -59,7 +59,7 @@ function renderDeals() {
         statusChange.addEventListener('change', (event) => {
             const nowIso =  new Date().toISOString().split('.')[0];
             changeDealStatus(deal, event.target, new Date().toISOString().split('.')[0]);
-            dealCard.querySelector("#ad-close-deal-date").innerHTML = "Дата закрытия сделки: " + formatDateTime(nowIso);
+            dealCard.querySelector("#service-close-deal-date").innerHTML = "Дата закрытия сделки: " + formatDateTime(nowIso);
             statusChange.disabled = true;
         })
 
@@ -179,7 +179,7 @@ let avgRatingLabel;
 let totalReviewsLabel;
 
 function addPaymentSystems() {
-    const psListElement = document.getElementById("payment-system-ad-filter");
+    const psListElement = document.getElementById("payment-system-service-filter");
     paymentSystems.forEach(ps => {
         const newOption = document.createElement("option");
         newOption.value = ps.name;
@@ -206,14 +206,14 @@ export async function init() {
     dateToFilter = document.getElementById("date-to");
     userNameReviewFilter = document.getElementById("author-name-review");
 
-    dealIdFilter = document.getElementById("deal-id-ad-filter");
-    buyerNameFilter = document.getElementById("buyer-ad-filter");
-    dateFromStartFilter = document.getElementById("deal-start-ad-date-from");
-    dateToStartFilter = document.getElementById("deal-start-ad-date-to")
-    dateFromEndFilter = document.getElementById("deal-end-ad-date-from")
-    dateToEndFilter = document.getElementById("deal-end-ad-date-to");
-    dealStatusFilter = document.getElementById("deal-status-ad-filter");
-    paymentSystemFilter = document.getElementById("payment-system-ad-filter");
+    dealIdFilter = document.getElementById("deal-id-service-filter");
+    buyerNameFilter = document.getElementById("buyer-service-filter");
+    dateFromStartFilter = document.getElementById("deal-start-service-date-from");
+    dateToStartFilter = document.getElementById("deal-start-service-date-to")
+    dateFromEndFilter = document.getElementById("deal-end-service-date-from")
+    dateToEndFilter = document.getElementById("deal-end-service-date-to");
+    dealStatusFilter = document.getElementById("deal-status-service-filter");
+    paymentSystemFilter = document.getElementById("payment-system-service-filter");
 
     pageTitle = document.getElementById("titlePage-service-details");
     console.log(pageTitle);

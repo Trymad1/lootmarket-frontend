@@ -55,7 +55,7 @@ async function displayServices(filter = {}) {
             const currentUserService = userServices.find(arrAd => arrAd.id == id);
             setCurrentService(currentUserService);
             loadServiceData(currentUserService);
-            showTab('user-ads-details');
+            showTab('user-service-details');
         })
 
         if(!securityService.permission.changeDeals()) return;
